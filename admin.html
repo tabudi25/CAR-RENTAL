@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AJIS — Admin Dashboard</title>
+    <style>
+        :root {
+            --bg: #0f1724;
+            --card: #0b1220;
+            --accent: #ef4444;
+            --muted: #98a0ab;
+        }
+
+        body {
+            margin: 0;
+            font-family: Inter, sans-serif;
+            background: linear-gradient(180deg, #071427, #081226);
+            color: #e6eef6;
+            min-height: 100vh;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 700;
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+
+        .brand .logo {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background: var(--accent);
+            display: grid;
+            place-items: center;
+            color: #fff;
+            font-weight: 800;
+        }
+
+        .nav-item {
+            padding: 12px 15px;
+            border-radius: 6px;
+            margin-bottom: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-item.active {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--accent);
+        }
+
+        .main {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            margin-bottom: 20px;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table th,
+        .table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .table th {
+            color: var(--muted);
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background: #d63031;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="brand">
+                <div class="logo">A</div>
+                <div>AJIS Car Rental</div>
+            </div>
+
+            <div class="nav-item active">Dashboard</div>
+            <div class="nav-item">Users</div>
+            <div class="nav-item">Cars</div>
+            <div class="nav-item">Bookings</div>
+            <div class="nav-item" id="logout-btn">Logout</div>
+        </div>
+
+        <div class="main">
+            <div class="header">
+                <h1>Admin Dashboard</h1>
+                <div id="admin-name">Admin</div>
+            </div>
+
+            <div class="card">
+                <h2>Admin Access Only</h2>
+                <p>Welcome to the admin dashboard. This area is restricted to admin users only.</p>
+            </div>
+
+            <div class="card">
+                <h2>Users Management</h2>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Type</th>
+                        </tr>
+                    </thead>
+                    <tbody id="users-list">
+                        <!-- Users will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check if user is logged in as admin
+        document.addEventListener('DOMContentLoaded', function() {
+            const userType = localStorage.getItem('userType');
+            const userId = localStorage.getItem('userId');
+            
+            if (!userId || userType !== 'admin') {
+                alert('Access denied. Admin login required.');
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            // Set admin name
+            document.getElementById('admin-name').textContent = localStorage.getItem('userName') || 'Admin';
+            
+            // Logout button
+            document.getElementById('logout-btn').addEventListener('click', () => {
+                localStorage.removeItem('userId');
+                localStorage.removeItem('userType');
+                localStorage.removeItem('userName');
+                window.location.href = 'login.html';
+            });
+        });
+    </script>
+</body>
+
+</html>

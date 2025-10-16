@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Rental — Customer Page</title>
+    <style>
+        :root {
+            --dark: #0f1724;
+            --light: #ffffff;
+            --gray: #d1d5db;
+            --accent: #c9a227;
+            /* gold highlight */
+            --danger: #ef4444;
+            --success: #16a34a;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: var(--dark);
+            color: var(--light);
+        }
+
+        header {
+            background: var(--accent);
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--dark);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .nav-links a {
+            color: var(--dark);
+            text-decoration: none;
+            font-size: 1rem;
+            padding: 5px 10px;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        main {
+            padding: 20px;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .toolbar input,
+        .toolbar select {
+            padding: 8px;
+            border-radius: 6px;
+            border: none;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 16px;
+        }
+
+        .car-card {
+            background: #1e293b;
+            padding: 12px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .car-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .car-card h4 {
+            margin: 8px 0 4px;
+            color: var(--accent);
+        }
+
+        .car-card p {
+            margin: 4px 0;
+            font-size: 14px;
+        }
+
+        .btn {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .btn-rent {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-cancel {
+            background: var(--danger);
+            color: white;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: #1e293b;
+            padding: 20px;
+            border-radius: 10px;
+            width: 400px;
+        }
+
+        .modal-content h3 {
+            margin-top: 0;
+            color: var(--accent);
+        }
+
+        .modal-content input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 12px;
+            border: none;
+            border-radius: 6px;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .modal-footer button {
+            margin-left: 8px;
+        }
+
+        /* Reservation table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: #1e293b;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background: #334155;
+            color: var(--accent);
+        }
+
+        tr:nth-child(even) {
+            background: #273449;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div>Welcome to AJIS Car Rental</div>
+        <div class="nav-links">
+
+            <a href="login.html">Logout</a>
+        </div>
+    </header>
+    <main>
+        <!-- Search + Filter -->
+        <div class="toolbar">
+            <input type="text" id="searchBox" placeholder="Search cars...">
+            <select id="categoryFilter">
+                <option value="all">All Categories</option>
+                <option value="sedan">Sedan</option>
+                <option value="suv">SUV</option>
+                <option value="van">Van</option>
+                <option value="luxury">Luxury</option>
+            </select>
+        </div>
+
+        <!-- Car Grid -->
+        <div class="grid" id="carsGrid"></div>
+
+        <!-- Reservations -->
+        <h3 style="margin-top:40px; color:var(--accent);">My Reservations</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Car</th>
+                    <th>Dates</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="reservationsTable"></tbody>
+        </table>
+    </main>
+
+    <!-- Rent Modal -->
+    <div class="modal" id="rentModal">
+        <div class="modal-content">
+            <h3>Rent Car</h3>
+            <input type="text" id="custName" placeholder="Full Name">
+            <input type="email" id="custEmail" placeholder="Email">
+            <input type="tel" id="custPhone" placeholder="Phone Number">
+            <input type="date" id="rentStart">
+            <input type="date" id="rentEnd">
+            <div class="modal-footer">
+                <button class="btn btn-cancel" onclick="closeModal()">Cancel</button>
+                <button class="btn btn-rent" onclick="confirmRent()">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Default Cars (sample data)
+        const cars = [
+            { name: "BMW i5", plate: "BMW-2024", type: "Automatic", category: "luxury", seats: 5, price: 5500, status: "available", image: "2024-BMW-5-Series-i5-for-China-1.jpg" },
+            { name: "Mitsubishi Montero", plate: "MITS-777", type: "Automatic", category: "suv", seats: 5, price: 4200, status: "available", image: "mitsubishi-montero-2027.jpg" },
+            { name: "Nissan Urvan", plate: "URV-888", type: "Manual", category: "van", seats: 12, price: 6200, status: "available", image: "Nissan-Urvan-CP063_02-scaled.webp" },
+            { name: "Toyota Vios", plate: "VIOS-001", type: "Manual", category: "sedan", seats: 4, price: 1400, status: "rented", image: "Toyota-Vios-1-https___bmwjoyfest.vn_.jpg" }
+        ];
+
+        let reservations = JSON.parse(localStorage.getItem("reservations") || "[]");
+        let selectedCar = null;
+
+        function renderCars() {
+            const grid = document.getElementById("carsGrid");
+            const search = document.getElementById("searchBox").value.toLowerCase();
+            const filter = document.getElementById("categoryFilter").value;
+            grid.innerHTML = "";
+            cars
+                .filter(c => (filter === "all" || c.category === filter))
+                .filter(c => c.name.toLowerCase().includes(search) || c.plate.toLowerCase().includes(search))
+                .forEach((c, i) => {
+                    grid.innerHTML += `
+            <div class="car-card">
+              <img src="${c.image}" alt="${c.name}">
+              <h4>${c.name}</h4>
+              <p>Plate: ${c.plate}</p>
+              <p>Type: ${c.type}</p>
+              <p>Seats: ${c.seats}</p>
+              <p>₱${c.price}/day</p>
+              <p>Status: <b style="color:${c.status === "available" ? "#16a34a" : "#ef4444"}">${c.status}</b></p>
+              ${c.status === "available" ? `<button class="btn btn-rent" onclick="openModal(${i})">Rent</button>` : ""}
+            </div>
+          `;
+                });
+        }
+
+        function renderReservations() {
+            const table = document.getElementById("reservationsTable");
+            table.innerHTML = "";
+            reservations.forEach((r, i) => {
+                table.innerHTML += `
+          <tr>
+            <td>${r.car}</td>
+            <td>${r.start} → ${r.end}</td>
+            <td><b style="color:var(--accent)">${r.status}</b></td>
+            <td><button class="btn btn-cancel" onclick="cancelReservation(${i})">Cancel</button></td>
+          </tr>
+        `;
+            });
+        }
+
+        function openModal(index) {
+            selectedCar = cars[index];
+            document.getElementById("rentModal").style.display = "flex";
+        }
+        function closeModal() {
+            document.getElementById("rentModal").style.display = "none";
+        }
+
+        function confirmRent() {
+            const name = document.getElementById("custName").value.trim();
+            const email = document.getElementById("custEmail").value.trim();
+            const phone = document.getElementById("custPhone").value.trim();
+            const start = document.getElementById("rentStart").value;
+            const end = document.getElementById("rentEnd").value;
+
+            if (!name || !email || !phone || !start || !end) {
+                alert("Fill all fields!");
+                return;
+            }
+
+            reservations.push({
+                car: selectedCar.name,
+                plate: selectedCar.plate,
+                seats: selectedCar.seats,
+                type: selectedCar.type,
+                price: selectedCar.price,
+                status: "Pending",
+                name, email, phone,
+                start, end
+            });
+
+            localStorage.setItem("reservations", JSON.stringify(reservations));
+            closeModal();
+            renderReservations();
+            alert("Reservation submitted!");
+        }
+
+        function cancelReservation(index) {
+            if (confirm("Are you sure you want to cancel this reservation?")) {
+                reservations.splice(index, 1);
+                localStorage.setItem("reservations", JSON.stringify(reservations));
+                renderReservations();
+                alert("Reservation cancelled.");
+            }
+        }
+
+        document.getElementById("searchBox").addEventListener("input", renderCars);
+        document.getElementById("categoryFilter").addEventListener("change", renderCars);
+
+        renderCars();
+        renderReservations();
+    </script>
+</body>
+
+</html>

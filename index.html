@@ -1,0 +1,1063 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AJIS — Car Rental Admin</title>
+    <style>
+        :root {
+            --bg: #0f1724;
+            --card: #0b1220;
+            --accent: #ef4444;
+            --muted: #98a0ab;
+            --success: #16a34a;
+            --danger: #ef4444;
+            --soft: #111827;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Inter, sans-serif;
+            background: linear-gradient(180deg, #071427, #081226);
+            color: #e6eef6;
+        }
+        
+        /* Admin access restriction */
+        body:not(.admin-access) .admin-only {
+            display: none !important;
+        }
+        
+        .access-denied {
+            display: none;
+            text-align: center;
+            padding: 50px 20px;
+        }
+        
+        body:not(.admin-access) .access-denied {
+            display: block;
+        }
+
+        .topbar {
+            height: 64px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 0 20px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(6px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .brand .logo {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background: var(--accent);
+            display: grid;
+            place-items: center;
+            color: #fff;
+            font-weight: 800;
+        }
+
+        .wrap {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .sidebar {
+            background: rgba(255, 255, 255, 0.01);
+            border-right: 1px solid rgba(255, 255, 255, 0.02);
+            padding: 18px;
+            border-radius: 12px;
+            height: calc(100vh - 120px);
+            position: sticky;
+            top: 76px;
+        }
+
+        .nav {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .nav li {
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 6px;
+            cursor: pointer;
+        }
+
+        .nav li.active {
+            background: rgba(239, 68, 68, 0.12);
+            border: 1px solid rgba(239, 68, 68, 0.08);
+        }
+
+        .main {
+            padding: 18px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.01);
+            min-height: calc(100vh - 120px);
+        }
+
+        .cards {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 18px;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            flex: 1;
+            padding: 16px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.02);
+            min-width: 180px;
+        }
+
+        .card .num {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .card .lbl {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .panel {
+            background: var(--card);
+            padding: 14px;
+            border-radius: 12px;
+            margin-top: 16px;
+        }
+
+        .badge {
+            padding: 6px 8px;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 12px;
+        }
+
+        .badge.available {
+            background: rgba(22, 163, 74, 0.12);
+            color: var(--success);
+        }
+
+        .badge.rented {
+            background: rgba(239, 68, 68, 0.08);
+            color: var(--danger);
+        }
+
+        .badge.pending {
+            background: rgba(234, 179, 8, 0.06);
+            color: #f59e0b;
+        }
+
+        .footer {
+            margin-top: 18px;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: var(--card);
+            padding: 20px;
+            border-radius: 12px;
+            width: 420px;
+        }
+
+        .modal-content input,
+        .modal-content select {
+            width: 100%;
+            padding: 8px;
+            margin: 6px 0;
+            border-radius: 6px;
+            border: none;
+            background: rgba(255, 255, 255, 0.02);
+            color: inherit;
+        }
+
+        .filter-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        #carsGrid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 16px;
+        }
+
+        .car-card {
+            background: rgba(255, 255, 255, 0.02);
+            padding: 12px;
+            border-radius: 12px;
+            text-align: center;
+            position: relative;
+        }
+
+        .car-card img {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .car-card .actions {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin-top: 8px;
+        }
+
+        .car-card button {
+            padding: 6px 8px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .car-card .update {
+            background: #16a34a;
+            color: white;
+        }
+
+        .car-card .delete {
+            background: #ef4444;
+            color: white;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 12px;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: left;
+        }
+
+        th {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        td img {
+            width: 80px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+
+        .dp {
+            margin-left: 10px;
+        }
+
+        .update,
+        .savebtn {
+            background-color: green;
+            border: none;
+            color: white;
+            padding: 5px;
+            border-radius: 2px;
+        }
+
+        .delete,
+        .cancelbtn {
+            border: none;
+            background-color: red;
+            color: white;
+            padding: 5px;
+            border-radius: 2px;
+        }
+
+        .savebtn {
+            margin-left: 35%;
+        }
+
+        .addbtn-inline {
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: #16a34a;
+            padding: 6px 12px;
+            color: white;
+            font-weight: bold;
+        }
+
+        .staff-card-actions button {
+            padding: 6px 10px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .staff-card-actions .update {
+            background: #16a34a;
+            color: white;
+        }
+
+        .staff-card-actions .delete {
+            background: #ef4444;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="topbar">
+        <div class="brand">
+            <div class="logo">AJ</div>AJIS Admin
+        </div>
+        <div style="margin-left: auto; display: flex; gap: 10px; align-items: center;">
+            <div class="account-section">
+                <div class="account-dropdown">
+                    <button class="account-btn">My Account <span class="dropdown-arrow">▼</span></button>
+                    <div class="dropdown-content">
+                        <a href="#" id="profile-link">Profile</a>
+                        <a href="#" id="settings-link">Settings</a>
+                        <a href="#" id="bookings-link">My Bookings</a>
+                        <a href="login.html" id="logout-link">Logout</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <style>
+        .account-section {
+            position: relative;
+        }
+
+        .account-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #e6eef6;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .dropdown-arrow {
+            font-size: 10px;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background: var(--card);
+            min-width: 160px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            border-radius: 6px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .dropdown-content a {
+            color: #e6eef6;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            transition: background 0.2s;
+        }
+
+        .dropdown-content a:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .account-dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* Toggle for showing/hiding account section vs login button */
+        .account-section {
+            display: none;
+        }
+
+        body.logged-in .account-section {
+            display: block;
+        }
+
+        body.logged-in .login-button {
+            display: none;
+        }
+    </style>
+
+    <script>
+        // Account section functionality
+        document.addEventListener('DOMContentLoaded', function () {
+            // Check if user is logged in (simulated)
+            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+
+            if (isLoggedIn) {
+                document.body.classList.add('logged-in');
+            }
+
+            // Profile link functionality
+            document.getElementById('profile-link').addEventListener('click', function (e) {
+                e.preventDefault();
+                alert('Profile page will be implemented soon!');
+            });
+
+            // Settings link functionality
+            document.getElementById('settings-link').addEventListener('click', function (e) {
+                e.preventDefault();
+                alert('Settings page will be implemented soon!');
+            });
+
+            // Bookings link functionality
+            document.getElementById('bookings-link').addEventListener('click', function (e) {
+                e.preventDefault();
+                alert('My Bookings page will be implemented soon!');
+            });
+
+            // Logout functionality
+            document.getElementById('logout-link').addEventListener('click', function (e) {
+                localStorage.setItem('isLoggedIn', 'false');
+            });
+        });
+    </script>
+
+    <div class="wrap">
+        <aside class="sidebar" id="sidebar">
+            <ul class="nav">
+                <li class="active" data-view="dashboard">Dashboard</li>
+                <li data-view="staff">Staff Management</li>
+                <li data-view="cars">Cars</li>
+                <li data-view="reservations">Reservations</li>
+                <li data-view="customers">Customers</li>
+                <li data-view="reports">Reports</li>
+            </ul>
+        </aside>
+
+        <main class="main">
+            <!-- Dashboard -->
+            <section id="view-dashboard">
+                <div class="cards">
+                    <div class="card">
+                        <div class="lbl">Total Cars</div>
+                        <div class="num" id="totalCars">0</div>
+                    </div>
+                    <div class="card">
+                        <div class="lbl">Active Reservations</div>
+                        <div class="num" id="activeReservations">0</div>
+                    </div>
+                    <div class="card">
+                        <div class="lbl">Total Customers</div>
+                        <div class="num" id="totalCustomers">0</div>
+                    </div>
+                </div>
+                <div class="panel">
+                    <div class="filter-row">
+                        <h3>Rental Rates</h3>
+                        <select id="rateFilter">
+                            <option value="week">This Week</option>
+                            <option value="month">This Month</option>
+                            <option value="year">This Year</option>
+                        </select>
+                    </div>
+                    <canvas id="rentalsChart" height="100"></canvas>
+                </div>
+            </section>
+
+            <!-- Cars -->
+            <section id="view-cars" style="display:none">
+                <div class="filter-row">
+                    <h3>Cars List</h3>
+
+
+                </div>
+                <!-- moved search bar under Cars List -->
+                <div style="margin-bottom:12px;">
+                    <input id="globalSearch" placeholder="Search cars..."
+                        style="width:30%;padding:8px;border-radius:6px;border:none;background:rgba(255,255,255,0.05);color:white;" />
+                    <select class="dp" id="categoryFilter">
+                        <option value="all">All Categories</option>
+                        <option value="sedan">Sedan</option>
+                        <option value="suv">SUV</option>
+                        <option value="van">Van</option>
+                        <option value="luxury">Luxury</option>
+                    </select>
+                    <button class="addbtn-inline" onclick="openCarModal()">+ Add Car</button>
+
+                </div>
+                <div id="carsGrid"></div>
+            </section>
+
+            <!-- Staff -->
+            <section id="view-staff" style="display:none">
+                <div class="filter-row">
+                    <h3>Staff List</h3>
+                    <button class="addbtn-inline" onclick="openStaffModal()">+ Add Staff</button>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="staffTable"></tbody>
+                </table>
+            </section>
+
+            <!-- Reservations -->
+            <section id="view-reservations" style="display:none">
+                <h3>Reservations</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Ref</th>
+                            <th>Customer</th>
+                            <th>Car</th>
+                            <th>Plate</th>
+                            <th>Seats</th>
+                            <th>Type</th>
+                            <th>Dates</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="reservationsTable">
+                        <tr>
+                            <td>#R-1001</td>
+                            <td>Maria Santos</td>
+                            <td>Toyota Vios</td>
+                            <td>ABC-1234</td>
+                            <td>4</td>
+                            <td>Manual</td>
+                            <td>2025-09-20 → 2025-09-23</td>
+                            <td><span class="badge rented">Rented</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Customers -->
+            <section id="view-customers" style="display:none">
+                <h3>Customers</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Maria Santos</td>
+                            <td>maria@email.com</td>
+                            <td>0917-123-4567</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Reports -->
+            <section id="view-reports" style="display:none">
+                <h3>Reports</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Ref</th>
+                            <th>Customer</th>
+                            <th>Car</th>
+                            <th>Plate</th>
+                            <th>Seats</th>
+                            <th>Status</th>
+                            <th>Price/Day</th>
+                            <th>Dates</th>
+                        </tr>
+                    </thead>
+                    <tbody id="reportsTable"></tbody>
+                </table>
+            </section>
+
+
+            <div class="footer">AJIS Car Rental System © 2025</div>
+        </main>
+    </div>
+
+    <!-- Car Modal -->
+    <div class="modal" id="carModal">
+        <div class="modal-content">
+            <h3 id="modalTitle">Add Car</h3>
+            <input type="text" id="carName" placeholder="Car Name">
+            <input type="text" id="carPlate" placeholder="Plate No.">
+            <input type="number" id="carYear" placeholder="Year">
+            <input type="text" id="carType" placeholder="Type">
+            <input type="text" id="carDamage" placeholder="Number of Seats">
+            <input type="number" id="carPrice" placeholder="Price per day">
+            <input type="file" id="carImage" accept="image/*">
+            <select id="carStatus">
+                <option value="available">Available</option>
+                <option value="rented">Rented</option>
+            </select>
+            <select id="carCategory">
+                <option value="sedan">Sedan</option>
+                <option value="suv">SUV</option>
+                <option value="van">Van</option>
+                <option value="luxury">Luxury</option>
+            </select>
+            <div style="display:flex;gap:8px;margin-top:8px;">
+                <button class="savebtn" id="saveCar">Save Car</button>
+                <button class="cancelbtn" id="cancelCar">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Staff Modal -->
+    <div class="modal" id="staffModal">
+        <div class="modal-content">
+            <h3 id="staffModalTitle">Add Staff</h3>
+            <input type="text" id="staffName" placeholder="Full Name">
+            <input type="email" id="staffEmail" placeholder="Email">
+            <input type="text" id="staffRole" placeholder="Role">
+            <div style="display:flex;gap:8px;margin-top:8px;">
+                <button class="savebtn" id="saveStaff">Save Staff</button>
+                <button class="cancelbtn" id="cancelStaff">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        /***************
+         * UTIL HELPERS
+         ***************/
+        function findPValue(card, label) {
+            const p = Array.from(card.querySelectorAll('p')).find(el => el.textContent.trim().startsWith(label));
+            return p ? p.textContent.replace(label, '').trim() : '';
+        }
+
+        /***************
+         * DEFAULT CARS
+         ***************/
+        const defaultCars = [
+            { name: "BMW i5", plate: "BMW-2024", year: "2024", type: "Automatic", category: "luxury", status: "available", seats: "5", price: "5500", image: "/mnt/data/2024-BMW-5-Series-i5-for-China-1.jpg" },
+            { name: "Mitsubishi Montero", plate: "MITS-777", year: "2027", type: "Automatic", category: "suv", status: "available", seats: "5", price: "4200", image: "/mnt/data/mitsubishi-montero-2027.jpg" },
+            { name: "Nissan Urvan", plate: "URV-888", year: "2022", type: "Manual", category: "van", status: "available", seats: "12", price: "6200", image: "/mnt/data/Nissan-Urvan-CP063_02-scaled.webp" },
+            { name: "Toyota Vios", plate: "VIOS-001", year: "2023", type: "Manual", category: "sedan", status: "rented", seats: "4", price: "1400", image: "/mnt/data/Toyota-Vios-1-https___bmwjoyfest.vn_.jpg" }
+        ];
+
+        /***************
+         * NAVIGATION
+         ***************/
+        document.querySelectorAll(".nav li[data-view]").forEach(item => {
+            item.addEventListener("click", () => {
+                document.querySelectorAll(".nav li").forEach(li => li.classList.remove("active"));
+                item.classList.add("active");
+                const view = item.dataset.view;
+                document.querySelectorAll("main section").forEach(sec => sec.style.display = "none");
+                const target = document.getElementById("view-" + view);
+                if (target) target.style.display = "block";
+                updateDashboardCounts();
+                updateDashboardReservations();
+            });
+        });
+
+        /***************
+         * CHART
+         ***************/
+        const chartCtx = document.getElementById("rentalsChart");
+        let rentalsChart = new Chart(chartCtx, {
+            type: "line",
+            data: { labels: [], datasets: [{ label: "Rentals", data: [], borderColor: "#ef4444", fill: false }] }
+        });
+
+        const chartData = {
+            week: { labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"], data: [3, 2, 5, 1, 4, 6, 3] },
+            month: { labels: ["Week 1", "Week 2", "Week 3", "Week 4"], data: [15, 20, 18, 22] },
+            year: { labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug"], data: [50, 60, 55, 70, 80, 75, 90, 100] }
+        };
+
+        function updateChart(period) {
+            rentalsChart.data.labels = chartData[period].labels;
+            rentalsChart.data.datasets[0].data = chartData[period].data;
+            rentalsChart.update();
+        }
+        document.getElementById("rateFilter").addEventListener("change", e => updateChart(e.target.value));
+        updateChart("week");
+
+        /***************
+         * CAR FUNCTIONS
+         ***************/
+        let editingCar = null;
+
+        function saveCarsToStorage() {
+            const cars = Array.from(document.querySelectorAll("#carsGrid .car-card")).map(card => {
+                const name = card.querySelector("h4") ? card.querySelector("h4").textContent.trim() : "";
+                const plate = findPValue(card, "Plate:");
+                const year = findPValue(card, "Year:");
+                const type = findPValue(card, "Type:");
+                const category = card.dataset.category || "";
+                const statusSpan = card.querySelector(".badge");
+                const status = statusSpan ? statusSpan.textContent.trim().toLowerCase() : "available";
+                const seats = findPValue(card, "Seats:");
+                const priceText = findPValue(card, "Price:");
+                const price = priceText ? priceText.replace('₱', '').replace('/day', '').trim() : "";
+                const image = card.querySelector("img") ? card.querySelector("img").src : "";
+                return { name, plate, year, type, category, status, seats, price, image };
+            });
+            localStorage.setItem("cars", JSON.stringify(cars));
+        }
+
+        function createCarCardElement(car) {
+            const newCard = document.createElement("div");
+            newCard.classList.add("car-card");
+            newCard.dataset.category = car.category || "sedan";
+            const imgSrc = car.image || '/mnt/data/default.png';
+            newCard.innerHTML = `
+        <img src="${imgSrc}" alt="${(car.name || 'Car')}">
+        <h4>${car.name || ''}</h4>
+        <p>Plate: ${car.plate || ''}</p>
+        <p>Year: ${car.year || ''}</p>
+        <p>Type: ${car.type || ''}</p>
+        <p>Category: ${(car.category ? (car.category.charAt(0).toUpperCase() + car.category.slice(1)) : '')}</p>
+        <p>Price: ${car.price ? ('₱' + car.price + '/day') : ''}</p>
+        <p>Status: <span class="badge ${car.status || 'available'}">${car.status ? (car.status.charAt(0).toUpperCase() + car.status.slice(1)) : 'Available'}</span></p>
+        <p>Seats: ${car.seats || ''}</p>
+        <div class="actions">
+          <button class="update">Update</button>
+          <button class="delete">Delete</button>
+        </div>
+      `.trim();
+
+            newCard.querySelector(".update").addEventListener("click", () => openCarModal(newCard));
+            newCard.querySelector(".delete").addEventListener("click", () => {
+                if (confirm('Delete this car?')) {
+                    newCard.remove();
+                    saveCarsToStorage();
+                    updateDashboardCounts();
+                }
+            });
+
+            return newCard;
+        }
+
+        function loadCars() {
+            const carsGrid = document.getElementById("carsGrid");
+            carsGrid.innerHTML = "";
+            let savedCars = JSON.parse(localStorage.getItem("cars") || "null");
+            if (!savedCars) {
+                savedCars = defaultCars;
+                localStorage.setItem("cars", JSON.stringify(savedCars));
+            }
+            savedCars.forEach(car => carsGrid.appendChild(createCarCardElement(car)));
+            updateDashboardCounts();
+        }
+
+        function populateModalFromCard(card) {
+            document.getElementById("modalTitle").textContent = "Edit Car";
+            document.getElementById("carName").value = card.querySelector("h4").textContent.trim();
+            document.getElementById("carPlate").value = findPValue(card, "Plate:");
+            document.getElementById("carYear").value = findPValue(card, "Year:");
+            document.getElementById("carType").value = findPValue(card, "Type:");
+            document.getElementById("carDamage").value = findPValue(card, "Seats:");
+            const priceText = findPValue(card, "Price:");
+            document.getElementById("carPrice").value = priceText.replace('₱', '').replace('/day', '').trim();
+            document.getElementById("carCategory").value = card.dataset.category || "sedan";
+            document.getElementById("carStatus").value = card.querySelector(".badge").textContent.toLowerCase();
+        }
+
+        async function openCarModal(card = null) {
+            document.getElementById("carModal").style.display = "flex";
+            editingCar = card;
+            if (card) {
+                populateModalFromCard(card);
+            } else {
+                document.getElementById("modalTitle").textContent = "Add Car";
+                document.querySelectorAll("#carModal input, #carModal select").forEach(el => el.value = "");
+                document.getElementById("carCategory").value = "sedan";
+                document.getElementById("carStatus").value = "available";
+            }
+        }
+
+        document.getElementById("cancelCar").addEventListener("click", () => {
+            document.getElementById("carModal").style.display = "none";
+            editingCar = null;
+        });
+
+        function fileToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = error => reject(error);
+                reader.readAsDataURL(file);
+            });
+        }
+
+        document.getElementById("saveCar").addEventListener("click", async () => {
+            const name = document.getElementById("carName").value.trim();
+            const plate = document.getElementById("carPlate").value.trim();
+            const year = document.getElementById("carYear").value.trim();
+            const type = document.getElementById("carType").value.trim();
+            const seats = document.getElementById("carDamage").value.trim();
+            const price = document.getElementById("carPrice").value.trim();
+            const category = document.getElementById("carCategory").value;
+            const status = document.getElementById("carStatus").value;
+            const imageFile = document.getElementById("carImage").files[0];
+
+            if (!name || !plate || !year) {
+                alert("Please fill in Name, Plate, and Year.");
+                return;
+            }
+
+            let imageBase64 = "";
+            if (imageFile) imageBase64 = await fileToBase64(imageFile);
+
+            if (editingCar) {
+                editingCar.querySelector("h4").textContent = name;
+                editingCar.querySelector("img").src = imageBase64 || editingCar.querySelector("img").src;
+            } else {
+                const newCar = { name, plate, year, type, seats, price, category, status, image: imageBase64 || '/mnt/data/default.png' };
+                document.getElementById("carsGrid").appendChild(createCarCardElement(newCar));
+            }
+
+            saveCarsToStorage();
+            updateDashboardCounts();
+            document.getElementById("carModal").style.display = "none";
+            editingCar = null;
+            document.getElementById("carImage").value = "";
+        });
+
+        /***************
+         * DASHBOARD
+         ***************/
+        function updateDashboardCounts() {
+            document.getElementById("totalCars").textContent = document.querySelectorAll("#carsGrid .car-card").length;
+            document.getElementById("totalCustomers").textContent = document.querySelectorAll("#view-customers tbody tr").length;
+        }
+        function updateDashboardReservations() {
+            document.getElementById("activeReservations").textContent = document.querySelectorAll("#reservationsTable tr").length;
+        }
+
+        /***************
+         * SEARCH & FILTER
+         ***************/
+        document.getElementById("globalSearch").addEventListener("input", function () {
+            let val = this.value.toLowerCase();
+            document.querySelectorAll("#carsGrid .car-card").forEach(card => {
+                card.style.display = card.textContent.toLowerCase().includes(val) ? "block" : "none";
+            });
+        });
+        document.getElementById("categoryFilter").addEventListener("change", function () {
+            let val = this.value;
+            document.querySelectorAll("#carsGrid .car-card").forEach(card => {
+                card.style.display = (val === "all" || card.dataset.category === val) ? "block" : "none";
+            });
+        });
+
+        /***************
+         * STAFF
+         ***************/
+        let editingStaff = null;
+        function loadStaff() {
+            const staffTable = document.getElementById("staffTable");
+            staffTable.innerHTML = "";
+            let staffList = JSON.parse(localStorage.getItem("staff") || "[]");
+            staffList.forEach((staff, index) => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+          <td>${staff.name}</td>
+          <td>${staff.email}</td>
+          <td>${staff.role}</td>
+          <td class="staff-card-actions">
+            <button class="update" onclick="editStaff(${index})">Update</button>
+            
+          </td>
+        `;
+                staffTable.appendChild(row);
+            });
+        }
+        function openStaffModal(staffIndex = null) {
+            document.getElementById("staffModal").style.display = "flex";
+            editingStaff = staffIndex;
+            if (staffIndex !== null) {
+                let staffList = JSON.parse(localStorage.getItem("staff") || "[]");
+                const staff = staffList[staffIndex];
+                document.getElementById("staffModalTitle").textContent = "Edit Staff";
+                document.getElementById("staffName").value = staff.name;
+                document.getElementById("staffEmail").value = staff.email;
+                document.getElementById("staffRole").value = staff.role;
+            } else {
+                document.getElementById("staffModalTitle").textContent = "Add Staff";
+                document.getElementById("staffName").value = "";
+                document.getElementById("staffEmail").value = "";
+                document.getElementById("staffRole").value = "";
+            }
+        }
+        document.getElementById("cancelStaff").addEventListener("click", () => {
+            document.getElementById("staffModal").style.display = "none";
+            editingStaff = null;
+        });
+        document.getElementById("saveStaff").addEventListener("click", () => {
+            const name = document.getElementById("staffName").value.trim();
+            const email = document.getElementById("staffEmail").value.trim();
+            const role = document.getElementById("staffRole").value.trim();
+            if (!name || !email || !role) {
+                alert("Please fill all fields");
+                return;
+            }
+            let staffList = JSON.parse(localStorage.getItem("staff") || "[]");
+            if (editingStaff !== null) {
+                staffList[editingStaff] = { name, email, role };
+            } else {
+                staffList.push({ name, email, role });
+            }
+            localStorage.setItem("staff", JSON.stringify(staffList));
+            loadStaff();
+            document.getElementById("staffModal").style.display = "none";
+            editingStaff = null;
+        });
+        function editStaff(index) { openStaffModal(index); }
+        function deleteStaff(index) {
+            if (confirm("Delete this staff?")) {
+                let staffList = JSON.parse(localStorage.getItem("staff") || "[]");
+                staffList.splice(index, 1);
+                localStorage.setItem("staff", JSON.stringify(staffList));
+                loadStaff();
+            }
+        }
+        /***************
+        * RESERVATIONS
+        ***************/
+        function loadReservations() {
+            const reservationsTable = document.getElementById("reservationsTable");
+            reservationsTable.innerHTML = "";
+            let reservations = JSON.parse(localStorage.getItem("reservations") || "[]");
+
+            reservations.forEach((r, i) => {
+                reservationsTable.innerHTML += `
+            <tr>
+                <td>#R-${1000 + i}</td>
+                <td>${r.name}</td>
+                <td>${r.car}</td>
+                <td>${r.plate}</td>
+                <td>${r.seats}</td>
+                <td>${r.type}</td>
+                <td>${r.start} → ${r.end}</td>
+                <td><span class="badge ${r.status === "Returned" ? "success" : "rented"}">${r.status}</span></td>
+                <td>
+                ${r.status !== "Returned" ?
+                        `<button class="btn" onclick="markReturned(${i})">Mark Returned</button>`
+                        : ""}
+                </td>
+            </tr>
+            `;
+            });
+        }
+
+        /***************
+        * REPORTS
+        ***************/
+        function loadReports() {
+            const reportsTable = document.querySelector("#view-reports tbody");
+            reportsTable.innerHTML = "";
+            let reservations = JSON.parse(localStorage.getItem("reservations") || "[]");
+
+            reservations.forEach((r, i) => {
+                reportsTable.innerHTML += `
+            <tr>
+                <td>#R-${1000 + i}</td>
+                <td>${r.name}</td>
+                <td>${r.car}</td>
+                <td>${r.plate}</td>
+                <td>${r.seats}</td>
+                <td><span class="badge ${r.status === "Returned" ? "success" : "rented"}">${r.status}</span></td>
+                <td>₱${r.price}</td>
+                <td>${r.start} → ${r.end}</td>
+            </tr>
+            `;
+            });
+        }
+
+        function markReturned(index) {
+            let reservations = JSON.parse(localStorage.getItem("reservations") || "[]");
+            reservations[index].status = "Returned";
+            localStorage.setItem("reservations", JSON.stringify(reservations));
+            loadReservations();
+            loadReports();
+        }
+
+
+        /***************
+         * INIT
+         ***************/
+        window.addEventListener("DOMContentLoaded", () => {
+            loadCars();
+            loadStaff();
+            loadReservations();
+            loadReports();
+            updateDashboardCounts();
+            updateDashboardReservations();
+        });
+    </script>
+    <!-- Admin access restriction message -->
+    <div class="access-denied">
+        <h2>Access Denied</h2>
+        <p>You must be logged in as an admin to access this page.</p>
+        <button onclick="window.location.href='login.html'">Go to Login</button>
+    </div>
+
+    <script>
+        // Check if user is logged in as admin
+        document.addEventListener('DOMContentLoaded', function() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            const userType = localStorage.getItem('userType');
+            
+            if (!isLoggedIn || userType !== 'admin') {
+                // User is not logged in as admin, redirect to login page
+                document.body.classList.remove('admin-access');
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 2000); // Show access denied message for 2 seconds before redirecting
+            } else {
+                // User is logged in as admin
+                document.body.classList.add('admin-access');
+            }
+        });
+    </script>
+</body>
+
+</html>
