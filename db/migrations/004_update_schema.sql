@@ -1,0 +1,16 @@
+-- Update cars table to match our application schema
+ALTER TABLE cars 
+ADD COLUMN IF NOT EXISTS name VARCHAR(255) AFTER id,
+ADD COLUMN IF NOT EXISTS plate VARCHAR(50) UNIQUE AFTER name,
+ADD COLUMN IF NOT EXISTS type VARCHAR(50) AFTER plate,
+ADD COLUMN IF NOT EXISTS category ENUM('sedan', 'suv', 'van', 'luxury') AFTER type,
+ADD COLUMN IF NOT EXISTS seats INT AFTER category,
+ADD COLUMN IF NOT EXISTS price DECIMAL(10,2) AFTER seats,
+ADD COLUMN IF NOT EXISTS status ENUM('available', 'reserved', 'rented', 'maintenance') DEFAULT 'available' AFTER price,
+ADD COLUMN IF NOT EXISTS image VARCHAR(255) AFTER status,
+ADD COLUMN IF NOT EXISTS updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP AFTER created_at;
+
+-- Update users table to match our application schema
+ALTER TABLE users 
+ADD COLUMN IF NOT EXISTS phone VARCHAR(20) AFTER name,
+ADD COLUMN IF NOT EXISTS updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP AFTER created_at;
