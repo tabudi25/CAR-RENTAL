@@ -311,7 +311,8 @@
 
         <div class="nav-item active">Dashboard</div>
         <div class="nav-item">Cars</div>
-        <div class="nav-item">Bookings</div>
+        <div class="nav-item">Rent</div>
+        <div class="nav-item">Rent History</div>
         <div class="nav-item">Customers</div>
         <div class="nav-item">Reports</div>
         <div class="nav-item" id="logout-btn">Logout</div>
@@ -336,7 +337,7 @@
                 <div class="stat-label">Total Cars</div>
               </div>
             </div>
-            <div class="stat-card" onclick="showSection('bookings')">
+            <div class="stat-card" onclick="showSection('rent')">
               <div class="stat-icon">📋</div>
               <div class="stat-content">
                 <div class="stat-number" id="total-bookings">0</div>
@@ -370,6 +371,16 @@
               ">
               <h3 style="margin: 0 0 20px 0; color: #e6eef6; font-size: 18px; font-weight: 600">Booking Trends</h3>
               <canvas id="bookingChart" width="400" height="200"></canvas>
+            </div>
+            <div
+              style="
+                background: rgba(255, 255, 255, 0.03);
+                border: 1px solid rgba(255, 255, 255, 0.05);
+                border-radius: 12px;
+                padding: 20px;
+              ">
+              <h3 style="margin: 0 0 12px 0; color: #e6eef6; font-size: 18px; font-weight: 600">Featured Cars</h3>
+              <div id="dashboard-cars-preview" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px;"></div>
             </div>
           </div>
         </div>
@@ -450,9 +461,31 @@
           </div>
         </div>
 
-        <!-- Bookings Section -->
+        <!-- Rent Section -->
+        <div class="card" style="display: none" id="rent-section">
+          <h2>Car Rentals</h2>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Customer</th>
+                <th>Car</th>
+                <th>Plate</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="rentals-list">
+              <!-- Rentals will be loaded dynamically -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Bookings Section (Rent History) -->
         <div class="card" style="display: none" id="bookings-section">
-          <h2>Booking Management</h2>
+          <h2>Rent History</h2>
           <table class="table">
             <thead>
               <tr>
@@ -466,7 +499,7 @@
               </tr>
             </thead>
             <tbody id="bookings-list">
-              <!-- Bookings will be loaded dynamically -->
+              <!-- Rent history will be loaded dynamically -->
             </tbody>
           </table>
         </div>
@@ -506,6 +539,9 @@
     </div>
 
     <script>
+      // Global state
+      let cars = [];
+
       // Check if user is logged in as staff
       document.addEventListener("DOMContentLoaded", function () {
         const userType = localStorage.getItem("userType");
@@ -538,7 +574,10 @@
             if (navText === "Cars") {
               document.getElementById("cars-section").style.display = "block";
               loadCars();
-            } else if (navText === "Bookings") {
+            } else if (navText === "Rent") {
+              document.getElementById("rent-section").style.display = "block";
+              loadRentals();
+            } else if (navText === "Rent History") {
               document.getElementById("bookings-section").style.display = "block";
               loadBookings();
             } else if (navText === "Customers") {
@@ -559,6 +598,7 @@
 
         // Load initial data
         loadCars();
+        loadRentals();
         loadBookings();
         loadCustomers();
         updateDashboardStats();
@@ -575,18 +615,20 @@
           loadCarsGrid(cars);
         });
 
-        // Auto-refresh data every 3 seconds
+        // Auto-refresh data every 5 seconds
         setInterval(() => {
           loadCars();
+          loadRentals();
           loadBookings();
           loadCustomers();
           updateDashboardStats();
-        }, 3000);
+        }, 5000);
 
         // Listen for localStorage changes
         window.addEventListener("storage", (e) => {
           if (e.key === "cars" || e.key === "reservations") {
             loadCars();
+            loadRentals();
             loadBookings();
             loadCustomers();
             updateDashboardStats();
@@ -602,12 +644,27 @@
         });
       });
 
-      // Load cars from localStorage (same as admin page)
-      function loadCars() {
-        // Load cars from localStorage to get updated status
-        let cars = JSON.parse(localStorage.getItem("cars") || "[]");
+      // Header logout link support
+      function logout() {
+        localStorage.removeItem("userId");
+        localStorage.removeItem("userType");
+        localStorage.removeItem("userName");
+        window.location.href = "login.html";
+      }
 
-        // If no cars in localStorage, use default cars
+      // Load cars from database (same as admin page)
+      async function loadCars() {
+        try {
+          const dbCars = await window.CarRentalAPI.getCars();
+          cars = dbCars;
+          loadCarsGrid(cars);
+          loadCarsTable(cars);
+        } catch (error) {
+          console.error("Failed to load cars from database:", error);
+          // Fallback to localStorage
+          cars = JSON.parse(localStorage.getItem("cars") || "[]");
+
+          // If no cars in localStorage, use default cars
         if (cars.length === 0) {
           cars = [
             {
@@ -788,110 +845,287 @@
         alert("Add new car functionality will be implemented");
       }
 
-      // Load bookings
-      function loadBookings() {
-        const reservations = JSON.parse(localStorage.getItem("reservations") || "[]");
-        const bookingsList = document.getElementById("bookings-list");
-        bookingsList.innerHTML = "";
+      // Load bookings from database
+      async function loadBookings() {
+        try {
+          const bookings = await window.CarRentalAPI.getBookings();
+          const bookingsList = document.getElementById("bookings-list");
+          bookingsList.innerHTML = "";
 
-        if (reservations.length === 0) {
-          bookingsList.innerHTML = `
-            <tr>
-              <td colspan="7" style="text-align: center; color: #98a0ab; padding: 20px;">
-                No bookings found. Bookings will appear here when customers make reservations.
-              </td>
-            </tr>
-          `;
-          return;
+          if (bookings.length === 0) {
+            bookingsList.innerHTML = `
+              <tr>
+                <td colspan="7" style="text-align: center; color: #98a0ab; padding: 20px;">
+                  No bookings found. Bookings will appear here when customers make reservations.
+                </td>
+              </tr>
+            `;
+            return;
+          }
+
+          bookings.forEach((booking, index) => {
+            const row = document.createElement("tr");
+            let statusColor = "#16a34a"; // Default green
+            if (booking.status === "pending") statusColor = "#eab308"; // Yellow
+            else if (booking.status === "confirmed") statusColor = "#3b82f6"; // Blue
+            else if (booking.status === "completed") statusColor = "#16a34a"; // Green
+            else if (booking.status === "cancelled") statusColor = "#ef4444"; // Red
+
+            row.innerHTML = `
+              <td>#BK-${booking.id}</td>
+              <td>${booking.customer_name}</td>
+              <td>${booking.car_name}</td>
+              <td>${booking.start_date}</td>
+              <td>${booking.end_date}</td>
+              <td><span style="color: ${statusColor}">${booking.status.toUpperCase()}</span></td>
+              <td><button class="btn" onclick="updateBooking(${booking.id})">Update</button></td>
+            `;
+            bookingsList.appendChild(row);
+          });
+        } catch (error) {
+          console.error("Failed to load bookings from database:", error);
+          // Fallback to localStorage
+          const reservations = JSON.parse(localStorage.getItem("reservations") || "[]");
+          const bookingsList = document.getElementById("bookings-list");
+          bookingsList.innerHTML = "";
+
+          if (reservations.length === 0) {
+            bookingsList.innerHTML = `
+              <tr>
+                <td colspan="7" style="text-align: center; color: #98a0ab; padding: 20px;">
+                  No bookings found. Database connection failed.
+                </td>
+              </tr>
+            `;
+            return;
+          }
+
+          reservations.forEach((booking, index) => {
+            const row = document.createElement("tr");
+            let statusColor = "#16a34a"; // Default green
+            if (booking.status === "Pending") statusColor = "#eab308"; // Yellow
+            if (booking.status === "Reserved") statusColor = "#3b82f6"; // Blue
+
+            row.innerHTML = `
+              <td>#BK-${1000 + index}</td>
+              <td>${booking.name}</td>
+              <td>${booking.car}</td>
+              <td>${booking.start}</td>
+              <td>${booking.end}</td>
+              <td><span style="color: ${statusColor}">${booking.status}</span></td>
+              <td><button class="btn" onclick="updateBooking(${index})">Update</button></td>
+            `;
+            bookingsList.appendChild(row);
+          });
         }
-
-        reservations.forEach((booking, index) => {
-          const row = document.createElement("tr");
-          let statusColor = "#16a34a"; // Default green
-          if (booking.status === "Pending") statusColor = "#eab308"; // Yellow
-          if (booking.status === "Reserved") statusColor = "#3b82f6"; // Blue
-
-          row.innerHTML = `
-            <td>#BK-${1000 + index}</td>
-            <td>${booking.name}</td>
-            <td>${booking.car}</td>
-            <td>${booking.start}</td>
-            <td>${booking.end}</td>
-            <td><span style="color: ${statusColor}">${booking.status}</span></td>
-            <td><button class="btn" onclick="updateBooking(${index})">Update</button></td>
-          `;
-          bookingsList.appendChild(row);
-        });
       }
 
-      // Load customers
-      function loadCustomers() {
-        const reservations = JSON.parse(localStorage.getItem("reservations") || "[]");
-        const customersList = document.getElementById("customers-list");
-        customersList.innerHTML = "";
+      // Load customers from database
+      async function loadCustomers() {
+        try {
+          const users = await window.CarRentalAPI.getUsers();
+          const customers = users.filter(user => user.user_type === 'customer');
+          const customersList = document.getElementById("customers-list");
+          customersList.innerHTML = "";
 
-        if (reservations.length === 0) {
-          customersList.innerHTML = `
-            <tr>
-              <td colspan="7" style="text-align: center; color: #98a0ab; padding: 20px;">
-                No customers found. Customers will appear here when they make reservations.
-              </td>
-            </tr>
-          `;
-          return;
-        }
-
-        // Group reservations by customer email
-        const customerMap = new Map();
-        reservations.forEach((reservation) => {
-          const email = reservation.email;
-          if (!customerMap.has(email)) {
-            customerMap.set(email, {
-              name: reservation.name,
-              email: reservation.email,
-              phone: reservation.phone || "N/A",
-              bookings: [],
-            });
+          if (customers.length === 0) {
+            customersList.innerHTML = `
+              <tr>
+                <td colspan="7" style="text-align: center; color: #98a0ab; padding: 20px;">
+                  No customers found. Customers will appear here when they register.
+                </td>
+              </tr>
+            `;
+            return;
           }
-          customerMap.get(email).bookings.push(reservation);
-        });
 
-        // Display customers
-        let customerId = 1;
-        customerMap.forEach((customer) => {
-          const totalBookings = customer.bookings.length;
-          const lastBooking = customer.bookings[customer.bookings.length - 1];
-          const lastBookingDate = lastBooking ? lastBooking.start : "N/A";
+          // Display customers
+          customers.forEach((customer, index) => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+              <td>${customer.id}</td>
+              <td>${customer.name}</td>
+              <td>${customer.email}</td>
+              <td>${customer.phone || "N/A"}</td>
+              <td><span style="color: #16a34a; font-weight: bold">1</span></td>
+              <td>${customer.created_at ? new Date(customer.created_at).toLocaleDateString() : "N/A"}</td>
+              <td><button class="btn" onclick="viewCustomerDetails('${customer.email}')">View Details</button></td>
+            `;
+            customersList.appendChild(row);
+          });
+        } catch (error) {
+          console.error("Failed to load customers from database:", error);
+          // Fallback to localStorage
+          const reservations = JSON.parse(localStorage.getItem("reservations") || "[]");
+          const customersList = document.getElementById("customers-list");
+          customersList.innerHTML = "";
 
-          const row = document.createElement("tr");
-          row.innerHTML = `
-            <td>${customerId}</td>
-            <td>${customer.name}</td>
-            <td>${customer.email}</td>
-            <td>${customer.phone}</td>
-            <td><span style="color: #16a34a; font-weight: bold">${totalBookings}</span></td>
-            <td>${lastBookingDate}</td>
-            <td><button class="btn" onclick="viewCustomerDetails('${customer.email}')">View Details</button></td>
-          `;
-          customersList.appendChild(row);
-          customerId++;
-        });
+          if (reservations.length === 0) {
+            customersList.innerHTML = `
+              <tr>
+                <td colspan="7" style="text-align: center; color: #98a0ab; padding: 20px;">
+                  No customers found. Database connection failed.
+                </td>
+              </tr>
+            `;
+            return;
+          }
+
+          // Group reservations by customer email
+          const customerMap = new Map();
+          reservations.forEach((reservation) => {
+            const email = reservation.email;
+            if (!customerMap.has(email)) {
+              customerMap.set(email, {
+                name: reservation.name,
+                email: reservation.email,
+                phone: reservation.phone || "N/A",
+                bookings: [],
+              });
+            }
+            customerMap.get(email).bookings.push(reservation);
+          });
+
+          // Display customers
+          let customerId = 1;
+          customerMap.forEach((customer) => {
+            const totalBookings = customer.bookings.length;
+            const lastBooking = customer.bookings[customer.bookings.length - 1];
+            const lastBookingDate = lastBooking ? lastBooking.start : "N/A";
+
+            const row = document.createElement("tr");
+            row.innerHTML = `
+              <td>${customerId}</td>
+              <td>${customer.name}</td>
+              <td>${customer.email}</td>
+              <td>${customer.phone}</td>
+              <td><span style="color: #16a34a; font-weight: bold">${totalBookings}</span></td>
+              <td>${lastBookingDate}</td>
+              <td><button class="btn" onclick="viewCustomerDetails('${customer.email}')">View Details</button></td>
+            `;
+            customersList.appendChild(row);
+            customerId++;
+          });
+        }
       }
 
       // Update booking status
-      function updateBooking(id) {
-        const reservations = JSON.parse(localStorage.getItem("reservations") || "[]");
-        const booking = reservations[id];
-
-        if (booking) {
+      async function updateBooking(id) {
+        try {
+          // Try to update in database first
           const newStatus = prompt(
-            `Update status for booking ${booking.car} (current: ${booking.status}):\n\nOptions: Pending, Reserved, Confirmed, Completed, Cancelled`
+            `Update rental status for ID ${id}:\n\nOptions: pending, confirmed, completed, cancelled`
+          );
+          
+          if (newStatus && ["pending", "confirmed", "completed", "cancelled"].includes(newStatus.toLowerCase())) {
+            await window.CarRentalAPI.updateBooking(id, { status: newStatus.toLowerCase() });
+            loadBookings();
+            alert("Rental status updated successfully!");
+          }
+        } catch (error) {
+          console.error("Failed to update booking in database:", error);
+          
+          // Fallback to localStorage
+          const reservations = JSON.parse(localStorage.getItem("reservations") || "[]");
+          const booking = reservations[id];
+
+          if (booking) {
+            const newStatus = prompt(
+              `Update status for booking ${booking.car} (current: ${booking.status}):\n\nOptions: Pending, Reserved, Confirmed, Completed, Cancelled`
+            );
+            if (newStatus && ["Pending", "Reserved", "Confirmed", "Completed", "Cancelled"].includes(newStatus)) {
+              reservations[id].status = newStatus;
+              localStorage.setItem("reservations", JSON.stringify(reservations));
+              loadBookings();
+              alert("Booking status updated successfully!");
+            }
+          }
+        }
+      }
+
+      // Load rentals (active) from localStorage (fallback similar to admin)
+      function loadRentals() {
+        const reservations = JSON.parse(localStorage.getItem("reservations") || "[]");
+        const rentalsList = document.getElementById("rentals-list");
+        rentalsList.innerHTML = "";
+
+        if (reservations.length === 0) {
+          rentalsList.innerHTML = `
+            <tr>
+              <td colspan="8" style="text-align: center; color: #98a0ab; padding: 20px;">
+                No car rentals yet. Rentals will appear here when customers rent cars.
+              </td>
+            </tr>
+          `;
+          return;
+        }
+
+        const activeRentals = reservations.filter(
+          (rental) =>
+            rental.status === "rented" ||
+            rental.status === "reserved" ||
+            rental.status === "Pending" ||
+            rental.status === "Reserved" ||
+            rental.status === "Confirmed"
+        );
+
+        if (activeRentals.length === 0) {
+          rentalsList.innerHTML = `
+            <tr>
+              <td colspan="8" style="text-align: center; color: #98a0ab; padding: 20px;">
+                No active rentals. Rentals will appear here when customers rent cars.
+              </td>
+            </tr>
+          `;
+          return;
+        }
+
+        activeRentals.forEach((rental, index) => {
+          const row = document.createElement("tr");
+          let statusColor = "#16a34a";
+          let statusText = rental.status;
+
+          if (rental.status === "Pending") {
+            statusColor = "#eab308";
+            statusText = "Pending";
+          } else if (rental.status === "Reserved" || rental.status === "reserved") {
+            statusColor = "#3b82f6";
+            statusText = "Reserved";
+          } else if (rental.status === "rented") {
+            statusColor = "#ef4444";
+            statusText = "Rented";
+          } else if (rental.status === "Confirmed") {
+            statusColor = "#16a34a";
+            statusText = "Confirmed";
+          }
+
+          row.innerHTML = `
+            <td>#RT-${1000 + index}</td>
+            <td>${rental.name}</td>
+            <td>${rental.car}</td>
+            <td>${rental.plate || "N/A"}</td>
+            <td>${rental.start}</td>
+            <td>${rental.end}</td>
+            <td><span style="color: ${statusColor}; font-weight: bold">${statusText}</span></td>
+            <td><button class="btn" onclick="updateRental(${index})">Update</button></td>
+          `;
+          rentalsList.appendChild(row);
+        });
+      }
+
+      function updateRental(id) {
+        const reservations = JSON.parse(localStorage.getItem("reservations") || "[]");
+        const rental = reservations[id];
+
+        if (rental) {
+          const newStatus = prompt(
+            `Update status for rental ${rental.car} (current: ${rental.status}):\n\nOptions: Pending, Reserved, Confirmed, Completed, Cancelled`
           );
           if (newStatus && ["Pending", "Reserved", "Confirmed", "Completed", "Cancelled"].includes(newStatus)) {
             reservations[id].status = newStatus;
             localStorage.setItem("reservations", JSON.stringify(reservations));
-            loadBookings();
-            alert("Booking status updated successfully!");
+            loadRentals();
+            alert("Rental status updated successfully!");
           }
         }
       }
@@ -938,12 +1172,19 @@
           document.querySelectorAll(".nav-item").forEach((nav) => {
             if (nav.textContent.trim() === "Cars") nav.classList.add("active");
           });
+        } else if (section === "rent") {
+          document.getElementById("rent-section").style.display = "block";
+          loadRentals();
+          // Set Rent nav item as active
+          document.querySelectorAll(".nav-item").forEach((nav) => {
+            if (nav.textContent.trim() === "Rent") nav.classList.add("active");
+          });
         } else if (section === "bookings") {
           document.getElementById("bookings-section").style.display = "block";
           loadBookings();
           // Set Bookings nav item as active
           document.querySelectorAll(".nav-item").forEach((nav) => {
-            if (nav.textContent.trim() === "Bookings") nav.classList.add("active");
+            if (nav.textContent.trim() === "Rent History") nav.classList.add("active");
           });
         } else if (section === "customers") {
           document.getElementById("customers-section").style.display = "block";
@@ -968,26 +1209,58 @@
         }
       }
 
-      function updateDashboardStats() {
-        // Get cars count
-        const cars = JSON.parse(localStorage.getItem("cars") || "[]");
-        document.getElementById("total-vehicles").textContent = cars.length;
+      async function updateDashboardStats() {
+        try {
+          const stats = await window.CarRentalAPI.getDashboardStats();
+          document.getElementById("total-vehicles").textContent = stats.cars.total_cars || 0;
+          document.getElementById("total-bookings").textContent = stats.bookings.total_bookings || 0;
+          document.getElementById("total-customers").textContent = stats.bookings.total_bookings || 0;
+          document.getElementById("total-revenue").textContent = `₱${(stats.bookings.total_revenue || 0).toLocaleString()}`;
+          const carsData = await window.CarRentalAPI.getCars();
+          renderDashboardCarsPreview(carsData);
+        } catch (error) {
+          console.error("Failed to load dashboard stats:", error);
+          const carsLs = JSON.parse(localStorage.getItem("cars") || "[]");
+          const reservations = JSON.parse(localStorage.getItem("reservations") || "[]");
+          const uniqueCustomers = new Set(reservations.map((r) => r.email)).size;
 
-        // Get bookings count
-        const reservations = JSON.parse(localStorage.getItem("reservations") || "[]");
-        document.getElementById("total-bookings").textContent = reservations.length;
+          document.getElementById("total-vehicles").textContent = carsLs.length;
+          document.getElementById("total-bookings").textContent = reservations.length;
+          document.getElementById("total-customers").textContent = uniqueCustomers;
 
-        // Get customers count
-        const uniqueCustomers = new Set(reservations.map((r) => r.email)).size;
-        document.getElementById("total-customers").textContent = uniqueCustomers;
+          let totalRevenue = 0;
+          reservations.forEach((rental) => {
+            const days = Math.ceil((new Date(rental.end) - new Date(rental.start)) / (1000 * 60 * 60 * 24));
+            totalRevenue += days * parseFloat(rental.price || 0);
+          });
+          document.getElementById("total-revenue").textContent = `₱${totalRevenue.toLocaleString()}`;
+          renderDashboardCarsPreview(carsLs);
+        }
+      }
 
-        // Calculate total revenue
-        let totalRevenue = 0;
-        reservations.forEach((rental) => {
-          const days = Math.ceil((new Date(rental.end) - new Date(rental.start)) / (1000 * 60 * 60 * 24));
-          totalRevenue += days * parseFloat(rental.price || 0);
+      function renderDashboardCarsPreview(carsData) {
+        const container = document.getElementById("dashboard-cars-preview");
+        if (!container) return;
+        container.innerHTML = "";
+        (carsData || []).slice(0, 6).forEach((car) => {
+          const card = document.createElement("div");
+          card.className = "car-card";
+          card.innerHTML = `
+            <div class="car-image">
+              <img src="${car.image}" alt="${car.name}" onerror="this.style.display='none'; this.parentElement.innerHTML='🚗';">
+            </div>
+            <div class="car-info">
+              <div class="car-name">${car.name}</div>
+              <div class="car-details">
+                <div class="car-detail"><strong>Type:</strong> ${car.type || 'N/A'}</div>
+                <div class="car-detail"><strong>Seats:</strong> ${car.seats || 'N/A'}</div>
+              </div>
+              <div class="car-price">₱${(car.price || 0).toLocaleString()}/day</div>
+              <span class="car-status ${car.status === 'reserved' ? 'status-reserved' : car.status === 'rented' ? 'status-rented' : 'status-available'}">${car.status || 'available'}</span>
+            </div>
+          `;
+          container.appendChild(card);
         });
-        document.getElementById("total-revenue").textContent = `₱${totalRevenue.toLocaleString()}`;
       }
 
       function generateReport(type) {
@@ -1043,6 +1316,8 @@
           },
         });
       }
+
     </script>
   </body>
-</html>
+  </html>
+      
