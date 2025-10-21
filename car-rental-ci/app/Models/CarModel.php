@@ -14,7 +14,7 @@ class CarModel extends Model
     protected $allowedFields = [
         'name', 'plate', 'type', 'category', 'seats', 'price', 
         'status', 'image', 'model', 'brand', 'year', 'price_per_day', 
-        'image_url', 'available'
+        'image_url'
     ];
 
     // Dates

@@ -125,9 +125,8 @@ class Staff extends Controller
 
         $carModel = new CarModel();
         $status = $this->request->getPost('status');
-        $available = ($status === 'available') ? 1 : 0;
         
-        if ($carModel->update($id, ['status' => $status, 'available' => $available])) {
+        if ($carModel->update($id, ['status' => $status])) {
             return redirect()->to('/staff/cars')->with('success', 'Car status updated successfully');
         } else {
             return redirect()->to('/staff/cars')->with('error', 'Failed to update car status');

@@ -103,7 +103,7 @@ class Customer extends Controller
         
         if ($bookingModel->insert($data)) {
             // Update car status
-            $carModel->update($carId, ['status' => 'reserved', 'available' => 0]);
+            $carModel->update($carId, ['status' => 'reserved']);
             return redirect()->to('/customer')->with('success', 'Booking created successfully');
         } else {
             return redirect()->to('/customer')->with('error', 'Failed to create booking');
@@ -150,7 +150,7 @@ class Customer extends Controller
         
         if ($bookingModel->update($id, ['status' => 'cancelled'])) {
             // Update car status
-            $carModel->update($booking['car_id'], ['status' => 'available', 'available' => 1]);
+            $carModel->update($booking['car_id'], ['status' => 'available']);
             return redirect()->to('/customer/bookings')->with('success', 'Booking cancelled successfully');
         } else {
             return redirect()->to('/customer/bookings')->with('error', 'Failed to cancel booking');

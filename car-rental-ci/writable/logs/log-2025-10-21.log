@@ -458,3 +458,108 @@ INFO - 2025-10-21 18:13:18 --> Session: Class initialized using 'CodeIgniter\Ses
 INFO - 2025-10-21 18:13:18 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
 INFO - 2025-10-21 18:14:37 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
 INFO - 2025-10-21 18:14:41 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-10-21 20:37:01 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-10-21 20:37:09 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-10-21 20:37:09 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-10-21 23:00:10 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-10-21 23:00:54 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-10-21 23:01:01 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-10-21 23:01:01 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-10-21 23:01:09 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2025-10-21 23:01:09 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "customer/book_car.php"
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(216): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('customer/book_car.php')
+ 2 SYSTEMPATH\Common.php(1178): CodeIgniter\View\View->render('customer/book_car', [], true)
+ 3 APPPATH\Controllers\Customer.php(66): view('customer/book_car', [...])
+ 4 SYSTEMPATH\CodeIgniter.php(941): App\Controllers\Customer->bookCar('1')
+ 5 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Customer))
+ 6 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\Administrator\\Documents\\CAR-RENTAL\\car-rental-ci\\public\\index.php')
+INFO - 2025-10-21 23:03:29 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-10-21 23:03:32 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-10-21 23:06:28 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-10-21 23:06:55 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2025-10-21 23:06:55 --> mysqli_sql_exception: Unknown column 'available' in 'field list' in C:\Users\Administrator\Documents\CAR-RENTAL\car-rental-ci\system\Database\MySQLi\Connection.php:306
+Stack trace:
+#0 C:\Users\Administrator\Documents\CAR-RENTAL\car-rental-ci\system\Database\MySQLi\Connection.php(306): mysqli->query('UPDATE `cars` S...', 0)
+#1 C:\Users\Administrator\Documents\CAR-RENTAL\car-rental-ci\system\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('UPDATE `cars` S...')
+#2 C:\Users\Administrator\Documents\CAR-RENTAL\car-rental-ci\system\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('UPDATE `cars` S...')
+#3 C:\Users\Administrator\Documents\CAR-RENTAL\car-rental-ci\system\Database\BaseBuilder.php(2474): CodeIgniter\Database\BaseConnection->query('UPDATE `cars` S...', Array, false)
+#4 C:\Users\Administrator\Documents\CAR-RENTAL\car-rental-ci\system\Model.php(393): CodeIgniter\Database\BaseBuilder->update()
+#5 C:\Users\Administrator\Documents\CAR-RENTAL\car-rental-ci\system\BaseModel.php(987): CodeIgniter\Model->doUpdate(Array, Array)
+#6 C:\Users\Administrator\Documents\CAR-RENTAL\car-rental-ci\system\Model.php(807): CodeIgniter\BaseModel->update(Array, Array)
+#7 C:\Users\Administrator\Documents\CAR-RENTAL\car-rental-ci\app\Controllers\Customer.php(106): CodeIgniter\Model->update('1', Array)
+#8 C:\Users\Administrator\Documents\CAR-RENTAL\car-rental-ci\system\CodeIgniter.php(941): App\Controllers\Customer->createBooking()
+#9 C:\Users\Administrator\Documents\CAR-RENTAL\car-rental-ci\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Customer))
+#10 C:\Users\Administrator\Documents\CAR-RENTAL\car-rental-ci\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\Users\Administrator\Documents\CAR-RENTAL\car-rental-ci\public\index.php(79): CodeIgniter\CodeIgniter->run()
+#12 C:\Users\Administrator\Documents\CAR-RENTAL\car-rental-ci\system\Commands\Server\rewrite.php(47): require_once('C:\\Users\\Admini...')
+#13 {main}
+CRITICAL - 2025-10-21 23:06:55 --> CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'available' in 'field list'
+in SYSTEMPATH\Database\BaseConnection.php on line 647.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(2474): CodeIgniter\Database\BaseConnection->query('UPDATE `cars` SET `status` = :status:, `available` = :available:, `updated_at` = :updated_at:
+WHERE `cars`.`id` IN :cars.id:', [...], false)
+ 2 SYSTEMPATH\Model.php(393): CodeIgniter\Database\BaseBuilder->update()
+ 3 SYSTEMPATH\BaseModel.php(987): CodeIgniter\Model->doUpdate([...], [...])
+ 4 SYSTEMPATH\Model.php(807): CodeIgniter\BaseModel->update([...], [...])
+ 5 APPPATH\Controllers\Customer.php(106): CodeIgniter\Model->update('1', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(941): App\Controllers\Customer->createBooking()
+ 7 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Customer))
+ 8 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\Administrator\\Documents\\CAR-RENTAL\\car-rental-ci\\public\\index.php')
+CRITICAL - 2025-10-21 23:06:55 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'available' in 'field list'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 311.
+ 1 SYSTEMPATH\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('UPDATE `cars` SET `status` = \'reserved\', `available` = 0, `updated_at` = \'2025-10-21 23:06:55\'
+WHERE `cars`.`id` IN (\'1\')')
+ 2 SYSTEMPATH\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('UPDATE `cars` SET `status` = \'reserved\', `available` = 0, `updated_at` = \'2025-10-21 23:06:55\'
+WHERE `cars`.`id` IN (\'1\')')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(2474): CodeIgniter\Database\BaseConnection->query('UPDATE `cars` SET `status` = :status:, `available` = :available:, `updated_at` = :updated_at:
+WHERE `cars`.`id` IN :cars.id:', [...], false)
+ 4 SYSTEMPATH\Model.php(393): CodeIgniter\Database\BaseBuilder->update()
+ 5 SYSTEMPATH\BaseModel.php(987): CodeIgniter\Model->doUpdate([...], [...])
+ 6 SYSTEMPATH\Model.php(807): CodeIgniter\BaseModel->update([...], [...])
+ 7 APPPATH\Controllers\Customer.php(106): CodeIgniter\Model->update('1', [...])
+ 8 SYSTEMPATH\CodeIgniter.php(941): App\Controllers\Customer->createBooking()
+ 9 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Customer))
+10 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\Administrator\\Documents\\CAR-RENTAL\\car-rental-ci\\public\\index.php')
+CRITICAL - 2025-10-21 23:06:55 --> [Caused by] mysqli_sql_exception: Unknown column 'available' in 'field list'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 306.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(306): mysqli->query('UPDATE `cars` SET `status` = \'reserved\', `available` = 0, `updated_at` = \'2025-10-21 23:06:55\'
+WHERE `cars`.`id` IN (\'1\')', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('UPDATE `cars` SET `status` = \'reserved\', `available` = 0, `updated_at` = \'2025-10-21 23:06:55\'
+WHERE `cars`.`id` IN (\'1\')')
+ 3 SYSTEMPATH\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('UPDATE `cars` SET `status` = \'reserved\', `available` = 0, `updated_at` = \'2025-10-21 23:06:55\'
+WHERE `cars`.`id` IN (\'1\')')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(2474): CodeIgniter\Database\BaseConnection->query('UPDATE `cars` SET `status` = :status:, `available` = :available:, `updated_at` = :updated_at:
+WHERE `cars`.`id` IN :cars.id:', [...], false)
+ 5 SYSTEMPATH\Model.php(393): CodeIgniter\Database\BaseBuilder->update()
+ 6 SYSTEMPATH\BaseModel.php(987): CodeIgniter\Model->doUpdate([...], [...])
+ 7 SYSTEMPATH\Model.php(807): CodeIgniter\BaseModel->update([...], [...])
+ 8 APPPATH\Controllers\Customer.php(106): CodeIgniter\Model->update('1', [...])
+ 9 SYSTEMPATH\CodeIgniter.php(941): App\Controllers\Customer->createBooking()
+10 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Customer))
+11 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\Administrator\\Documents\\CAR-RENTAL\\car-rental-ci\\public\\index.php')
+INFO - 2025-10-21 23:10:48 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-10-21 23:10:51 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-10-21 23:10:51 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-10-21 23:11:02 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-10-21 23:11:10 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2025-10-21 23:11:10 --> ErrorException: Undefined array key "from_date"
+in APPPATH\Views\customer\bookings.php on line 73.
+ 1 APPPATH\Views\customer\bookings.php(73): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "from_date"', 'C:\\Users\\Administrator\\Documents\\CAR-RENTAL\\car-rental-ci\\app\\Views\\customer\\bookings.php', 73)
+ 2 SYSTEMPATH\View\View.php(228): include('C:\\Users\\Administrator\\Documents\\CAR-RENTAL\\car-rental-ci\\app\\Views\\customer\\bookings.php')
+ 3 SYSTEMPATH\View\View.php(231): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1178): CodeIgniter\View\View->render('customer/bookings', [], true)
+ 5 APPPATH\Controllers\Customer.php(132): view('customer/bookings', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(941): App\Controllers\Customer->viewBookings()
+ 7 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Customer))
+ 8 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\Administrator\\Documents\\CAR-RENTAL\\car-rental-ci\\public\\index.php')
+INFO - 2025-10-21 23:11:13 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
