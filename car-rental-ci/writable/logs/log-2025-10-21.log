@@ -563,3 +563,141 @@ in APPPATH\Views\customer\bookings.php on line 73.
  9 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
 10 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\Administrator\\Documents\\CAR-RENTAL\\car-rental-ci\\public\\index.php')
 INFO - 2025-10-21 23:11:13 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2025-10-21 23:46:12 --> Error connecting to the database: mysqli_sql_exception: No connection could be made because the target machine actively refused it in C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\MySQLi\Connection.php:184
+Stack trace:
+#0 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\MySQLi\Connection.php(184): mysqli->real_connect('localhost', 'root', Object(SensitiveParameterValue), 'car_rental_db', 3306, '', 0)
+#1 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\BaseConnection.php(392): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#2 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\BaseConnection.php(575): CodeIgniter\Database\BaseConnection->initialize()
+#3 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\BaseBuilder.php(1616): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#4 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Model.php(270): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\BaseModel.php(676): CodeIgniter\Model->doFirst()
+#6 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\app\Models\UserModel.php(40): CodeIgniter\BaseModel->first()
+#7 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\app\Controllers\Auth.php(26): App\Models\UserModel->authenticate('pokie23@gmail.c...', '123456')
+#8 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\CodeIgniter.php(941): App\Controllers\Auth->authenticate()
+#9 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Auth))
+#10 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\public\index.php(79): CodeIgniter\CodeIgniter->run()
+#12 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Commands\Server\rewrite.php(47): require_once('C:\\Users\\timaj\\...')
+#13 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: No connection could be made because the target machine actively refused it in C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\MySQLi\Connection.php:229
+Stack trace:
+#0 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\BaseConnection.php(392): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#1 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\BaseConnection.php(575): CodeIgniter\Database\BaseConnection->initialize()
+#2 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\BaseBuilder.php(1616): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#3 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Model.php(270): CodeIgniter\Database\BaseBuilder->get()
+#4 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\BaseModel.php(676): CodeIgniter\Model->doFirst()
+#5 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\app\Models\UserModel.php(40): CodeIgniter\BaseModel->first()
+#6 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\app\Controllers\Auth.php(26): App\Models\UserModel->authenticate('pokie23@gmail.c...', '123456')
+#7 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\CodeIgniter.php(941): App\Controllers\Auth->authenticate()
+#8 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Auth))
+#9 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\public\index.php(79): CodeIgniter\CodeIgniter->run()
+#11 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Commands\Server\rewrite.php(47): require_once('C:\\Users\\timaj\\...')
+#12 {main}
+CRITICAL - 2025-10-21 23:46:12 --> CodeIgniter\Database\Exceptions\DatabaseException: Unable to connect to the database.
+Main connection [MySQLi]: No connection could be made because the target machine actively refused it
+in SYSTEMPATH\Database\BaseConnection.php on line 428.
+ 1 SYSTEMPATH\Database\BaseConnection.php(575): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH\Database\BaseBuilder.php(1616): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `users`
+WHERE `email` = :email:
+ LIMIT 1', [...], false)
+ 3 SYSTEMPATH\Model.php(270): CodeIgniter\Database\BaseBuilder->get()
+ 4 SYSTEMPATH\BaseModel.php(676): CodeIgniter\Model->doFirst()
+ 5 APPPATH\Models\UserModel.php(40): CodeIgniter\BaseModel->first()
+ 6 APPPATH\Controllers\Auth.php(26): App\Models\UserModel->authenticate('pokie23@gmail.com', '123456')
+ 7 SYSTEMPATH\CodeIgniter.php(941): App\Controllers\Auth->authenticate()
+ 8 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Auth))
+ 9 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\timaj\\OneDrive\\Documents\\HiFi\\CAR-RENTAL\\car-rental-ci\\public\\index.php')
+ERROR - 2025-10-21 23:53:30 --> mysqli_sql_exception: Unknown column 'namespace' in 'where clause' in C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\MySQLi\Connection.php:306
+Stack trace:
+#0 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\MySQLi\Connection.php(306): mysqli->query('SELECT *\nFROM `...', 0)
+#1 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *\nFROM `...')
+#2 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *\nFROM `...')
+#3 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\BaseBuilder.php(1616): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#4 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\MigrationRunner.php(651): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\MigrationRunner.php(174): CodeIgniter\Database\MigrationRunner->getHistory('')
+#6 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Commands\Database\Migrate.php(84): CodeIgniter\Database\MigrationRunner->latest(NULL)
+#7 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\CLI\Commands.php(65): CodeIgniter\Commands\Database\Migrate->run(Array)
+#8 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\CLI\Console.php(46): CodeIgniter\CLI\Commands->run('migrate', Array)
+#9 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\spark(102): CodeIgniter\CLI\Console->run()
+#10 {main}
+ERROR - 2025-10-21 23:53:39 --> mysqli_sql_exception: Can't create database 'car_rental_db'; database exists in C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\MySQLi\Connection.php:306
+Stack trace:
+#0 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\MySQLi\Connection.php(306): mysqli->query('CREATE DATABASE...', 0)
+#1 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('CREATE DATABASE...')
+#2 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('CREATE DATABASE...')
+#3 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\Forge.php(230): CodeIgniter\Database\BaseConnection->query('CREATE DATABASE...')
+#4 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Commands\Database\CreateDatabase.php(134): CodeIgniter\Database\Forge->createDatabase('car_rental_db')
+#5 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\CLI\Commands.php(65): CodeIgniter\Commands\Database\CreateDatabase->run(Array)
+#6 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\CLI\Console.php(46): CodeIgniter\CLI\Commands->run('db:create', Array)
+#7 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\spark(102): CodeIgniter\CLI\Console->run()
+#8 {main}
+ERROR - 2025-10-21 23:53:48 --> mysqli_sql_exception: Unknown column 'namespace' in 'where clause' in C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\MySQLi\Connection.php:306
+Stack trace:
+#0 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\MySQLi\Connection.php(306): mysqli->query('SELECT *\nFROM `...', 0)
+#1 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *\nFROM `...')
+#2 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *\nFROM `...')
+#3 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\BaseBuilder.php(1616): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#4 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\MigrationRunner.php(651): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Commands\Database\MigrateStatus.php(114): CodeIgniter\Database\MigrationRunner->getHistory('')
+#6 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\CLI\Commands.php(65): CodeIgniter\Commands\Database\MigrateStatus->run(Array)
+#7 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\CLI\Console.php(46): CodeIgniter\CLI\Commands->run('migrate:status', Array)
+#8 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\spark(102): CodeIgniter\CLI\Console->run()
+#9 {main}
+CRITICAL - 2025-10-21 23:53:48 --> CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'namespace' in 'where clause'
+in SYSTEMPATH\Database\BaseConnection.php on line 647.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1616): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `migrations`
+WHERE `namespace` = :namespace:
+ORDER BY `id` ASC', [...], false)
+ 2 SYSTEMPATH\Database\MigrationRunner.php(651): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\Commands\Database\MigrateStatus.php(114): CodeIgniter\Database\MigrationRunner->getHistory('')
+ 4 SYSTEMPATH\CLI\Commands.php(65): CodeIgniter\Commands\Database\MigrateStatus->run([])
+ 5 SYSTEMPATH\CLI\Console.php(46): CodeIgniter\CLI\Commands->run('migrate:status', [])
+ 6 ROOTPATH\spark(102): CodeIgniter\CLI\Console->run()
+CRITICAL - 2025-10-21 23:53:48 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'namespace' in 'where clause'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 311.
+ 1 SYSTEMPATH\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `migrations`
+WHERE `namespace` = \'App\'
+ORDER BY `id` ASC')
+ 2 SYSTEMPATH\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `migrations`
+WHERE `namespace` = \'App\'
+ORDER BY `id` ASC')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(1616): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `migrations`
+WHERE `namespace` = :namespace:
+ORDER BY `id` ASC', [...], false)
+ 4 SYSTEMPATH\Database\MigrationRunner.php(651): CodeIgniter\Database\BaseBuilder->get()
+ 5 SYSTEMPATH\Commands\Database\MigrateStatus.php(114): CodeIgniter\Database\MigrationRunner->getHistory('')
+ 6 SYSTEMPATH\CLI\Commands.php(65): CodeIgniter\Commands\Database\MigrateStatus->run([])
+ 7 SYSTEMPATH\CLI\Console.php(46): CodeIgniter\CLI\Commands->run('migrate:status', [])
+ 8 ROOTPATH\spark(102): CodeIgniter\CLI\Console->run()
+CRITICAL - 2025-10-21 23:53:48 --> [Caused by] mysqli_sql_exception: Unknown column 'namespace' in 'where clause'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 306.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(306): mysqli->query('SELECT *
+FROM `migrations`
+WHERE `namespace` = \'App\'
+ORDER BY `id` ASC', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `migrations`
+WHERE `namespace` = \'App\'
+ORDER BY `id` ASC')
+ 3 SYSTEMPATH\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `migrations`
+WHERE `namespace` = \'App\'
+ORDER BY `id` ASC')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(1616): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `migrations`
+WHERE `namespace` = :namespace:
+ORDER BY `id` ASC', [...], false)
+ 5 SYSTEMPATH\Database\MigrationRunner.php(651): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH\Commands\Database\MigrateStatus.php(114): CodeIgniter\Database\MigrationRunner->getHistory('')
+ 7 SYSTEMPATH\CLI\Commands.php(65): CodeIgniter\Commands\Database\MigrateStatus->run([])
+ 8 SYSTEMPATH\CLI\Console.php(46): CodeIgniter\CLI\Commands->run('migrate:status', [])
+ 9 ROOTPATH\spark(102): CodeIgniter\CLI\Console->run()

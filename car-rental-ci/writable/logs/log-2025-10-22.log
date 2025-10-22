@@ -1,0 +1,548 @@
+ERROR - 2025-10-22 00:04:00 --> mysqli_sql_exception: Unknown column 'updated_at' in 'field list' in C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\MySQLi\Connection.php:306
+Stack trace:
+#0 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\MySQLi\Connection.php(306): mysqli->query('INSERT INTO `bo...', 0)
+#1 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `bo...')
+#2 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `bo...')
+#3 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\BaseBuilder.php(2307): CodeIgniter\Database\BaseConnection->query('INSERT INTO `bo...', Array, false)
+#4 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Model.php(326): CodeIgniter\Database\BaseBuilder->insert()
+#5 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\BaseModel.php(802): CodeIgniter\Model->doInsert(Array)
+#6 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Model.php(744): CodeIgniter\BaseModel->insert(Array, true)
+#7 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\app\Controllers\Customer.php(104): CodeIgniter\Model->insert(Array)
+#8 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\CodeIgniter.php(941): App\Controllers\Customer->createBooking()
+#9 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Customer))
+#10 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\public\index.php(79): CodeIgniter\CodeIgniter->run()
+#12 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Commands\Server\rewrite.php(47): require_once('C:\\Users\\timaj\\...')
+#13 {main}
+CRITICAL - 2025-10-22 00:04:00 --> CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'updated_at' in 'field list'
+in SYSTEMPATH\Database\BaseConnection.php on line 647.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(2307): CodeIgniter\Database\BaseConnection->query('INSERT INTO `bookings` (`user_id`, `car_id`, `start_date`, `end_date`, `status`, `total_price`, `created_at`, `updated_at`) VALUES (:user_id:, :car_id:, :start_date:, :end_date:, :status:, :total_price:, :created_at:, :updated_at:)', [...], false)
+ 2 SYSTEMPATH\Model.php(326): CodeIgniter\Database\BaseBuilder->insert()
+ 3 SYSTEMPATH\BaseModel.php(802): CodeIgniter\Model->doInsert([...])
+ 4 SYSTEMPATH\Model.php(744): CodeIgniter\BaseModel->insert([...], true)
+ 5 APPPATH\Controllers\Customer.php(104): CodeIgniter\Model->insert([...])
+ 6 SYSTEMPATH\CodeIgniter.php(941): App\Controllers\Customer->createBooking()
+ 7 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Customer))
+ 8 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\timaj\\OneDrive\\Documents\\HiFi\\CAR-RENTAL\\car-rental-ci\\public\\index.php')
+CRITICAL - 2025-10-22 00:04:00 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'updated_at' in 'field list'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 311.
+ 1 SYSTEMPATH\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `bookings` (`user_id`, `car_id`, `start_date`, `end_date`, `status`, `total_price`, `created_at`, `updated_at`) VALUES (\'12\', \'17\', \'2025-10-22\', \'2025-10-23\', \'pending\', 300, \'2025-10-22 00:04:00\', \'2025-10-22 00:04:00\')')
+ 2 SYSTEMPATH\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `bookings` (`user_id`, `car_id`, `start_date`, `end_date`, `status`, `total_price`, `created_at`, `updated_at`) VALUES (\'12\', \'17\', \'2025-10-22\', \'2025-10-23\', \'pending\', 300, \'2025-10-22 00:04:00\', \'2025-10-22 00:04:00\')')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(2307): CodeIgniter\Database\BaseConnection->query('INSERT INTO `bookings` (`user_id`, `car_id`, `start_date`, `end_date`, `status`, `total_price`, `created_at`, `updated_at`) VALUES (:user_id:, :car_id:, :start_date:, :end_date:, :status:, :total_price:, :created_at:, :updated_at:)', [...], false)
+ 4 SYSTEMPATH\Model.php(326): CodeIgniter\Database\BaseBuilder->insert()
+ 5 SYSTEMPATH\BaseModel.php(802): CodeIgniter\Model->doInsert([...])
+ 6 SYSTEMPATH\Model.php(744): CodeIgniter\BaseModel->insert([...], true)
+ 7 APPPATH\Controllers\Customer.php(104): CodeIgniter\Model->insert([...])
+ 8 SYSTEMPATH\CodeIgniter.php(941): App\Controllers\Customer->createBooking()
+ 9 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Customer))
+10 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\timaj\\OneDrive\\Documents\\HiFi\\CAR-RENTAL\\car-rental-ci\\public\\index.php')
+CRITICAL - 2025-10-22 00:04:00 --> [Caused by] mysqli_sql_exception: Unknown column 'updated_at' in 'field list'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 306.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(306): mysqli->query('INSERT INTO `bookings` (`user_id`, `car_id`, `start_date`, `end_date`, `status`, `total_price`, `created_at`, `updated_at`) VALUES (\'12\', \'17\', \'2025-10-22\', \'2025-10-23\', \'pending\', 300, \'2025-10-22 00:04:00\', \'2025-10-22 00:04:00\')', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `bookings` (`user_id`, `car_id`, `start_date`, `end_date`, `status`, `total_price`, `created_at`, `updated_at`) VALUES (\'12\', \'17\', \'2025-10-22\', \'2025-10-23\', \'pending\', 300, \'2025-10-22 00:04:00\', \'2025-10-22 00:04:00\')')
+ 3 SYSTEMPATH\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `bookings` (`user_id`, `car_id`, `start_date`, `end_date`, `status`, `total_price`, `created_at`, `updated_at`) VALUES (\'12\', \'17\', \'2025-10-22\', \'2025-10-23\', \'pending\', 300, \'2025-10-22 00:04:00\', \'2025-10-22 00:04:00\')')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(2307): CodeIgniter\Database\BaseConnection->query('INSERT INTO `bookings` (`user_id`, `car_id`, `start_date`, `end_date`, `status`, `total_price`, `created_at`, `updated_at`) VALUES (:user_id:, :car_id:, :start_date:, :end_date:, :status:, :total_price:, :created_at:, :updated_at:)', [...], false)
+ 5 SYSTEMPATH\Model.php(326): CodeIgniter\Database\BaseBuilder->insert()
+ 6 SYSTEMPATH\BaseModel.php(802): CodeIgniter\Model->doInsert([...])
+ 7 SYSTEMPATH\Model.php(744): CodeIgniter\BaseModel->insert([...], true)
+ 8 APPPATH\Controllers\Customer.php(104): CodeIgniter\Model->insert([...])
+ 9 SYSTEMPATH\CodeIgniter.php(941): App\Controllers\Customer->createBooking()
+10 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Customer))
+11 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\timaj\\OneDrive\\Documents\\HiFi\\CAR-RENTAL\\car-rental-ci\\public\\index.php')
+ERROR - 2025-10-22 00:07:15 --> mysqli_sql_exception: Unknown column 'updated_at' in 'field list' in C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\MySQLi\Connection.php:306
+Stack trace:
+#0 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\MySQLi\Connection.php(306): mysqli->query('INSERT INTO `bo...', 0)
+#1 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `bo...')
+#2 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `bo...')
+#3 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\BaseBuilder.php(2307): CodeIgniter\Database\BaseConnection->query('INSERT INTO `bo...', Array, false)
+#4 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Model.php(326): CodeIgniter\Database\BaseBuilder->insert()
+#5 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\BaseModel.php(802): CodeIgniter\Model->doInsert(Array)
+#6 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Model.php(744): CodeIgniter\BaseModel->insert(Array, true)
+#7 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\app\Controllers\Customer.php(105): CodeIgniter\Model->insert(Array)
+#8 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\CodeIgniter.php(941): App\Controllers\Customer->createBooking()
+#9 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Customer))
+#10 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\public\index.php(79): CodeIgniter\CodeIgniter->run()
+#12 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Commands\Server\rewrite.php(47): require_once('C:\\Users\\timaj\\...')
+#13 {main}
+CRITICAL - 2025-10-22 00:07:15 --> CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'updated_at' in 'field list'
+in SYSTEMPATH\Database\BaseConnection.php on line 647.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(2307): CodeIgniter\Database\BaseConnection->query('INSERT INTO `bookings` (`user_id`, `car_id`, `start_date`, `end_date`, `total_price`, `status`, `payment_status`, `created_at`, `updated_at`) VALUES (:user_id:, :car_id:, :start_date:, :end_date:, :total_price:, :status:, :payment_status:, :created_at:, :updated_at:)', [...], false)
+ 2 SYSTEMPATH\Model.php(326): CodeIgniter\Database\BaseBuilder->insert()
+ 3 SYSTEMPATH\BaseModel.php(802): CodeIgniter\Model->doInsert([...])
+ 4 SYSTEMPATH\Model.php(744): CodeIgniter\BaseModel->insert([...], true)
+ 5 APPPATH\Controllers\Customer.php(105): CodeIgniter\Model->insert([...])
+ 6 SYSTEMPATH\CodeIgniter.php(941): App\Controllers\Customer->createBooking()
+ 7 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Customer))
+ 8 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\timaj\\OneDrive\\Documents\\HiFi\\CAR-RENTAL\\car-rental-ci\\public\\index.php')
+CRITICAL - 2025-10-22 00:07:15 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'updated_at' in 'field list'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 311.
+ 1 SYSTEMPATH\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `bookings` (`user_id`, `car_id`, `start_date`, `end_date`, `total_price`, `status`, `payment_status`, `created_at`, `updated_at`) VALUES (\'12\', \'17\', \'2025-10-22\', \'2025-10-23\', 300, \'pending\', \'pending\', \'2025-10-22 00:07:15\', \'2025-10-22 00:07:15\')')
+ 2 SYSTEMPATH\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `bookings` (`user_id`, `car_id`, `start_date`, `end_date`, `total_price`, `status`, `payment_status`, `created_at`, `updated_at`) VALUES (\'12\', \'17\', \'2025-10-22\', \'2025-10-23\', 300, \'pending\', \'pending\', \'2025-10-22 00:07:15\', \'2025-10-22 00:07:15\')')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(2307): CodeIgniter\Database\BaseConnection->query('INSERT INTO `bookings` (`user_id`, `car_id`, `start_date`, `end_date`, `total_price`, `status`, `payment_status`, `created_at`, `updated_at`) VALUES (:user_id:, :car_id:, :start_date:, :end_date:, :total_price:, :status:, :payment_status:, :created_at:, :updated_at:)', [...], false)
+ 4 SYSTEMPATH\Model.php(326): CodeIgniter\Database\BaseBuilder->insert()
+ 5 SYSTEMPATH\BaseModel.php(802): CodeIgniter\Model->doInsert([...])
+ 6 SYSTEMPATH\Model.php(744): CodeIgniter\BaseModel->insert([...], true)
+ 7 APPPATH\Controllers\Customer.php(105): CodeIgniter\Model->insert([...])
+ 8 SYSTEMPATH\CodeIgniter.php(941): App\Controllers\Customer->createBooking()
+ 9 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Customer))
+10 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\timaj\\OneDrive\\Documents\\HiFi\\CAR-RENTAL\\car-rental-ci\\public\\index.php')
+CRITICAL - 2025-10-22 00:07:15 --> [Caused by] mysqli_sql_exception: Unknown column 'updated_at' in 'field list'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 306.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(306): mysqli->query('INSERT INTO `bookings` (`user_id`, `car_id`, `start_date`, `end_date`, `total_price`, `status`, `payment_status`, `created_at`, `updated_at`) VALUES (\'12\', \'17\', \'2025-10-22\', \'2025-10-23\', 300, \'pending\', \'pending\', \'2025-10-22 00:07:15\', \'2025-10-22 00:07:15\')', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `bookings` (`user_id`, `car_id`, `start_date`, `end_date`, `total_price`, `status`, `payment_status`, `created_at`, `updated_at`) VALUES (\'12\', \'17\', \'2025-10-22\', \'2025-10-23\', 300, \'pending\', \'pending\', \'2025-10-22 00:07:15\', \'2025-10-22 00:07:15\')')
+ 3 SYSTEMPATH\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `bookings` (`user_id`, `car_id`, `start_date`, `end_date`, `total_price`, `status`, `payment_status`, `created_at`, `updated_at`) VALUES (\'12\', \'17\', \'2025-10-22\', \'2025-10-23\', 300, \'pending\', \'pending\', \'2025-10-22 00:07:15\', \'2025-10-22 00:07:15\')')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(2307): CodeIgniter\Database\BaseConnection->query('INSERT INTO `bookings` (`user_id`, `car_id`, `start_date`, `end_date`, `total_price`, `status`, `payment_status`, `created_at`, `updated_at`) VALUES (:user_id:, :car_id:, :start_date:, :end_date:, :total_price:, :status:, :payment_status:, :created_at:, :updated_at:)', [...], false)
+ 5 SYSTEMPATH\Model.php(326): CodeIgniter\Database\BaseBuilder->insert()
+ 6 SYSTEMPATH\BaseModel.php(802): CodeIgniter\Model->doInsert([...])
+ 7 SYSTEMPATH\Model.php(744): CodeIgniter\BaseModel->insert([...], true)
+ 8 APPPATH\Controllers\Customer.php(105): CodeIgniter\Model->insert([...])
+ 9 SYSTEMPATH\CodeIgniter.php(941): App\Controllers\Customer->createBooking()
+10 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Customer))
+11 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\timaj\\OneDrive\\Documents\\HiFi\\CAR-RENTAL\\car-rental-ci\\public\\index.php')
+ERROR - 2025-10-22 00:27:04 --> mysqli_sql_exception: Unknown column 'updated_at' in 'field list' in C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\MySQLi\Connection.php:306
+Stack trace:
+#0 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\MySQLi\Connection.php(306): mysqli->query('INSERT INTO `bo...', 0)
+#1 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `bo...')
+#2 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `bo...')
+#3 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\BaseBuilder.php(2307): CodeIgniter\Database\BaseConnection->query('INSERT INTO `bo...', Array, false)
+#4 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Model.php(326): CodeIgniter\Database\BaseBuilder->insert()
+#5 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\BaseModel.php(802): CodeIgniter\Model->doInsert(Array)
+#6 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Model.php(744): CodeIgniter\BaseModel->insert(Array, true)
+#7 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\app\Controllers\Customer.php(116): CodeIgniter\Model->insert(Array)
+#8 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\CodeIgniter.php(941): App\Controllers\Customer->createBooking()
+#9 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Customer))
+#10 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\public\index.php(79): CodeIgniter\CodeIgniter->run()
+#12 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Commands\Server\rewrite.php(47): require_once('C:\\Users\\timaj\\...')
+#13 {main}
+CRITICAL - 2025-10-22 00:27:04 --> CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'updated_at' in 'field list'
+in SYSTEMPATH\Database\BaseConnection.php on line 647.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(2307): CodeIgniter\Database\BaseConnection->query('INSERT INTO `bookings` (`user_id`, `car_id`, `start_date`, `end_date`, `total_price`, `status`, `payment_status`, `created_at`, `updated_at`) VALUES (:user_id:, :car_id:, :start_date:, :end_date:, :total_price:, :status:, :payment_status:, :created_at:, :updated_at:)', [...], false)
+ 2 SYSTEMPATH\Model.php(326): CodeIgniter\Database\BaseBuilder->insert()
+ 3 SYSTEMPATH\BaseModel.php(802): CodeIgniter\Model->doInsert([...])
+ 4 SYSTEMPATH\Model.php(744): CodeIgniter\BaseModel->insert([...], true)
+ 5 APPPATH\Controllers\Customer.php(116): CodeIgniter\Model->insert([...])
+ 6 SYSTEMPATH\CodeIgniter.php(941): App\Controllers\Customer->createBooking()
+ 7 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Customer))
+ 8 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\timaj\\OneDrive\\Documents\\HiFi\\CAR-RENTAL\\car-rental-ci\\public\\index.php')
+CRITICAL - 2025-10-22 00:27:04 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'updated_at' in 'field list'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 311.
+ 1 SYSTEMPATH\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `bookings` (`user_id`, `car_id`, `start_date`, `end_date`, `total_price`, `status`, `payment_status`, `created_at`, `updated_at`) VALUES (\'12\', \'17\', \'2025-10-22\', \'2025-10-23\', 300, \'pending\', \'pending\', \'2025-10-22 00:27:04\', \'2025-10-22 00:27:04\')')
+ 2 SYSTEMPATH\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `bookings` (`user_id`, `car_id`, `start_date`, `end_date`, `total_price`, `status`, `payment_status`, `created_at`, `updated_at`) VALUES (\'12\', \'17\', \'2025-10-22\', \'2025-10-23\', 300, \'pending\', \'pending\', \'2025-10-22 00:27:04\', \'2025-10-22 00:27:04\')')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(2307): CodeIgniter\Database\BaseConnection->query('INSERT INTO `bookings` (`user_id`, `car_id`, `start_date`, `end_date`, `total_price`, `status`, `payment_status`, `created_at`, `updated_at`) VALUES (:user_id:, :car_id:, :start_date:, :end_date:, :total_price:, :status:, :payment_status:, :created_at:, :updated_at:)', [...], false)
+ 4 SYSTEMPATH\Model.php(326): CodeIgniter\Database\BaseBuilder->insert()
+ 5 SYSTEMPATH\BaseModel.php(802): CodeIgniter\Model->doInsert([...])
+ 6 SYSTEMPATH\Model.php(744): CodeIgniter\BaseModel->insert([...], true)
+ 7 APPPATH\Controllers\Customer.php(116): CodeIgniter\Model->insert([...])
+ 8 SYSTEMPATH\CodeIgniter.php(941): App\Controllers\Customer->createBooking()
+ 9 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Customer))
+10 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\timaj\\OneDrive\\Documents\\HiFi\\CAR-RENTAL\\car-rental-ci\\public\\index.php')
+CRITICAL - 2025-10-22 00:27:04 --> [Caused by] mysqli_sql_exception: Unknown column 'updated_at' in 'field list'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 306.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(306): mysqli->query('INSERT INTO `bookings` (`user_id`, `car_id`, `start_date`, `end_date`, `total_price`, `status`, `payment_status`, `created_at`, `updated_at`) VALUES (\'12\', \'17\', \'2025-10-22\', \'2025-10-23\', 300, \'pending\', \'pending\', \'2025-10-22 00:27:04\', \'2025-10-22 00:27:04\')', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `bookings` (`user_id`, `car_id`, `start_date`, `end_date`, `total_price`, `status`, `payment_status`, `created_at`, `updated_at`) VALUES (\'12\', \'17\', \'2025-10-22\', \'2025-10-23\', 300, \'pending\', \'pending\', \'2025-10-22 00:27:04\', \'2025-10-22 00:27:04\')')
+ 3 SYSTEMPATH\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `bookings` (`user_id`, `car_id`, `start_date`, `end_date`, `total_price`, `status`, `payment_status`, `created_at`, `updated_at`) VALUES (\'12\', \'17\', \'2025-10-22\', \'2025-10-23\', 300, \'pending\', \'pending\', \'2025-10-22 00:27:04\', \'2025-10-22 00:27:04\')')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(2307): CodeIgniter\Database\BaseConnection->query('INSERT INTO `bookings` (`user_id`, `car_id`, `start_date`, `end_date`, `total_price`, `status`, `payment_status`, `created_at`, `updated_at`) VALUES (:user_id:, :car_id:, :start_date:, :end_date:, :total_price:, :status:, :payment_status:, :created_at:, :updated_at:)', [...], false)
+ 5 SYSTEMPATH\Model.php(326): CodeIgniter\Database\BaseBuilder->insert()
+ 6 SYSTEMPATH\BaseModel.php(802): CodeIgniter\Model->doInsert([...])
+ 7 SYSTEMPATH\Model.php(744): CodeIgniter\BaseModel->insert([...], true)
+ 8 APPPATH\Controllers\Customer.php(116): CodeIgniter\Model->insert([...])
+ 9 SYSTEMPATH\CodeIgniter.php(941): App\Controllers\Customer->createBooking()
+10 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Customer))
+11 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\timaj\\OneDrive\\Documents\\HiFi\\CAR-RENTAL\\car-rental-ci\\public\\index.php')
+ERROR - 2025-10-22 00:29:01 --> mysqli_sql_exception: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ') VALUES ('12', '17', '2025-10-22', '2025-10-23', 300, 'pending', 'pending', ...' at line 1 in C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\MySQLi\Connection.php:306
+Stack trace:
+#0 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\MySQLi\Connection.php(306): mysqli->query('INSERT INTO `bo...', 0)
+#1 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `bo...')
+#2 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `bo...')
+#3 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\BaseBuilder.php(2307): CodeIgniter\Database\BaseConnection->query('INSERT INTO `bo...', Array, false)
+#4 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Model.php(326): CodeIgniter\Database\BaseBuilder->insert()
+#5 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\BaseModel.php(802): CodeIgniter\Model->doInsert(Array)
+#6 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Model.php(744): CodeIgniter\BaseModel->insert(Array, true)
+#7 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\app\Controllers\Customer.php(116): CodeIgniter\Model->insert(Array)
+#8 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\CodeIgniter.php(941): App\Controllers\Customer->createBooking()
+#9 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Customer))
+#10 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\public\index.php(79): CodeIgniter\CodeIgniter->run()
+#12 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Commands\Server\rewrite.php(47): require_once('C:\\Users\\timaj\\...')
+#13 {main}
+CRITICAL - 2025-10-22 00:29:01 --> CodeIgniter\Database\Exceptions\DatabaseException: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ') VALUES ('12', '17', '2025-10-22', '2025-10-23', 300, 'pending', 'pending', ...' at line 1
+in SYSTEMPATH\Database\BaseConnection.php on line 647.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(2307): CodeIgniter\Database\BaseConnection->query('INSERT INTO `bookings` (`user_id`, `car_id`, `start_date`, `end_date`, `total_price`, `status`, `payment_status`, `created_at`, ) VALUES (:user_id:, :car_id:, :start_date:, :end_date:, :total_price:, :status:, :payment_status:, :created_at:, ::)', [...], false)
+ 2 SYSTEMPATH\Model.php(326): CodeIgniter\Database\BaseBuilder->insert()
+ 3 SYSTEMPATH\BaseModel.php(802): CodeIgniter\Model->doInsert([...])
+ 4 SYSTEMPATH\Model.php(744): CodeIgniter\BaseModel->insert([...], true)
+ 5 APPPATH\Controllers\Customer.php(116): CodeIgniter\Model->insert([...])
+ 6 SYSTEMPATH\CodeIgniter.php(941): App\Controllers\Customer->createBooking()
+ 7 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Customer))
+ 8 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\timaj\\OneDrive\\Documents\\HiFi\\CAR-RENTAL\\car-rental-ci\\public\\index.php')
+CRITICAL - 2025-10-22 00:29:01 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ') VALUES ('12', '17', '2025-10-22', '2025-10-23', 300, 'pending', 'pending', ...' at line 1
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 311.
+ 1 SYSTEMPATH\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `bookings` (`user_id`, `car_id`, `start_date`, `end_date`, `total_price`, `status`, `payment_status`, `created_at`, ) VALUES (\'12\', \'17\', \'2025-10-22\', \'2025-10-23\', 300, \'pending\', \'pending\', \'2025-10-22 00:29:01\', \'2025-10-22 00:29:01\')')
+ 2 SYSTEMPATH\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `bookings` (`user_id`, `car_id`, `start_date`, `end_date`, `total_price`, `status`, `payment_status`, `created_at`, ) VALUES (\'12\', \'17\', \'2025-10-22\', \'2025-10-23\', 300, \'pending\', \'pending\', \'2025-10-22 00:29:01\', \'2025-10-22 00:29:01\')')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(2307): CodeIgniter\Database\BaseConnection->query('INSERT INTO `bookings` (`user_id`, `car_id`, `start_date`, `end_date`, `total_price`, `status`, `payment_status`, `created_at`, ) VALUES (:user_id:, :car_id:, :start_date:, :end_date:, :total_price:, :status:, :payment_status:, :created_at:, ::)', [...], false)
+ 4 SYSTEMPATH\Model.php(326): CodeIgniter\Database\BaseBuilder->insert()
+ 5 SYSTEMPATH\BaseModel.php(802): CodeIgniter\Model->doInsert([...])
+ 6 SYSTEMPATH\Model.php(744): CodeIgniter\BaseModel->insert([...], true)
+ 7 APPPATH\Controllers\Customer.php(116): CodeIgniter\Model->insert([...])
+ 8 SYSTEMPATH\CodeIgniter.php(941): App\Controllers\Customer->createBooking()
+ 9 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Customer))
+10 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\timaj\\OneDrive\\Documents\\HiFi\\CAR-RENTAL\\car-rental-ci\\public\\index.php')
+CRITICAL - 2025-10-22 00:29:01 --> [Caused by] mysqli_sql_exception: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ') VALUES ('12', '17', '2025-10-22', '2025-10-23', 300, 'pending', 'pending', ...' at line 1
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 306.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(306): mysqli->query('INSERT INTO `bookings` (`user_id`, `car_id`, `start_date`, `end_date`, `total_price`, `status`, `payment_status`, `created_at`, ) VALUES (\'12\', \'17\', \'2025-10-22\', \'2025-10-23\', 300, \'pending\', \'pending\', \'2025-10-22 00:29:01\', \'2025-10-22 00:29:01\')', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `bookings` (`user_id`, `car_id`, `start_date`, `end_date`, `total_price`, `status`, `payment_status`, `created_at`, ) VALUES (\'12\', \'17\', \'2025-10-22\', \'2025-10-23\', 300, \'pending\', \'pending\', \'2025-10-22 00:29:01\', \'2025-10-22 00:29:01\')')
+ 3 SYSTEMPATH\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `bookings` (`user_id`, `car_id`, `start_date`, `end_date`, `total_price`, `status`, `payment_status`, `created_at`, ) VALUES (\'12\', \'17\', \'2025-10-22\', \'2025-10-23\', 300, \'pending\', \'pending\', \'2025-10-22 00:29:01\', \'2025-10-22 00:29:01\')')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(2307): CodeIgniter\Database\BaseConnection->query('INSERT INTO `bookings` (`user_id`, `car_id`, `start_date`, `end_date`, `total_price`, `status`, `payment_status`, `created_at`, ) VALUES (:user_id:, :car_id:, :start_date:, :end_date:, :total_price:, :status:, :payment_status:, :created_at:, ::)', [...], false)
+ 5 SYSTEMPATH\Model.php(326): CodeIgniter\Database\BaseBuilder->insert()
+ 6 SYSTEMPATH\BaseModel.php(802): CodeIgniter\Model->doInsert([...])
+ 7 SYSTEMPATH\Model.php(744): CodeIgniter\BaseModel->insert([...], true)
+ 8 APPPATH\Controllers\Customer.php(116): CodeIgniter\Model->insert([...])
+ 9 SYSTEMPATH\CodeIgniter.php(941): App\Controllers\Customer->createBooking()
+10 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Customer))
+11 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\timaj\\OneDrive\\Documents\\HiFi\\CAR-RENTAL\\car-rental-ci\\public\\index.php')
+ERROR - 2025-10-22 00:29:06 --> mysqli_sql_exception: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ') VALUES ('12', '17', '2025-10-22', '2025-10-23', 300, 'pending', 'pending', ...' at line 1 in C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\MySQLi\Connection.php:306
+Stack trace:
+#0 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\MySQLi\Connection.php(306): mysqli->query('INSERT INTO `bo...', 0)
+#1 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `bo...')
+#2 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `bo...')
+#3 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\BaseBuilder.php(2307): CodeIgniter\Database\BaseConnection->query('INSERT INTO `bo...', Array, false)
+#4 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Model.php(326): CodeIgniter\Database\BaseBuilder->insert()
+#5 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\BaseModel.php(802): CodeIgniter\Model->doInsert(Array)
+#6 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Model.php(744): CodeIgniter\BaseModel->insert(Array, true)
+#7 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\app\Controllers\Customer.php(116): CodeIgniter\Model->insert(Array)
+#8 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\CodeIgniter.php(941): App\Controllers\Customer->createBooking()
+#9 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Customer))
+#10 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\public\index.php(79): CodeIgniter\CodeIgniter->run()
+#12 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Commands\Server\rewrite.php(47): require_once('C:\\Users\\timaj\\...')
+#13 {main}
+CRITICAL - 2025-10-22 00:29:06 --> CodeIgniter\Database\Exceptions\DatabaseException: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ') VALUES ('12', '17', '2025-10-22', '2025-10-23', 300, 'pending', 'pending', ...' at line 1
+in SYSTEMPATH\Database\BaseConnection.php on line 647.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(2307): CodeIgniter\Database\BaseConnection->query('INSERT INTO `bookings` (`user_id`, `car_id`, `start_date`, `end_date`, `total_price`, `status`, `payment_status`, `created_at`, ) VALUES (:user_id:, :car_id:, :start_date:, :end_date:, :total_price:, :status:, :payment_status:, :created_at:, ::)', [...], false)
+ 2 SYSTEMPATH\Model.php(326): CodeIgniter\Database\BaseBuilder->insert()
+ 3 SYSTEMPATH\BaseModel.php(802): CodeIgniter\Model->doInsert([...])
+ 4 SYSTEMPATH\Model.php(744): CodeIgniter\BaseModel->insert([...], true)
+ 5 APPPATH\Controllers\Customer.php(116): CodeIgniter\Model->insert([...])
+ 6 SYSTEMPATH\CodeIgniter.php(941): App\Controllers\Customer->createBooking()
+ 7 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Customer))
+ 8 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\timaj\\OneDrive\\Documents\\HiFi\\CAR-RENTAL\\car-rental-ci\\public\\index.php')
+CRITICAL - 2025-10-22 00:29:06 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ') VALUES ('12', '17', '2025-10-22', '2025-10-23', 300, 'pending', 'pending', ...' at line 1
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 311.
+ 1 SYSTEMPATH\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `bookings` (`user_id`, `car_id`, `start_date`, `end_date`, `total_price`, `status`, `payment_status`, `created_at`, ) VALUES (\'12\', \'17\', \'2025-10-22\', \'2025-10-23\', 300, \'pending\', \'pending\', \'2025-10-22 00:29:06\', \'2025-10-22 00:29:06\')')
+ 2 SYSTEMPATH\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `bookings` (`user_id`, `car_id`, `start_date`, `end_date`, `total_price`, `status`, `payment_status`, `created_at`, ) VALUES (\'12\', \'17\', \'2025-10-22\', \'2025-10-23\', 300, \'pending\', \'pending\', \'2025-10-22 00:29:06\', \'2025-10-22 00:29:06\')')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(2307): CodeIgniter\Database\BaseConnection->query('INSERT INTO `bookings` (`user_id`, `car_id`, `start_date`, `end_date`, `total_price`, `status`, `payment_status`, `created_at`, ) VALUES (:user_id:, :car_id:, :start_date:, :end_date:, :total_price:, :status:, :payment_status:, :created_at:, ::)', [...], false)
+ 4 SYSTEMPATH\Model.php(326): CodeIgniter\Database\BaseBuilder->insert()
+ 5 SYSTEMPATH\BaseModel.php(802): CodeIgniter\Model->doInsert([...])
+ 6 SYSTEMPATH\Model.php(744): CodeIgniter\BaseModel->insert([...], true)
+ 7 APPPATH\Controllers\Customer.php(116): CodeIgniter\Model->insert([...])
+ 8 SYSTEMPATH\CodeIgniter.php(941): App\Controllers\Customer->createBooking()
+ 9 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Customer))
+10 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\timaj\\OneDrive\\Documents\\HiFi\\CAR-RENTAL\\car-rental-ci\\public\\index.php')
+CRITICAL - 2025-10-22 00:29:06 --> [Caused by] mysqli_sql_exception: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ') VALUES ('12', '17', '2025-10-22', '2025-10-23', 300, 'pending', 'pending', ...' at line 1
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 306.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(306): mysqli->query('INSERT INTO `bookings` (`user_id`, `car_id`, `start_date`, `end_date`, `total_price`, `status`, `payment_status`, `created_at`, ) VALUES (\'12\', \'17\', \'2025-10-22\', \'2025-10-23\', 300, \'pending\', \'pending\', \'2025-10-22 00:29:06\', \'2025-10-22 00:29:06\')', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `bookings` (`user_id`, `car_id`, `start_date`, `end_date`, `total_price`, `status`, `payment_status`, `created_at`, ) VALUES (\'12\', \'17\', \'2025-10-22\', \'2025-10-23\', 300, \'pending\', \'pending\', \'2025-10-22 00:29:06\', \'2025-10-22 00:29:06\')')
+ 3 SYSTEMPATH\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `bookings` (`user_id`, `car_id`, `start_date`, `end_date`, `total_price`, `status`, `payment_status`, `created_at`, ) VALUES (\'12\', \'17\', \'2025-10-22\', \'2025-10-23\', 300, \'pending\', \'pending\', \'2025-10-22 00:29:06\', \'2025-10-22 00:29:06\')')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(2307): CodeIgniter\Database\BaseConnection->query('INSERT INTO `bookings` (`user_id`, `car_id`, `start_date`, `end_date`, `total_price`, `status`, `payment_status`, `created_at`, ) VALUES (:user_id:, :car_id:, :start_date:, :end_date:, :total_price:, :status:, :payment_status:, :created_at:, ::)', [...], false)
+ 5 SYSTEMPATH\Model.php(326): CodeIgniter\Database\BaseBuilder->insert()
+ 6 SYSTEMPATH\BaseModel.php(802): CodeIgniter\Model->doInsert([...])
+ 7 SYSTEMPATH\Model.php(744): CodeIgniter\BaseModel->insert([...], true)
+ 8 APPPATH\Controllers\Customer.php(116): CodeIgniter\Model->insert([...])
+ 9 SYSTEMPATH\CodeIgniter.php(941): App\Controllers\Customer->createBooking()
+10 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Customer))
+11 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\timaj\\OneDrive\\Documents\\HiFi\\CAR-RENTAL\\car-rental-ci\\public\\index.php')
+ERROR - 2025-10-22 00:29:54 --> mysqli_sql_exception: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ') VALUES ('12', '19', '2025-10-22', '2025-10-23', 160, 'pending', 'pending', ...' at line 1 in C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\MySQLi\Connection.php:306
+Stack trace:
+#0 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\MySQLi\Connection.php(306): mysqli->query('INSERT INTO `bo...', 0)
+#1 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `bo...')
+#2 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `bo...')
+#3 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\BaseBuilder.php(2307): CodeIgniter\Database\BaseConnection->query('INSERT INTO `bo...', Array, false)
+#4 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Model.php(326): CodeIgniter\Database\BaseBuilder->insert()
+#5 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\BaseModel.php(802): CodeIgniter\Model->doInsert(Array)
+#6 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Model.php(744): CodeIgniter\BaseModel->insert(Array, true)
+#7 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\app\Controllers\Customer.php(116): CodeIgniter\Model->insert(Array)
+#8 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\CodeIgniter.php(941): App\Controllers\Customer->createBooking()
+#9 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Customer))
+#10 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\public\index.php(79): CodeIgniter\CodeIgniter->run()
+#12 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Commands\Server\rewrite.php(47): require_once('C:\\Users\\timaj\\...')
+#13 {main}
+CRITICAL - 2025-10-22 00:29:54 --> CodeIgniter\Database\Exceptions\DatabaseException: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ') VALUES ('12', '19', '2025-10-22', '2025-10-23', 160, 'pending', 'pending', ...' at line 1
+in SYSTEMPATH\Database\BaseConnection.php on line 647.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(2307): CodeIgniter\Database\BaseConnection->query('INSERT INTO `bookings` (`user_id`, `car_id`, `start_date`, `end_date`, `total_price`, `status`, `payment_status`, `created_at`, ) VALUES (:user_id:, :car_id:, :start_date:, :end_date:, :total_price:, :status:, :payment_status:, :created_at:, ::)', [...], false)
+ 2 SYSTEMPATH\Model.php(326): CodeIgniter\Database\BaseBuilder->insert()
+ 3 SYSTEMPATH\BaseModel.php(802): CodeIgniter\Model->doInsert([...])
+ 4 SYSTEMPATH\Model.php(744): CodeIgniter\BaseModel->insert([...], true)
+ 5 APPPATH\Controllers\Customer.php(116): CodeIgniter\Model->insert([...])
+ 6 SYSTEMPATH\CodeIgniter.php(941): App\Controllers\Customer->createBooking()
+ 7 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Customer))
+ 8 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\timaj\\OneDrive\\Documents\\HiFi\\CAR-RENTAL\\car-rental-ci\\public\\index.php')
+CRITICAL - 2025-10-22 00:29:54 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ') VALUES ('12', '19', '2025-10-22', '2025-10-23', 160, 'pending', 'pending', ...' at line 1
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 311.
+ 1 SYSTEMPATH\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `bookings` (`user_id`, `car_id`, `start_date`, `end_date`, `total_price`, `status`, `payment_status`, `created_at`, ) VALUES (\'12\', \'19\', \'2025-10-22\', \'2025-10-23\', 160, \'pending\', \'pending\', \'2025-10-22 00:29:54\', \'2025-10-22 00:29:54\')')
+ 2 SYSTEMPATH\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `bookings` (`user_id`, `car_id`, `start_date`, `end_date`, `total_price`, `status`, `payment_status`, `created_at`, ) VALUES (\'12\', \'19\', \'2025-10-22\', \'2025-10-23\', 160, \'pending\', \'pending\', \'2025-10-22 00:29:54\', \'2025-10-22 00:29:54\')')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(2307): CodeIgniter\Database\BaseConnection->query('INSERT INTO `bookings` (`user_id`, `car_id`, `start_date`, `end_date`, `total_price`, `status`, `payment_status`, `created_at`, ) VALUES (:user_id:, :car_id:, :start_date:, :end_date:, :total_price:, :status:, :payment_status:, :created_at:, ::)', [...], false)
+ 4 SYSTEMPATH\Model.php(326): CodeIgniter\Database\BaseBuilder->insert()
+ 5 SYSTEMPATH\BaseModel.php(802): CodeIgniter\Model->doInsert([...])
+ 6 SYSTEMPATH\Model.php(744): CodeIgniter\BaseModel->insert([...], true)
+ 7 APPPATH\Controllers\Customer.php(116): CodeIgniter\Model->insert([...])
+ 8 SYSTEMPATH\CodeIgniter.php(941): App\Controllers\Customer->createBooking()
+ 9 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Customer))
+10 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\timaj\\OneDrive\\Documents\\HiFi\\CAR-RENTAL\\car-rental-ci\\public\\index.php')
+CRITICAL - 2025-10-22 00:29:54 --> [Caused by] mysqli_sql_exception: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ') VALUES ('12', '19', '2025-10-22', '2025-10-23', 160, 'pending', 'pending', ...' at line 1
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 306.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(306): mysqli->query('INSERT INTO `bookings` (`user_id`, `car_id`, `start_date`, `end_date`, `total_price`, `status`, `payment_status`, `created_at`, ) VALUES (\'12\', \'19\', \'2025-10-22\', \'2025-10-23\', 160, \'pending\', \'pending\', \'2025-10-22 00:29:54\', \'2025-10-22 00:29:54\')', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `bookings` (`user_id`, `car_id`, `start_date`, `end_date`, `total_price`, `status`, `payment_status`, `created_at`, ) VALUES (\'12\', \'19\', \'2025-10-22\', \'2025-10-23\', 160, \'pending\', \'pending\', \'2025-10-22 00:29:54\', \'2025-10-22 00:29:54\')')
+ 3 SYSTEMPATH\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `bookings` (`user_id`, `car_id`, `start_date`, `end_date`, `total_price`, `status`, `payment_status`, `created_at`, ) VALUES (\'12\', \'19\', \'2025-10-22\', \'2025-10-23\', 160, \'pending\', \'pending\', \'2025-10-22 00:29:54\', \'2025-10-22 00:29:54\')')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(2307): CodeIgniter\Database\BaseConnection->query('INSERT INTO `bookings` (`user_id`, `car_id`, `start_date`, `end_date`, `total_price`, `status`, `payment_status`, `created_at`, ) VALUES (:user_id:, :car_id:, :start_date:, :end_date:, :total_price:, :status:, :payment_status:, :created_at:, ::)', [...], false)
+ 5 SYSTEMPATH\Model.php(326): CodeIgniter\Database\BaseBuilder->insert()
+ 6 SYSTEMPATH\BaseModel.php(802): CodeIgniter\Model->doInsert([...])
+ 7 SYSTEMPATH\Model.php(744): CodeIgniter\BaseModel->insert([...], true)
+ 8 APPPATH\Controllers\Customer.php(116): CodeIgniter\Model->insert([...])
+ 9 SYSTEMPATH\CodeIgniter.php(941): App\Controllers\Customer->createBooking()
+10 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Customer))
+11 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\timaj\\OneDrive\\Documents\\HiFi\\CAR-RENTAL\\car-rental-ci\\public\\index.php')
+CRITICAL - 2025-10-22 00:48:23 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "admin/cars.php"
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(216): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('admin/cars.php')
+ 2 SYSTEMPATH\Common.php(1178): CodeIgniter\View\View->render('admin/cars', [], true)
+ 3 APPPATH\Controllers\Admin.php(95): view('admin/cars', [...])
+ 4 SYSTEMPATH\CodeIgniter.php(941): App\Controllers\Admin->cars()
+ 5 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin))
+ 6 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\timaj\\OneDrive\\Documents\\HiFi\\CAR-RENTAL\\car-rental-ci\\public\\index.php')
+CRITICAL - 2025-10-22 00:51:04 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "admin/cars.php"
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(216): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('admin/cars.php')
+ 2 SYSTEMPATH\Common.php(1178): CodeIgniter\View\View->render('admin/cars', [], true)
+ 3 APPPATH\Controllers\Admin.php(123): view('admin/cars', [...])
+ 4 SYSTEMPATH\CodeIgniter.php(941): App\Controllers\Admin->cars()
+ 5 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin))
+ 6 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\timaj\\OneDrive\\Documents\\HiFi\\CAR-RENTAL\\car-rental-ci\\public\\index.php')
+CRITICAL - 2025-10-22 00:51:07 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "admin/bookings.php"
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(216): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('admin/bookings.php')
+ 2 SYSTEMPATH\Common.php(1178): CodeIgniter\View\View->render('admin/bookings', [], true)
+ 3 APPPATH\Controllers\Admin.php(263): view('admin/bookings', [...])
+ 4 SYSTEMPATH\CodeIgniter.php(941): App\Controllers\Admin->bookings()
+ 5 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin))
+ 6 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\timaj\\OneDrive\\Documents\\HiFi\\CAR-RENTAL\\car-rental-ci\\public\\index.php')
+CRITICAL - 2025-10-22 00:53:55 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "admin/users.php"
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(216): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('admin/users.php')
+ 2 SYSTEMPATH\Common.php(1178): CodeIgniter\View\View->render('admin/users', [], true)
+ 3 APPPATH\Controllers\Admin.php(307): view('admin/users', [...])
+ 4 SYSTEMPATH\CodeIgniter.php(941): App\Controllers\Admin->users()
+ 5 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin))
+ 6 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\timaj\\OneDrive\\Documents\\HiFi\\CAR-RENTAL\\car-rental-ci\\public\\index.php')
+CRITICAL - 2025-10-22 00:55:35 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "admin/users.php"
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(216): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('admin/users.php')
+ 2 SYSTEMPATH\Common.php(1178): CodeIgniter\View\View->render('admin/users', [], true)
+ 3 APPPATH\Controllers\Admin.php(307): view('admin/users', [...])
+ 4 SYSTEMPATH\CodeIgniter.php(941): App\Controllers\Admin->users()
+ 5 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin))
+ 6 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\timaj\\OneDrive\\Documents\\HiFi\\CAR-RENTAL\\car-rental-ci\\public\\index.php')
+CRITICAL - 2025-10-22 01:01:31 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "admin/edit_car.php"
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(216): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('admin/edit_car.php')
+ 2 SYSTEMPATH\Common.php(1178): CodeIgniter\View\View->render('admin/edit_car', [], true)
+ 3 APPPATH\Controllers\Admin.php(234): view('admin/edit_car', [...])
+ 4 SYSTEMPATH\CodeIgniter.php(941): App\Controllers\Admin->editCar('17')
+ 5 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin))
+ 6 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\timaj\\OneDrive\\Documents\\HiFi\\CAR-RENTAL\\car-rental-ci\\public\\index.php')
+ERROR - 2025-10-22 01:34:14 --> mysqli_sql_exception: Unknown column 'updated_at' in 'where clause' in C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\MySQLi\Connection.php:306
+Stack trace:
+#0 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\MySQLi\Connection.php(306): mysqli->query('SELECT COUNT(*)...', 0)
+#1 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('SELECT COUNT(*)...')
+#2 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT COUNT(*)...')
+#3 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\BaseBuilder.php(1700): CodeIgniter\Database\BaseConnection->query('SELECT COUNT(*)...', Array, false)
+#4 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Model.php(624): CodeIgniter\Database\BaseBuilder->countAllResults(true)
+#5 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\app\Controllers\Staff.php(40): CodeIgniter\Model->countAllResults()
+#6 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\CodeIgniter.php(941): App\Controllers\Staff->index()
+#7 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Staff))
+#8 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\public\index.php(79): CodeIgniter\CodeIgniter->run()
+#10 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Commands\Server\rewrite.php(47): require_once('C:\\Users\\timaj\\...')
+#11 {main}
+CRITICAL - 2025-10-22 01:34:14 --> CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'updated_at' in 'where clause'
+in SYSTEMPATH\Database\BaseConnection.php on line 647.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1700): CodeIgniter\Database\BaseConnection->query('SELECT COUNT(*) AS `numrows`
+FROM `bookings`
+WHERE DATE(updated_at) = :DATE(updated_at):
+AND `status` = :status.1:', [...], false)
+ 2 SYSTEMPATH\Model.php(624): CodeIgniter\Database\BaseBuilder->countAllResults(true)
+ 3 APPPATH\Controllers\Staff.php(40): CodeIgniter\Model->countAllResults()
+ 4 SYSTEMPATH\CodeIgniter.php(941): App\Controllers\Staff->index()
+ 5 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Staff))
+ 6 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\timaj\\OneDrive\\Documents\\HiFi\\CAR-RENTAL\\car-rental-ci\\public\\index.php')
+CRITICAL - 2025-10-22 01:34:14 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'updated_at' in 'where clause'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 311.
+ 1 SYSTEMPATH\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('SELECT COUNT(*) AS `numrows`
+FROM `bookings`
+WHERE DATE(updated_at) = \'2025-10-22\'
+AND `status` = \'completed\'')
+ 2 SYSTEMPATH\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT COUNT(*) AS `numrows`
+FROM `bookings`
+WHERE DATE(updated_at) = \'2025-10-22\'
+AND `status` = \'completed\'')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(1700): CodeIgniter\Database\BaseConnection->query('SELECT COUNT(*) AS `numrows`
+FROM `bookings`
+WHERE DATE(updated_at) = :DATE(updated_at):
+AND `status` = :status.1:', [...], false)
+ 4 SYSTEMPATH\Model.php(624): CodeIgniter\Database\BaseBuilder->countAllResults(true)
+ 5 APPPATH\Controllers\Staff.php(40): CodeIgniter\Model->countAllResults()
+ 6 SYSTEMPATH\CodeIgniter.php(941): App\Controllers\Staff->index()
+ 7 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Staff))
+ 8 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\timaj\\OneDrive\\Documents\\HiFi\\CAR-RENTAL\\car-rental-ci\\public\\index.php')
+CRITICAL - 2025-10-22 01:34:14 --> [Caused by] mysqli_sql_exception: Unknown column 'updated_at' in 'where clause'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 306.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(306): mysqli->query('SELECT COUNT(*) AS `numrows`
+FROM `bookings`
+WHERE DATE(updated_at) = \'2025-10-22\'
+AND `status` = \'completed\'', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('SELECT COUNT(*) AS `numrows`
+FROM `bookings`
+WHERE DATE(updated_at) = \'2025-10-22\'
+AND `status` = \'completed\'')
+ 3 SYSTEMPATH\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT COUNT(*) AS `numrows`
+FROM `bookings`
+WHERE DATE(updated_at) = \'2025-10-22\'
+AND `status` = \'completed\'')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(1700): CodeIgniter\Database\BaseConnection->query('SELECT COUNT(*) AS `numrows`
+FROM `bookings`
+WHERE DATE(updated_at) = :DATE(updated_at):
+AND `status` = :status.1:', [...], false)
+ 5 SYSTEMPATH\Model.php(624): CodeIgniter\Database\BaseBuilder->countAllResults(true)
+ 6 APPPATH\Controllers\Staff.php(40): CodeIgniter\Model->countAllResults()
+ 7 SYSTEMPATH\CodeIgniter.php(941): App\Controllers\Staff->index()
+ 8 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Staff))
+ 9 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\timaj\\OneDrive\\Documents\\HiFi\\CAR-RENTAL\\car-rental-ci\\public\\index.php')
+ERROR - 2025-10-22 01:34:42 --> mysqli_sql_exception: Unknown column 'updated_at' in 'where clause' in C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\MySQLi\Connection.php:306
+Stack trace:
+#0 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\MySQLi\Connection.php(306): mysqli->query('SELECT COUNT(*)...', 0)
+#1 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('SELECT COUNT(*)...')
+#2 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT COUNT(*)...')
+#3 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\BaseBuilder.php(1700): CodeIgniter\Database\BaseConnection->query('SELECT COUNT(*)...', Array, false)
+#4 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Model.php(624): CodeIgniter\Database\BaseBuilder->countAllResults(true)
+#5 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\app\Controllers\Staff.php(40): CodeIgniter\Model->countAllResults()
+#6 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\CodeIgniter.php(941): App\Controllers\Staff->index()
+#7 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Staff))
+#8 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\public\index.php(79): CodeIgniter\CodeIgniter->run()
+#10 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Commands\Server\rewrite.php(47): require_once('C:\\Users\\timaj\\...')
+#11 {main}
+CRITICAL - 2025-10-22 01:34:42 --> CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'updated_at' in 'where clause'
+in SYSTEMPATH\Database\BaseConnection.php on line 647.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1700): CodeIgniter\Database\BaseConnection->query('SELECT COUNT(*) AS `numrows`
+FROM `bookings`
+WHERE DATE(updated_at) = :DATE(updated_at):
+AND `status` = :status.1:', [...], false)
+ 2 SYSTEMPATH\Model.php(624): CodeIgniter\Database\BaseBuilder->countAllResults(true)
+ 3 APPPATH\Controllers\Staff.php(40): CodeIgniter\Model->countAllResults()
+ 4 SYSTEMPATH\CodeIgniter.php(941): App\Controllers\Staff->index()
+ 5 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Staff))
+ 6 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\timaj\\OneDrive\\Documents\\HiFi\\CAR-RENTAL\\car-rental-ci\\public\\index.php')
+CRITICAL - 2025-10-22 01:34:42 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'updated_at' in 'where clause'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 311.
+ 1 SYSTEMPATH\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('SELECT COUNT(*) AS `numrows`
+FROM `bookings`
+WHERE DATE(updated_at) = \'2025-10-22\'
+AND `status` = \'completed\'')
+ 2 SYSTEMPATH\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT COUNT(*) AS `numrows`
+FROM `bookings`
+WHERE DATE(updated_at) = \'2025-10-22\'
+AND `status` = \'completed\'')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(1700): CodeIgniter\Database\BaseConnection->query('SELECT COUNT(*) AS `numrows`
+FROM `bookings`
+WHERE DATE(updated_at) = :DATE(updated_at):
+AND `status` = :status.1:', [...], false)
+ 4 SYSTEMPATH\Model.php(624): CodeIgniter\Database\BaseBuilder->countAllResults(true)
+ 5 APPPATH\Controllers\Staff.php(40): CodeIgniter\Model->countAllResults()
+ 6 SYSTEMPATH\CodeIgniter.php(941): App\Controllers\Staff->index()
+ 7 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Staff))
+ 8 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\timaj\\OneDrive\\Documents\\HiFi\\CAR-RENTAL\\car-rental-ci\\public\\index.php')
+CRITICAL - 2025-10-22 01:34:42 --> [Caused by] mysqli_sql_exception: Unknown column 'updated_at' in 'where clause'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 306.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(306): mysqli->query('SELECT COUNT(*) AS `numrows`
+FROM `bookings`
+WHERE DATE(updated_at) = \'2025-10-22\'
+AND `status` = \'completed\'', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('SELECT COUNT(*) AS `numrows`
+FROM `bookings`
+WHERE DATE(updated_at) = \'2025-10-22\'
+AND `status` = \'completed\'')
+ 3 SYSTEMPATH\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT COUNT(*) AS `numrows`
+FROM `bookings`
+WHERE DATE(updated_at) = \'2025-10-22\'
+AND `status` = \'completed\'')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(1700): CodeIgniter\Database\BaseConnection->query('SELECT COUNT(*) AS `numrows`
+FROM `bookings`
+WHERE DATE(updated_at) = :DATE(updated_at):
+AND `status` = :status.1:', [...], false)
+ 5 SYSTEMPATH\Model.php(624): CodeIgniter\Database\BaseBuilder->countAllResults(true)
+ 6 APPPATH\Controllers\Staff.php(40): CodeIgniter\Model->countAllResults()
+ 7 SYSTEMPATH\CodeIgniter.php(941): App\Controllers\Staff->index()
+ 8 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Staff))
+ 9 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\timaj\\OneDrive\\Documents\\HiFi\\CAR-RENTAL\\car-rental-ci\\public\\index.php')

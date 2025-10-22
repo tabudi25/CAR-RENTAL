@@ -70,9 +70,9 @@
                             <tr>
                                 <td><?= $booking['id'] ?></td>
                                 <td><?= $booking['car_name'] ?></td>
-                                <td><?= date('M d, Y', strtotime($booking['from_date'])) ?></td>
-                                <td><?= date('M d, Y', strtotime($booking['to_date'])) ?></td>
-                                <td>$<?= number_format($booking['total_price'], 2) ?></td>
+                                <td><?= date('M d, Y', strtotime($booking['start_date'])) ?></td>
+                                <td><?= date('M d, Y', strtotime($booking['end_date'])) ?></td>
+                                <td>₱<?= number_format($booking['total_price'], 2) ?></td>
                                 <td>
                                     <span class="badge bg-<?= getStatusBadgeClass($booking['status']) ?>">
                                         <?= ucfirst($booking['status']) ?>

@@ -12,14 +12,12 @@ class BookingModel extends Model
     protected $returnType = 'array';
     protected $useSoftDeletes = false;
     protected $allowedFields = [
-        'user_id', 'car_id', 'start_date', 'end_date', 'status', 'total_price'
+        'user_id', 'car_id', 'start_date', 'end_date', 'total_price', 'status', 'payment_status', 'payment_method', 'payment_reference', 'created_at'
     ];
 
     // Dates
-    protected $useTimestamps = true;
+    protected $useTimestamps = false; // Disable automatic timestamps
     protected $dateFormat = 'datetime';
-    protected $createdField = 'created_at';
-    protected $updatedField = 'updated_at';
 
     // Validation
     protected $validationRules = [
@@ -50,7 +48,7 @@ class BookingModel extends Model
      */
     public function getUserBookings($userId)
     {
-        return $this->select('bookings.*, cars.name as car_name, cars.plate, cars.image')
+        return $this->select('bookings.*, cars.name as car_name, cars.plate, cars.image_url, cars.model as car_model')
                     ->join('cars', 'cars.id = bookings.car_id')
                     ->where('bookings.user_id', $userId)
                     ->orderBy('bookings.created_at', 'DESC')

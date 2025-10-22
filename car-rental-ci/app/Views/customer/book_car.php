@@ -45,8 +45,8 @@
                         <?php if(isset($car)): ?>
                             <div class="row mb-4">
                                 <div class="col-md-4">
-                                    <?php if(!empty($car['image'])): ?>
-                                        <img src="/uploads/cars/<?= $car['image'] ?>" class="img-fluid rounded" alt="<?= $car['name'] ?>">
+                                    <?php if(!empty($car['image_url'])): ?>
+                                        <img src="<?= base_url($car['image_url']) ?>" class="img-fluid rounded" alt="<?= $car['name'] ?>">
                                     <?php else: ?>
                                         <div class="bg-secondary text-white p-5 text-center rounded">No Image</div>
                                     <?php endif; ?>
@@ -57,7 +57,7 @@
                                     <p><strong>Type:</strong> <?= $car['type'] ?></p>
                                     <p><strong>Category:</strong> <?= ucfirst($car['category']) ?></p>
                                     <p><strong>Seats:</strong> <?= $car['seats'] ?></p>
-                                    <p><strong>Price:</strong> ₱<?= number_format($car['price'], 2) ?> per day</p>
+                                    <p><strong>Price:</strong> ₱<?= number_format($car['price_per_day'], 2) ?> per day</p>
                                 </div>
                             </div>
 

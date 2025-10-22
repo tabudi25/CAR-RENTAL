@@ -24,10 +24,67 @@ class Staff extends Controller
 
         $carModel = new CarModel();
         $bookingModel = new BookingModel();
+        $userModel = new \App\Models\UserModel();
+        
+        // Get statistics
+        $pendingBookings = $bookingModel->where('status', 'pending')->countAllResults();
+        $availableCars = $carModel->where('status', 'available')->countAllResults();
+        $rentedCars = $carModel->where('status', 'rented')->countAllResults();
+        $maintenanceCars = $carModel->where('status', 'maintenance')->countAllResults();
+        $reservedCars = $carModel->where('status', 'reserved')->countAllResults();
+        $activeCustomers = $userModel->where('user_type', 'customer')->countAllResults();
+        
+        // Today's operations
+        $today = date('Y-m-d');
+        $todayCheckins = $bookingModel->where('DATE(created_at)', $today)->countAllResults();
+        $todayCheckouts = $bookingModel->where('DATE(updated_at)', $today)->where('status', 'completed')->countAllResults();
+        
+        // Recent bookings
+        $recentBookings = $bookingModel->select('bookings.*, users.name as customer_name, cars.name as car_name')
+            ->join('users', 'users.id = bookings.user_id')
+            ->join('cars', 'cars.id = bookings.car_id')
+            ->orderBy('bookings.created_at', 'DESC')
+            ->limit(5)
+            ->findAll();
+        
+        // Generate alerts
+        $alerts = [];
+        if ($maintenanceCars > 0) {
+            $alerts[] = [
+                'type' => 'warning',
+                'icon' => 'wrench',
+                'message' => "{$maintenanceCars} car(s) are in maintenance and need attention."
+            ];
+        }
+        if ($pendingBookings > 5) {
+            $alerts[] = [
+                'type' => 'info',
+                'icon' => 'clock',
+                'message' => "You have {$pendingBookings} pending bookings to process."
+            ];
+        }
+        if ($availableCars < 3) {
+            $alerts[] = [
+                'type' => 'danger',
+                'icon' => 'exclamation-triangle',
+                'message' => "Low car availability! Only {$availableCars} cars available."
+            ];
+        }
         
         $data = [
-            'cars' => $carModel->findAll(),
-            'bookings' => $bookingModel->getBookingsWithDetails(),
+            'title' => 'Staff Dashboard',
+            'pageTitle' => 'Staff Dashboard',
+            'pageSubtitle' => 'Manage daily operations and customer service',
+            'pendingBookings' => $pendingBookings,
+            'availableCars' => $availableCars,
+            'rentedCars' => $rentedCars,
+            'maintenanceCars' => $maintenanceCars,
+            'reservedCars' => $reservedCars,
+            'activeCustomers' => $activeCustomers,
+            'todayCheckins' => $todayCheckins,
+            'todayCheckouts' => $todayCheckouts,
+            'recentBookings' => $recentBookings,
+            'alerts' => $alerts,
             'user' => [
                 'name' => $this->session->get('name'),
                 'email' => $this->session->get('email'),

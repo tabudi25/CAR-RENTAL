@@ -18,15 +18,15 @@ class CarModel extends Model
     ];
 
     // Dates
-    protected $useTimestamps = true;
+    protected $useTimestamps = false;
     protected $dateFormat = 'datetime';
     protected $createdField = 'created_at';
-    protected $updatedField = 'updated_at';
+    protected $updatedField = null;
 
     // Validation
     protected $validationRules = [
         'name' => 'required|min_length[3]',
-        'plate' => 'required|is_unique[cars.plate,id,{id}]',
+        'plate' => 'required',
         'type' => 'required',
         'category' => 'required',
         'seats' => 'required|numeric',
