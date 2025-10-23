@@ -60,6 +60,7 @@
                             <th>Car</th>
                             <th>From Date</th>
                             <th>To Date</th>
+                            <th>Car Price/Day</th>
                             <th>Total Price</th>
                             <th>Status</th>
                             <th>Actions</th>
@@ -72,9 +73,34 @@
                                 <td><?= $booking['car_name'] ?></td>
                                 <td><?= date('M d, Y', strtotime($booking['start_date'])) ?></td>
                                 <td><?= date('M d, Y', strtotime($booking['end_date'])) ?></td>
-                                <td>₱<?= number_format($booking['total_price'], 2) ?></td>
                                 <td>
-                                    <span class="badge bg-<?= getStatusBadgeClass($booking['status']) ?>">
+                                    <span class="fw-bold text-primary">₱<?= number_format($booking['price_per_day'], 2) ?></span>
+                                    <div class="small text-muted">per day</div>
+                                </td>
+                                <td>
+                                    <span class="fw-bold">₱<?= number_format($booking['total_price'] ?? 0, 2) ?></span>
+                                </td>
+                                <td>
+                                    <?php
+                                    $badgeClass = '';
+                                    switch ($booking['status']) {
+                                        case 'pending':
+                                            $badgeClass = 'warning';
+                                            break;
+                                        case 'confirmed':
+                                            $badgeClass = 'success';
+                                            break;
+                                        case 'cancelled':
+                                            $badgeClass = 'danger';
+                                            break;
+                                        case 'completed':
+                                            $badgeClass = 'info';
+                                            break;
+                                        default:
+                                            $badgeClass = 'secondary';
+                                    }
+                                    ?>
+                                    <span class="badge bg-<?= $badgeClass ?>">
                                         <?= ucfirst($booking['status']) ?>
                                     </span>
                                 </td>
@@ -102,21 +128,3 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-
-<?php
-// Helper function to get appropriate badge class based on status
-function getStatusBadgeClass($status) {
-    switch ($status) {
-        case 'pending':
-            return 'warning';
-        case 'confirmed':
-            return 'success';
-        case 'cancelled':
-            return 'danger';
-        case 'completed':
-            return 'info';
-        default:
-            return 'secondary';
-    }
-}
-?>

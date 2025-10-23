@@ -101,31 +101,39 @@ class Customer extends Controller
         $start = new \DateTime($startDate);
         $end = new \DateTime($endDate);
         $days = $end->diff($start)->days + 1;
-        $totalPrice = $car['price_per_day'] * $days;
+        $totalAmount = $car['price_per_day'] * $days;
         
+        // Prepare data based on what columns exist in the database
         $data = [
             'user_id' => $this->session->get('user_id'),
             'car_id' => $carId,
             'start_date' => $startDate,
             'end_date' => $endDate,
-            'total_price' => $totalPrice,
             'status' => 'pending',
-            'payment_status' => 'pending',
             'created_at' => date('Y-m-d H:i:s')
         ];
         
-        if ($bookingModel->insert($data)) {
-            // Update car status
-            $carModel->update($carId, ['status' => 'reserved']);
-            return redirect()->to('/customer')->with('success', 'Booking created successfully');
-        } else {
-            // Get validation errors
-            $errors = $bookingModel->errors();
-            $errorMessage = 'Failed to create booking';
-            if (!empty($errors)) {
-                $errorMessage .= ': ' . implode(', ', $errors);
+        // Use the correct field name based on the actual database schema
+        $data['total_price'] = $totalAmount;
+        
+        try {
+            if ($bookingModel->insert($data)) {
+                // Update car status
+                $carModel->update($carId, ['status' => 'reserved']);
+                return redirect()->to('/customer')->with('success', 'Booking created successfully');
+            } else {
+                // Get validation errors
+                $errors = $bookingModel->errors();
+                $errorMessage = 'Failed to create booking';
+                if (!empty($errors)) {
+                    $errorMessage .= ': ' . implode(', ', $errors);
+                }
+                return redirect()->to('/customer')->with('error', $errorMessage);
             }
-            return redirect()->to('/customer')->with('error', $errorMessage);
+        } catch (\Exception $e) {
+            // Log the error
+            log_message('error', 'Create booking error: ' . $e->getMessage());
+            return redirect()->to('/customer')->with('error', 'An error occurred while creating the booking. Please try again.');
         }
     }
 
@@ -136,59 +144,114 @@ class Customer extends Controller
             return redirect()->to('/auth/login');
         }
 
-        $bookingModel = new BookingModel();
-        
-        $data = [
-            'bookings' => $bookingModel->getUserBookings($this->session->get('user_id')),
-            'user' => [
-                'id' => $this->session->get('user_id'),
-                'name' => $this->session->get('name'),
-                'email' => $this->session->get('email'),
-                'user_type' => $this->session->get('user_type')
-            ]
-        ];
-        
-        return view('customer/bookings', $data);
+        try {
+            $bookingModel = new BookingModel();
+            
+            $bookings = $bookingModel->getUserBookings($this->session->get('user_id'));
+            
+            // Ensure all bookings have the required fields
+            foreach ($bookings as &$booking) {
+                if (!isset($booking['car_name'])) {
+                    $booking['car_name'] = 'Unknown Car';
+                }
+            }
+            
+            $data = [
+                'bookings' => $bookings,
+                'user' => [
+                    'id' => $this->session->get('user_id'),
+                    'name' => $this->session->get('name'),
+                    'email' => $this->session->get('email'),
+                    'user_type' => $this->session->get('user_type')
+                ]
+            ];
+            
+            return view('customer/bookings', $data);
+        } catch (\Exception $e) {
+            log_message('error', 'View bookings error: ' . $e->getMessage());
+            return redirect()->to('/customer')->with('error', 'Unable to load bookings. Please try again.');
+        }
     }
 
     public function cancelBooking($id)
     {
         // Debug: Log the request
-        log_message('debug', 'Cancel booking request for ID: ' . $id);
+        log_message('debug', 'Cancel booking method called with ID: ' . $id);
         
-        // Check if user is logged in and is customer
-        if (!$this->session->has('logged_in') || $this->session->get('user_type') !== 'customer') {
-            log_message('debug', 'User not logged in or not customer');
-            return redirect()->to('/auth/login');
-        }
-        
-        log_message('debug', 'User logged in: ' . $this->session->get('user_id'));
+        try {
+            // Check if user is logged in and is customer
+            if (!$this->session->has('logged_in') || $this->session->get('user_type') !== 'customer') {
+                log_message('debug', 'User not logged in or not customer');
+                return redirect()->to('/auth/login')->with('error', 'Please login to continue');
+            }
 
-        $bookingModel = new BookingModel();
-        $carModel = new CarModel();
-        
-        $booking = $bookingModel->find($id);
-        
-        // Debug: Check if booking exists and user authorization
-        if (!$booking) {
-            return redirect()->to('/customer/bookings')->with('error', 'Booking not found');
-        }
-        
-        if ($booking['user_id'] != $this->session->get('user_id')) {
-            return redirect()->to('/customer/bookings')->with('error', 'You are not authorized to cancel this booking');
-        }
-        
-        // Check if booking can be cancelled (only pending or confirmed bookings)
-        if (!in_array($booking['status'], ['pending', 'confirmed'])) {
-            return redirect()->to('/customer/bookings')->with('error', 'This booking cannot be cancelled');
-        }
-        
-        if ($bookingModel->update($id, ['status' => 'cancelled'])) {
+            $bookingModel = new BookingModel();
+            $carModel = new CarModel();
+            
+            $booking = $bookingModel->find($id);
+            
+            // Check if booking exists
+            if (!$booking) {
+                return redirect()->to('/customer/bookings')->with('error', 'Booking not found');
+            }
+            
+            // Check if user owns this booking
+            if ($booking['user_id'] != $this->session->get('user_id')) {
+                return redirect()->to('/customer/bookings')->with('error', 'You are not authorized to cancel this booking');
+            }
+            
+            // Check if booking can be cancelled (only pending or confirmed bookings)
+            if (!in_array($booking['status'], ['pending', 'confirmed'])) {
+                return redirect()->to('/customer/bookings')->with('error', 'This booking cannot be cancelled. Only pending or confirmed bookings can be cancelled.');
+            }
+            
+            // Start database transaction
+            $this->db = \Config\Database::connect();
+            $this->db->transStart();
+            
+            // Update booking status to cancelled
+            $updateData = ['status' => 'cancelled'];
+            
+            // Only add updated_at if the column exists
+            if ($this->db->fieldExists('updated_at', 'bookings')) {
+                $updateData['updated_at'] = date('Y-m-d H:i:s');
+            }
+            
+            $updateResult = $bookingModel->update($id, $updateData);
+            
+            if (!$updateResult) {
+                $this->db->transRollback();
+                return redirect()->to('/customer/bookings')->with('error', 'Failed to update booking status');
+            }
+            
             // Update car status back to available
-            $carModel->update($booking['car_id'], ['status' => 'available']);
+            $carUpdateData = ['status' => 'available'];
+            
+            // Only add updated_at if the column exists
+            if ($this->db->fieldExists('updated_at', 'cars')) {
+                $carUpdateData['updated_at'] = date('Y-m-d H:i:s');
+            }
+            
+            $carUpdateResult = $carModel->update($booking['car_id'], $carUpdateData);
+            
+            if (!$carUpdateResult) {
+                $this->db->transRollback();
+                return redirect()->to('/customer/bookings')->with('error', 'Failed to update car status');
+            }
+            
+            // Commit transaction
+            $this->db->transComplete();
+            
+            if ($this->db->transStatus() === false) {
+                return redirect()->to('/customer/bookings')->with('error', 'Transaction failed. Please try again.');
+            }
+            
             return redirect()->to('/customer/bookings')->with('success', 'Booking cancelled successfully');
-        } else {
-            return redirect()->to('/customer/bookings')->with('error', 'Failed to cancel booking');
+            
+        } catch (\Exception $e) {
+            // Log the error
+            log_message('error', 'Cancel booking error: ' . $e->getMessage());
+            return redirect()->to('/customer/bookings')->with('error', 'An error occurred while cancelling the booking. Please try again.');
         }
     }
     

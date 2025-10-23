@@ -167,15 +167,6 @@
             right: 5px;
         }
         
-        .staff-badge {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 4px 8px;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: bold;
-        }
-        
         @media (max-width: 768px) {
             .sidebar {
                 transform: translateX(-100%);
@@ -237,13 +228,9 @@
                         <i class="fas fa-users"></i>
                         <span>Customers</span>
                     </a>
-                    <a class="nav-link <?= (strpos(uri_string(), 'staff/checkin') !== false) ? 'active' : '' ?>" href="/staff/checkin">
-                        <i class="fas fa-sign-in-alt"></i>
-                        <span>Check-in</span>
-                    </a>
-                    <a class="nav-link <?= (strpos(uri_string(), 'staff/checkout') !== false) ? 'active' : '' ?>" href="/staff/checkout">
-                        <i class="fas fa-sign-out-alt"></i>
-                        <span>Check-out</span>
+                    <a class="nav-link <?= (strpos(uri_string(), 'staff/booking') !== false) ? 'active' : '' ?>" href="/staff/booking">
+                        <i class="fas fa-book"></i>
+                        <span>Booking Details</span>
                     </a>
                     <a class="nav-link <?= (strpos(uri_string(), 'staff/maintenance') !== false) ? 'active' : '' ?>" href="/staff/maintenance">
                         <i class="fas fa-wrench"></i>
@@ -254,11 +241,11 @@
                 <div class="user-info">
                     <div class="d-flex align-items-center">
                         <div class="me-3">
-                            <i class="fas fa-user-tie fa-2x"></i>
+                            <i class="fas fa-user-circle fa-2x"></i>
                         </div>
                         <div>
-                            <div class="fw-bold"><?= session()->get('name') ?></div>
-                            <div class="staff-badge">Staff Member</div>
+                            <div class="fw-bold"><?= session()->get('name') ?? 'Staff' ?></div>
+                            <small class="text-light">Staff Member</small>
                         </div>
                     </div>
                 </div>
@@ -275,12 +262,12 @@
                             </button>
                             <div>
                                 <h4 class="mb-0"><?= $pageTitle ?? 'Staff Dashboard' ?></h4>
-                                <small class="text-muted"><?= $pageSubtitle ?? 'Manage daily operations' ?></small>
+                                <small class="text-muted"><?= $pageSubtitle ?? 'Manage daily operations and customer service' ?></small>
                             </div>
                         </div>
                         <div class="d-flex align-items-center">
                             <div class="me-3">
-                                <span class="text-muted">Welcome, <?= session()->get('name') ?>!</span>
+                                <span class="text-muted">Welcome back, <?= session()->get('name') ?>!</span>
                             </div>
                             <a href="/auth/logout" class="btn btn-outline-danger">
                                 <i class="fas fa-sign-out-alt me-2"></i>

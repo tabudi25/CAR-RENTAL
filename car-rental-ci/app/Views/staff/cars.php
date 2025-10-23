@@ -1,4 +1,4 @@
-<?= $this->extend('admin/layout') ?>
+<?= $this->extend('staff/layout') ?>
 
 <?= $this->section('content') ?>
 <div class="d-flex justify-content-between align-items-center mb-4">
@@ -6,10 +6,12 @@
         <i class="fas fa-car me-2 text-primary"></i>
         Manage Cars
     </h2>
-    <a href="/admin/add-car" class="btn btn-primary">
-        <i class="fas fa-plus me-2"></i>
-        Add New Car
-    </a>
+    <div class="d-flex gap-2">
+        <button class="btn btn-outline-primary" onclick="refreshCars()">
+            <i class="fas fa-sync me-2"></i>
+            Refresh
+        </button>
+    </div>
 </div>
 
 <?php if (session()->has('success')): ?>
@@ -48,18 +50,38 @@
                                     <?= ucfirst($car['status']) ?>
                                 </button>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="/admin/change-status/<?= $car['id'] ?>/available">
-                                        <i class="fas fa-check-circle text-success me-2"></i>Available
-                                    </a></li>
-                                    <li><a class="dropdown-item" href="/admin/change-status/<?= $car['id'] ?>/rented">
-                                        <i class="fas fa-car text-danger me-2"></i>Rented
-                                    </a></li>
-                                    <li><a class="dropdown-item" href="/admin/change-status/<?= $car['id'] ?>/maintenance">
-                                        <i class="fas fa-wrench text-warning me-2"></i>Maintenance
-                                    </a></li>
-                                    <li><a class="dropdown-item" href="/admin/change-status/<?= $car['id'] ?>/reserved">
-                                        <i class="fas fa-clock text-info me-2"></i>Reserved
-                                    </a></li>
+                                    <li>
+                                        <form action="/staff/update-car/<?= $car['id'] ?>" method="post" class="d-inline">
+                                            <input type="hidden" name="status" value="available">
+                                            <button type="submit" class="dropdown-item">
+                                                <i class="fas fa-check-circle text-success me-2"></i>Available
+                                            </button>
+                                        </form>
+                                    </li>
+                                    <li>
+                                        <form action="/staff/update-car/<?= $car['id'] ?>" method="post" class="d-inline">
+                                            <input type="hidden" name="status" value="rented">
+                                            <button type="submit" class="dropdown-item">
+                                                <i class="fas fa-car text-danger me-2"></i>Rented
+                                            </button>
+                                        </form>
+                                    </li>
+                                    <li>
+                                        <form action="/staff/update-car/<?= $car['id'] ?>" method="post" class="d-inline">
+                                            <input type="hidden" name="status" value="maintenance">
+                                            <button type="submit" class="dropdown-item">
+                                                <i class="fas fa-wrench text-warning me-2"></i>Maintenance
+                                            </button>
+                                        </form>
+                                    </li>
+                                    <li>
+                                        <form action="/staff/update-car/<?= $car['id'] ?>" method="post" class="d-inline">
+                                            <input type="hidden" name="status" value="reserved">
+                                            <button type="submit" class="dropdown-item">
+                                                <i class="fas fa-clock text-info me-2"></i>Reserved
+                                            </button>
+                                        </form>
+                                    </li>
                                 </ul>
                             </div>
                             <div class="text-end">
@@ -67,10 +89,9 @@
                             </div>
                         </div>
                         <div class="d-flex gap-2">
-                            <a href="/admin/edit-car/<?= $car['id'] ?>" class="btn btn-sm btn-outline-primary">
-                                <i class="fas fa-edit me-1"></i>
-                                Edit
-                            </a>
+                            <span class="badge bg-<?= $car['status'] == 'available' ? 'success' : ($car['status'] == 'rented' ? 'danger' : ($car['status'] == 'maintenance' ? 'warning' : 'info')) ?>">
+                                <?= ucfirst($car['status']) ?>
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -82,13 +103,16 @@
             <div class="stat-card text-center py-5">
                 <i class="fas fa-car fa-3x text-muted mb-3"></i>
                 <h4 class="text-muted">No Cars Found</h4>
-                <p class="text-muted">Start by adding your first car to the fleet.</p>
-                <a href="/admin/add-car" class="btn btn-primary">
-                    <i class="fas fa-plus me-2"></i>
-                    Add Your First Car
-                </a>
+                <p class="text-muted">No cars are available in the system.</p>
             </div>
         </div>
     <?php endif; ?>
 </div>
+
+<script>
+function refreshCars() {
+    location.reload();
+}
+</script>
 <?= $this->endSection() ?>
+

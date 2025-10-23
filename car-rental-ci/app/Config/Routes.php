@@ -25,6 +25,7 @@ $routes->get('/admin/change-status/(:num)/(:any)', 'Admin::changeStatus/$1/$2');
 $routes->get('/admin/delete-car/(:num)', 'Admin::deleteCar/$1');
 $routes->get('/admin/bookings', 'Admin::bookings');
 $routes->post('/admin/update-booking/(:num)', 'Admin::updateBookingStatus/$1');
+$routes->get('/admin/delete-booking/(:num)', 'Admin::deleteBooking/$1');
 $routes->get('/admin/users', 'Admin::users');
 
 // Staff routes
@@ -33,6 +34,9 @@ $routes->get('/staff/bookings', 'Staff::manageBookings');
 $routes->post('/staff/update-booking/(:num)', 'Staff::updateBookingStatus/$1');
 $routes->get('/staff/cars', 'Staff::manageCars');
 $routes->post('/staff/update-car/(:num)', 'Staff::updateCarStatus/$1');
+$routes->get('/staff/customers', 'Staff::manageCustomers');
+$routes->get('/staff/booking', 'Staff::bookingDetails');
+$routes->get('/staff/maintenance', 'Staff::maintenance');
 
 // Customer routes
 $routes->get('/customer', 'Customer::index');
@@ -40,5 +44,14 @@ $routes->get('/customer/book-car/(:num)', 'Customer::bookCar/$1');
 $routes->post('/customer/create-booking', 'Customer::createBooking');
 $routes->get('/customer/bookings', 'Customer::viewBookings');
 $routes->get('/customer/cancel-booking/(:num)', 'Customer::cancelBooking/$1');
+$routes->post('/customer/cancel-booking/(:num)', 'Customer::cancelBooking/$1');
 $routes->get('/customer/test-cancel/(:num)', 'Customer::testCancel/$1');
 $routes->get('/cancel/(:num)', 'Customer::cancelBooking/$1');
+$routes->get('/test-route', function() { return 'Route test successful!'; });
+$routes->get('/test-cancel/(:num)', 'Customer::testCancel/$1');
+$routes->get('/test-delete-booking/(:num)', function($id) { return "Test delete booking for ID: " . $id; });
+$routes->get('/test-booking-creation', function() { 
+    $db = \Config\Database::connect();
+    $fields = $db->getFieldNames('bookings');
+    return "Available booking fields: " . implode(', ', $fields);
+});

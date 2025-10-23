@@ -1,0 +1,462 @@
+ERROR - 2025-10-23 17:11:25 --> mysqli_sql_exception: Unknown column 'namespace' in 'where clause' in C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\MySQLi\Connection.php:306
+Stack trace:
+#0 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\MySQLi\Connection.php(306): mysqli->query('SELECT *\nFROM `...', 0)
+#1 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *\nFROM `...')
+#2 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *\nFROM `...')
+#3 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\BaseBuilder.php(1616): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#4 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\MigrationRunner.php(651): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Commands\Database\MigrateStatus.php(114): CodeIgniter\Database\MigrationRunner->getHistory('')
+#6 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\CLI\Commands.php(65): CodeIgniter\Commands\Database\MigrateStatus->run(Array)
+#7 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\CLI\Console.php(46): CodeIgniter\CLI\Commands->run('migrate:status', Array)
+#8 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\spark(102): CodeIgniter\CLI\Console->run()
+#9 {main}
+CRITICAL - 2025-10-23 17:11:25 --> CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'namespace' in 'where clause'
+in SYSTEMPATH\Database\BaseConnection.php on line 647.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1616): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `migrations`
+WHERE `namespace` = :namespace:
+ORDER BY `id` ASC', [...], false)
+ 2 SYSTEMPATH\Database\MigrationRunner.php(651): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\Commands\Database\MigrateStatus.php(114): CodeIgniter\Database\MigrationRunner->getHistory('')
+ 4 SYSTEMPATH\CLI\Commands.php(65): CodeIgniter\Commands\Database\MigrateStatus->run([])
+ 5 SYSTEMPATH\CLI\Console.php(46): CodeIgniter\CLI\Commands->run('migrate:status', [])
+ 6 ROOTPATH\spark(102): CodeIgniter\CLI\Console->run()
+CRITICAL - 2025-10-23 17:11:25 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'namespace' in 'where clause'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 311.
+ 1 SYSTEMPATH\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `migrations`
+WHERE `namespace` = \'App\'
+ORDER BY `id` ASC')
+ 2 SYSTEMPATH\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `migrations`
+WHERE `namespace` = \'App\'
+ORDER BY `id` ASC')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(1616): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `migrations`
+WHERE `namespace` = :namespace:
+ORDER BY `id` ASC', [...], false)
+ 4 SYSTEMPATH\Database\MigrationRunner.php(651): CodeIgniter\Database\BaseBuilder->get()
+ 5 SYSTEMPATH\Commands\Database\MigrateStatus.php(114): CodeIgniter\Database\MigrationRunner->getHistory('')
+ 6 SYSTEMPATH\CLI\Commands.php(65): CodeIgniter\Commands\Database\MigrateStatus->run([])
+ 7 SYSTEMPATH\CLI\Console.php(46): CodeIgniter\CLI\Commands->run('migrate:status', [])
+ 8 ROOTPATH\spark(102): CodeIgniter\CLI\Console->run()
+CRITICAL - 2025-10-23 17:11:25 --> [Caused by] mysqli_sql_exception: Unknown column 'namespace' in 'where clause'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 306.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(306): mysqli->query('SELECT *
+FROM `migrations`
+WHERE `namespace` = \'App\'
+ORDER BY `id` ASC', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `migrations`
+WHERE `namespace` = \'App\'
+ORDER BY `id` ASC')
+ 3 SYSTEMPATH\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `migrations`
+WHERE `namespace` = \'App\'
+ORDER BY `id` ASC')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(1616): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `migrations`
+WHERE `namespace` = :namespace:
+ORDER BY `id` ASC', [...], false)
+ 5 SYSTEMPATH\Database\MigrationRunner.php(651): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH\Commands\Database\MigrateStatus.php(114): CodeIgniter\Database\MigrationRunner->getHistory('')
+ 7 SYSTEMPATH\CLI\Commands.php(65): CodeIgniter\Commands\Database\MigrateStatus->run([])
+ 8 SYSTEMPATH\CLI\Console.php(46): CodeIgniter\CLI\Commands->run('migrate:status', [])
+ 9 ROOTPATH\spark(102): CodeIgniter\CLI\Console->run()
+ERROR - 2025-10-23 17:32:48 --> mysqli_sql_exception: Unknown column 'updated_at' in 'field list' in C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\MySQLi\Connection.php:306
+Stack trace:
+#0 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\MySQLi\Connection.php(306): mysqli->query('UPDATE `booking...', 0)
+#1 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('UPDATE `booking...')
+#2 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('UPDATE `booking...')
+#3 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\BaseBuilder.php(2474): CodeIgniter\Database\BaseConnection->query('UPDATE `booking...', Array, false)
+#4 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Model.php(393): CodeIgniter\Database\BaseBuilder->update()
+#5 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\BaseModel.php(987): CodeIgniter\Model->doUpdate(Array, Array)
+#6 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Model.php(807): CodeIgniter\BaseModel->update(Array, Array)
+#7 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\app\Controllers\Customer.php(191): CodeIgniter\Model->update('4', Array)
+#8 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\CodeIgniter.php(941): App\Controllers\Customer->cancelBooking('4')
+#9 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Customer))
+#10 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\public\index.php(79): CodeIgniter\CodeIgniter->run()
+#12 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Commands\Server\rewrite.php(47): require_once('C:\\Users\\timaj\\...')
+#13 {main}
+CRITICAL - 2025-10-23 17:32:48 --> ErrorException: Undefined array key "total_amount"
+in APPPATH\Views\customer\bookings.php on line 75.
+ 1 APPPATH\Views\customer\bookings.php(75): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "total_amount"', 'C:\\Users\\timaj\\OneDrive\\Documents\\HiFi\\CAR-RENTAL\\car-rental-ci\\app\\Views\\customer\\bookings.php', 75)
+ 2 SYSTEMPATH\View\View.php(228): include('C:\\Users\\timaj\\OneDrive\\Documents\\HiFi\\CAR-RENTAL\\car-rental-ci\\app\\Views\\customer\\bookings.php')
+ 3 SYSTEMPATH\View\View.php(231): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1178): CodeIgniter\View\View->render('customer/bookings', [], true)
+ 5 APPPATH\Controllers\Customer.php(151): view('customer/bookings', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(941): App\Controllers\Customer->viewBookings()
+ 7 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Customer))
+ 8 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\timaj\\OneDrive\\Documents\\HiFi\\CAR-RENTAL\\car-rental-ci\\public\\index.php')
+ERROR - 2025-10-23 18:09:58 --> mysqli_sql_exception: Unknown column 'total_days' in 'field list' in C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\MySQLi\Connection.php:306
+Stack trace:
+#0 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\MySQLi\Connection.php(306): mysqli->query('INSERT INTO `bo...', 0)
+#1 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `bo...')
+#2 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `bo...')
+#3 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\BaseBuilder.php(2307): CodeIgniter\Database\BaseConnection->query('INSERT INTO `bo...', Array, false)
+#4 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Model.php(326): CodeIgniter\Database\BaseBuilder->insert()
+#5 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\BaseModel.php(802): CodeIgniter\Model->doInsert(Array)
+#6 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Model.php(744): CodeIgniter\BaseModel->insert(Array, true)
+#7 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\app\Controllers\Customer.php(117): CodeIgniter\Model->insert(Array)
+#8 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\CodeIgniter.php(941): App\Controllers\Customer->createBooking()
+#9 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Customer))
+#10 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\public\index.php(79): CodeIgniter\CodeIgniter->run()
+#12 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Commands\Server\rewrite.php(47): require_once('C:\\Users\\timaj\\...')
+#13 {main}
+CRITICAL - 2025-10-23 18:09:58 --> CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'total_days' in 'field list'
+in SYSTEMPATH\Database\BaseConnection.php on line 647.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(2307): CodeIgniter\Database\BaseConnection->query('INSERT INTO `bookings` (`user_id`, `car_id`, `start_date`, `end_date`, `total_days`, `total_amount`, `status`, `created_at`) VALUES (:user_id:, :car_id:, :start_date:, :end_date:, :total_days:, :total_amount:, :status:, :created_at:)', [...], false)
+ 2 SYSTEMPATH\Model.php(326): CodeIgniter\Database\BaseBuilder->insert()
+ 3 SYSTEMPATH\BaseModel.php(802): CodeIgniter\Model->doInsert([...])
+ 4 SYSTEMPATH\Model.php(744): CodeIgniter\BaseModel->insert([...], true)
+ 5 APPPATH\Controllers\Customer.php(117): CodeIgniter\Model->insert([...])
+ 6 SYSTEMPATH\CodeIgniter.php(941): App\Controllers\Customer->createBooking()
+ 7 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Customer))
+ 8 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\timaj\\OneDrive\\Documents\\HiFi\\CAR-RENTAL\\car-rental-ci\\public\\index.php')
+CRITICAL - 2025-10-23 18:09:58 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'total_days' in 'field list'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 311.
+ 1 SYSTEMPATH\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `bookings` (`user_id`, `car_id`, `start_date`, `end_date`, `total_days`, `total_amount`, `status`, `created_at`) VALUES (\'15\', \'17\', \'2025-10-24\', \'2025-10-26\', 3, 480, \'pending\', \'2025-10-23 18:09:58\')')
+ 2 SYSTEMPATH\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `bookings` (`user_id`, `car_id`, `start_date`, `end_date`, `total_days`, `total_amount`, `status`, `created_at`) VALUES (\'15\', \'17\', \'2025-10-24\', \'2025-10-26\', 3, 480, \'pending\', \'2025-10-23 18:09:58\')')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(2307): CodeIgniter\Database\BaseConnection->query('INSERT INTO `bookings` (`user_id`, `car_id`, `start_date`, `end_date`, `total_days`, `total_amount`, `status`, `created_at`) VALUES (:user_id:, :car_id:, :start_date:, :end_date:, :total_days:, :total_amount:, :status:, :created_at:)', [...], false)
+ 4 SYSTEMPATH\Model.php(326): CodeIgniter\Database\BaseBuilder->insert()
+ 5 SYSTEMPATH\BaseModel.php(802): CodeIgniter\Model->doInsert([...])
+ 6 SYSTEMPATH\Model.php(744): CodeIgniter\BaseModel->insert([...], true)
+ 7 APPPATH\Controllers\Customer.php(117): CodeIgniter\Model->insert([...])
+ 8 SYSTEMPATH\CodeIgniter.php(941): App\Controllers\Customer->createBooking()
+ 9 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Customer))
+10 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\timaj\\OneDrive\\Documents\\HiFi\\CAR-RENTAL\\car-rental-ci\\public\\index.php')
+CRITICAL - 2025-10-23 18:09:58 --> [Caused by] mysqli_sql_exception: Unknown column 'total_days' in 'field list'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 306.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(306): mysqli->query('INSERT INTO `bookings` (`user_id`, `car_id`, `start_date`, `end_date`, `total_days`, `total_amount`, `status`, `created_at`) VALUES (\'15\', \'17\', \'2025-10-24\', \'2025-10-26\', 3, 480, \'pending\', \'2025-10-23 18:09:58\')', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `bookings` (`user_id`, `car_id`, `start_date`, `end_date`, `total_days`, `total_amount`, `status`, `created_at`) VALUES (\'15\', \'17\', \'2025-10-24\', \'2025-10-26\', 3, 480, \'pending\', \'2025-10-23 18:09:58\')')
+ 3 SYSTEMPATH\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `bookings` (`user_id`, `car_id`, `start_date`, `end_date`, `total_days`, `total_amount`, `status`, `created_at`) VALUES (\'15\', \'17\', \'2025-10-24\', \'2025-10-26\', 3, 480, \'pending\', \'2025-10-23 18:09:58\')')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(2307): CodeIgniter\Database\BaseConnection->query('INSERT INTO `bookings` (`user_id`, `car_id`, `start_date`, `end_date`, `total_days`, `total_amount`, `status`, `created_at`) VALUES (:user_id:, :car_id:, :start_date:, :end_date:, :total_days:, :total_amount:, :status:, :created_at:)', [...], false)
+ 5 SYSTEMPATH\Model.php(326): CodeIgniter\Database\BaseBuilder->insert()
+ 6 SYSTEMPATH\BaseModel.php(802): CodeIgniter\Model->doInsert([...])
+ 7 SYSTEMPATH\Model.php(744): CodeIgniter\BaseModel->insert([...], true)
+ 8 APPPATH\Controllers\Customer.php(117): CodeIgniter\Model->insert([...])
+ 9 SYSTEMPATH\CodeIgniter.php(941): App\Controllers\Customer->createBooking()
+10 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Customer))
+11 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\timaj\\OneDrive\\Documents\\HiFi\\CAR-RENTAL\\car-rental-ci\\public\\index.php')
+ERROR - 2025-10-23 18:54:03 --> mysqli_sql_exception: Unknown column 'updated_at' in 'where clause' in C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\MySQLi\Connection.php:306
+Stack trace:
+#0 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\MySQLi\Connection.php(306): mysqli->query('SELECT COUNT(*)...', 0)
+#1 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('SELECT COUNT(*)...')
+#2 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT COUNT(*)...')
+#3 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\BaseBuilder.php(1700): CodeIgniter\Database\BaseConnection->query('SELECT COUNT(*)...', Array, false)
+#4 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Model.php(624): CodeIgniter\Database\BaseBuilder->countAllResults(true)
+#5 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\app\Controllers\Staff.php(40): CodeIgniter\Model->countAllResults()
+#6 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\CodeIgniter.php(941): App\Controllers\Staff->index()
+#7 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Staff))
+#8 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\public\index.php(79): CodeIgniter\CodeIgniter->run()
+#10 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Commands\Server\rewrite.php(47): require_once('C:\\Users\\timaj\\...')
+#11 {main}
+CRITICAL - 2025-10-23 18:54:03 --> CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'updated_at' in 'where clause'
+in SYSTEMPATH\Database\BaseConnection.php on line 647.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1700): CodeIgniter\Database\BaseConnection->query('SELECT COUNT(*) AS `numrows`
+FROM `bookings`
+WHERE DATE(updated_at) = :DATE(updated_at):
+AND `status` = :status.1:', [...], false)
+ 2 SYSTEMPATH\Model.php(624): CodeIgniter\Database\BaseBuilder->countAllResults(true)
+ 3 APPPATH\Controllers\Staff.php(40): CodeIgniter\Model->countAllResults()
+ 4 SYSTEMPATH\CodeIgniter.php(941): App\Controllers\Staff->index()
+ 5 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Staff))
+ 6 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\timaj\\OneDrive\\Documents\\HiFi\\CAR-RENTAL\\car-rental-ci\\public\\index.php')
+CRITICAL - 2025-10-23 18:54:03 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'updated_at' in 'where clause'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 311.
+ 1 SYSTEMPATH\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('SELECT COUNT(*) AS `numrows`
+FROM `bookings`
+WHERE DATE(updated_at) = \'2025-10-23\'
+AND `status` = \'completed\'')
+ 2 SYSTEMPATH\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT COUNT(*) AS `numrows`
+FROM `bookings`
+WHERE DATE(updated_at) = \'2025-10-23\'
+AND `status` = \'completed\'')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(1700): CodeIgniter\Database\BaseConnection->query('SELECT COUNT(*) AS `numrows`
+FROM `bookings`
+WHERE DATE(updated_at) = :DATE(updated_at):
+AND `status` = :status.1:', [...], false)
+ 4 SYSTEMPATH\Model.php(624): CodeIgniter\Database\BaseBuilder->countAllResults(true)
+ 5 APPPATH\Controllers\Staff.php(40): CodeIgniter\Model->countAllResults()
+ 6 SYSTEMPATH\CodeIgniter.php(941): App\Controllers\Staff->index()
+ 7 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Staff))
+ 8 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\timaj\\OneDrive\\Documents\\HiFi\\CAR-RENTAL\\car-rental-ci\\public\\index.php')
+CRITICAL - 2025-10-23 18:54:03 --> [Caused by] mysqli_sql_exception: Unknown column 'updated_at' in 'where clause'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 306.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(306): mysqli->query('SELECT COUNT(*) AS `numrows`
+FROM `bookings`
+WHERE DATE(updated_at) = \'2025-10-23\'
+AND `status` = \'completed\'', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('SELECT COUNT(*) AS `numrows`
+FROM `bookings`
+WHERE DATE(updated_at) = \'2025-10-23\'
+AND `status` = \'completed\'')
+ 3 SYSTEMPATH\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT COUNT(*) AS `numrows`
+FROM `bookings`
+WHERE DATE(updated_at) = \'2025-10-23\'
+AND `status` = \'completed\'')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(1700): CodeIgniter\Database\BaseConnection->query('SELECT COUNT(*) AS `numrows`
+FROM `bookings`
+WHERE DATE(updated_at) = :DATE(updated_at):
+AND `status` = :status.1:', [...], false)
+ 5 SYSTEMPATH\Model.php(624): CodeIgniter\Database\BaseBuilder->countAllResults(true)
+ 6 APPPATH\Controllers\Staff.php(40): CodeIgniter\Model->countAllResults()
+ 7 SYSTEMPATH\CodeIgniter.php(941): App\Controllers\Staff->index()
+ 8 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Staff))
+ 9 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\timaj\\OneDrive\\Documents\\HiFi\\CAR-RENTAL\\car-rental-ci\\public\\index.php')
+ERROR - 2025-10-23 18:58:44 --> mysqli_sql_exception: Unknown column 'updated_at' in 'where clause' in C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\MySQLi\Connection.php:306
+Stack trace:
+#0 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\MySQLi\Connection.php(306): mysqli->query('SELECT COUNT(*)...', 0)
+#1 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('SELECT COUNT(*)...')
+#2 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT COUNT(*)...')
+#3 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\BaseBuilder.php(1700): CodeIgniter\Database\BaseConnection->query('SELECT COUNT(*)...', Array, false)
+#4 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Model.php(624): CodeIgniter\Database\BaseBuilder->countAllResults(true)
+#5 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\app\Controllers\Staff.php(40): CodeIgniter\Model->countAllResults()
+#6 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\CodeIgniter.php(941): App\Controllers\Staff->index()
+#7 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Staff))
+#8 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\public\index.php(79): CodeIgniter\CodeIgniter->run()
+#10 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Commands\Server\rewrite.php(47): require_once('C:\\Users\\timaj\\...')
+#11 {main}
+CRITICAL - 2025-10-23 18:58:44 --> CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'updated_at' in 'where clause'
+in SYSTEMPATH\Database\BaseConnection.php on line 647.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1700): CodeIgniter\Database\BaseConnection->query('SELECT COUNT(*) AS `numrows`
+FROM `bookings`
+WHERE DATE(updated_at) = :DATE(updated_at):
+AND `status` = :status.1:', [...], false)
+ 2 SYSTEMPATH\Model.php(624): CodeIgniter\Database\BaseBuilder->countAllResults(true)
+ 3 APPPATH\Controllers\Staff.php(40): CodeIgniter\Model->countAllResults()
+ 4 SYSTEMPATH\CodeIgniter.php(941): App\Controllers\Staff->index()
+ 5 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Staff))
+ 6 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\timaj\\OneDrive\\Documents\\HiFi\\CAR-RENTAL\\car-rental-ci\\public\\index.php')
+CRITICAL - 2025-10-23 18:58:44 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'updated_at' in 'where clause'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 311.
+ 1 SYSTEMPATH\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('SELECT COUNT(*) AS `numrows`
+FROM `bookings`
+WHERE DATE(updated_at) = \'2025-10-23\'
+AND `status` = \'completed\'')
+ 2 SYSTEMPATH\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT COUNT(*) AS `numrows`
+FROM `bookings`
+WHERE DATE(updated_at) = \'2025-10-23\'
+AND `status` = \'completed\'')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(1700): CodeIgniter\Database\BaseConnection->query('SELECT COUNT(*) AS `numrows`
+FROM `bookings`
+WHERE DATE(updated_at) = :DATE(updated_at):
+AND `status` = :status.1:', [...], false)
+ 4 SYSTEMPATH\Model.php(624): CodeIgniter\Database\BaseBuilder->countAllResults(true)
+ 5 APPPATH\Controllers\Staff.php(40): CodeIgniter\Model->countAllResults()
+ 6 SYSTEMPATH\CodeIgniter.php(941): App\Controllers\Staff->index()
+ 7 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Staff))
+ 8 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\timaj\\OneDrive\\Documents\\HiFi\\CAR-RENTAL\\car-rental-ci\\public\\index.php')
+CRITICAL - 2025-10-23 18:58:44 --> [Caused by] mysqli_sql_exception: Unknown column 'updated_at' in 'where clause'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 306.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(306): mysqli->query('SELECT COUNT(*) AS `numrows`
+FROM `bookings`
+WHERE DATE(updated_at) = \'2025-10-23\'
+AND `status` = \'completed\'', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('SELECT COUNT(*) AS `numrows`
+FROM `bookings`
+WHERE DATE(updated_at) = \'2025-10-23\'
+AND `status` = \'completed\'')
+ 3 SYSTEMPATH\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT COUNT(*) AS `numrows`
+FROM `bookings`
+WHERE DATE(updated_at) = \'2025-10-23\'
+AND `status` = \'completed\'')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(1700): CodeIgniter\Database\BaseConnection->query('SELECT COUNT(*) AS `numrows`
+FROM `bookings`
+WHERE DATE(updated_at) = :DATE(updated_at):
+AND `status` = :status.1:', [...], false)
+ 5 SYSTEMPATH\Model.php(624): CodeIgniter\Database\BaseBuilder->countAllResults(true)
+ 6 APPPATH\Controllers\Staff.php(40): CodeIgniter\Model->countAllResults()
+ 7 SYSTEMPATH\CodeIgniter.php(941): App\Controllers\Staff->index()
+ 8 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Staff))
+ 9 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\timaj\\OneDrive\\Documents\\HiFi\\CAR-RENTAL\\car-rental-ci\\public\\index.php')
+ERROR - 2025-10-23 19:12:47 --> mysqli_sql_exception: Unknown column 'updated_at' in 'where clause' in C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\MySQLi\Connection.php:306
+Stack trace:
+#0 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\MySQLi\Connection.php(306): mysqli->query('SELECT COUNT(*)...', 0)
+#1 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('SELECT COUNT(*)...')
+#2 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT COUNT(*)...')
+#3 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\BaseBuilder.php(1700): CodeIgniter\Database\BaseConnection->query('SELECT COUNT(*)...', Array, false)
+#4 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Model.php(624): CodeIgniter\Database\BaseBuilder->countAllResults(true)
+#5 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\app\Controllers\Staff.php(51): CodeIgniter\Model->countAllResults()
+#6 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\CodeIgniter.php(941): App\Controllers\Staff->index()
+#7 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Staff))
+#8 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\public\index.php(79): CodeIgniter\CodeIgniter->run()
+#10 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Commands\Server\rewrite.php(47): require_once('C:\\Users\\timaj\\...')
+#11 {main}
+CRITICAL - 2025-10-23 19:12:48 --> CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'updated_at' in 'where clause'
+in SYSTEMPATH\Database\BaseConnection.php on line 647.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1700): CodeIgniter\Database\BaseConnection->query('SELECT COUNT(*) AS `numrows`
+FROM `bookings`
+WHERE DATE(updated_at) = :DATE(updated_at):
+AND `status` = :status.1:', [...], false)
+ 2 SYSTEMPATH\Model.php(624): CodeIgniter\Database\BaseBuilder->countAllResults(true)
+ 3 APPPATH\Controllers\Staff.php(51): CodeIgniter\Model->countAllResults()
+ 4 SYSTEMPATH\CodeIgniter.php(941): App\Controllers\Staff->index()
+ 5 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Staff))
+ 6 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\timaj\\OneDrive\\Documents\\HiFi\\CAR-RENTAL\\car-rental-ci\\public\\index.php')
+CRITICAL - 2025-10-23 19:12:48 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'updated_at' in 'where clause'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 311.
+ 1 SYSTEMPATH\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('SELECT COUNT(*) AS `numrows`
+FROM `bookings`
+WHERE DATE(updated_at) = \'2025-10-23\'
+AND `status` = \'completed\'')
+ 2 SYSTEMPATH\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT COUNT(*) AS `numrows`
+FROM `bookings`
+WHERE DATE(updated_at) = \'2025-10-23\'
+AND `status` = \'completed\'')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(1700): CodeIgniter\Database\BaseConnection->query('SELECT COUNT(*) AS `numrows`
+FROM `bookings`
+WHERE DATE(updated_at) = :DATE(updated_at):
+AND `status` = :status.1:', [...], false)
+ 4 SYSTEMPATH\Model.php(624): CodeIgniter\Database\BaseBuilder->countAllResults(true)
+ 5 APPPATH\Controllers\Staff.php(51): CodeIgniter\Model->countAllResults()
+ 6 SYSTEMPATH\CodeIgniter.php(941): App\Controllers\Staff->index()
+ 7 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Staff))
+ 8 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\timaj\\OneDrive\\Documents\\HiFi\\CAR-RENTAL\\car-rental-ci\\public\\index.php')
+CRITICAL - 2025-10-23 19:12:48 --> [Caused by] mysqli_sql_exception: Unknown column 'updated_at' in 'where clause'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 306.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(306): mysqli->query('SELECT COUNT(*) AS `numrows`
+FROM `bookings`
+WHERE DATE(updated_at) = \'2025-10-23\'
+AND `status` = \'completed\'', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('SELECT COUNT(*) AS `numrows`
+FROM `bookings`
+WHERE DATE(updated_at) = \'2025-10-23\'
+AND `status` = \'completed\'')
+ 3 SYSTEMPATH\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT COUNT(*) AS `numrows`
+FROM `bookings`
+WHERE DATE(updated_at) = \'2025-10-23\'
+AND `status` = \'completed\'')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(1700): CodeIgniter\Database\BaseConnection->query('SELECT COUNT(*) AS `numrows`
+FROM `bookings`
+WHERE DATE(updated_at) = :DATE(updated_at):
+AND `status` = :status.1:', [...], false)
+ 5 SYSTEMPATH\Model.php(624): CodeIgniter\Database\BaseBuilder->countAllResults(true)
+ 6 APPPATH\Controllers\Staff.php(51): CodeIgniter\Model->countAllResults()
+ 7 SYSTEMPATH\CodeIgniter.php(941): App\Controllers\Staff->index()
+ 8 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Staff))
+ 9 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\timaj\\OneDrive\\Documents\\HiFi\\CAR-RENTAL\\car-rental-ci\\public\\index.php')
+ERROR - 2025-10-23 19:13:25 --> mysqli_sql_exception: Unknown column 'updated_at' in 'where clause' in C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\MySQLi\Connection.php:306
+Stack trace:
+#0 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\MySQLi\Connection.php(306): mysqli->query('SELECT COUNT(*)...', 0)
+#1 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('SELECT COUNT(*)...')
+#2 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT COUNT(*)...')
+#3 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Database\BaseBuilder.php(1700): CodeIgniter\Database\BaseConnection->query('SELECT COUNT(*)...', Array, false)
+#4 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Model.php(624): CodeIgniter\Database\BaseBuilder->countAllResults(true)
+#5 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\app\Controllers\Staff.php(51): CodeIgniter\Model->countAllResults()
+#6 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\CodeIgniter.php(941): App\Controllers\Staff->index()
+#7 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Staff))
+#8 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\public\index.php(79): CodeIgniter\CodeIgniter->run()
+#10 C:\Users\timaj\OneDrive\Documents\HiFi\CAR-RENTAL\car-rental-ci\system\Commands\Server\rewrite.php(47): require_once('C:\\Users\\timaj\\...')
+#11 {main}
+CRITICAL - 2025-10-23 19:13:25 --> CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'updated_at' in 'where clause'
+in SYSTEMPATH\Database\BaseConnection.php on line 647.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1700): CodeIgniter\Database\BaseConnection->query('SELECT COUNT(*) AS `numrows`
+FROM `bookings`
+WHERE DATE(updated_at) = :DATE(updated_at):
+AND `status` = :status.1:', [...], false)
+ 2 SYSTEMPATH\Model.php(624): CodeIgniter\Database\BaseBuilder->countAllResults(true)
+ 3 APPPATH\Controllers\Staff.php(51): CodeIgniter\Model->countAllResults()
+ 4 SYSTEMPATH\CodeIgniter.php(941): App\Controllers\Staff->index()
+ 5 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Staff))
+ 6 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\timaj\\OneDrive\\Documents\\HiFi\\CAR-RENTAL\\car-rental-ci\\public\\index.php')
+CRITICAL - 2025-10-23 19:13:25 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'updated_at' in 'where clause'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 311.
+ 1 SYSTEMPATH\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('SELECT COUNT(*) AS `numrows`
+FROM `bookings`
+WHERE DATE(updated_at) = \'2025-10-23\'
+AND `status` = \'completed\'')
+ 2 SYSTEMPATH\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT COUNT(*) AS `numrows`
+FROM `bookings`
+WHERE DATE(updated_at) = \'2025-10-23\'
+AND `status` = \'completed\'')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(1700): CodeIgniter\Database\BaseConnection->query('SELECT COUNT(*) AS `numrows`
+FROM `bookings`
+WHERE DATE(updated_at) = :DATE(updated_at):
+AND `status` = :status.1:', [...], false)
+ 4 SYSTEMPATH\Model.php(624): CodeIgniter\Database\BaseBuilder->countAllResults(true)
+ 5 APPPATH\Controllers\Staff.php(51): CodeIgniter\Model->countAllResults()
+ 6 SYSTEMPATH\CodeIgniter.php(941): App\Controllers\Staff->index()
+ 7 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Staff))
+ 8 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\timaj\\OneDrive\\Documents\\HiFi\\CAR-RENTAL\\car-rental-ci\\public\\index.php')
+CRITICAL - 2025-10-23 19:13:25 --> [Caused by] mysqli_sql_exception: Unknown column 'updated_at' in 'where clause'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 306.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(306): mysqli->query('SELECT COUNT(*) AS `numrows`
+FROM `bookings`
+WHERE DATE(updated_at) = \'2025-10-23\'
+AND `status` = \'completed\'', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('SELECT COUNT(*) AS `numrows`
+FROM `bookings`
+WHERE DATE(updated_at) = \'2025-10-23\'
+AND `status` = \'completed\'')
+ 3 SYSTEMPATH\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT COUNT(*) AS `numrows`
+FROM `bookings`
+WHERE DATE(updated_at) = \'2025-10-23\'
+AND `status` = \'completed\'')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(1700): CodeIgniter\Database\BaseConnection->query('SELECT COUNT(*) AS `numrows`
+FROM `bookings`
+WHERE DATE(updated_at) = :DATE(updated_at):
+AND `status` = :status.1:', [...], false)
+ 5 SYSTEMPATH\Model.php(624): CodeIgniter\Database\BaseBuilder->countAllResults(true)
+ 6 APPPATH\Controllers\Staff.php(51): CodeIgniter\Model->countAllResults()
+ 7 SYSTEMPATH\CodeIgniter.php(941): App\Controllers\Staff->index()
+ 8 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Staff))
+ 9 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\timaj\\OneDrive\\Documents\\HiFi\\CAR-RENTAL\\car-rental-ci\\public\\index.php')
+CRITICAL - 2025-10-23 19:15:13 --> ParseError: syntax error, unexpected identifier "car_name", expecting "," or ";"
+in APPPATH\Views\staff\dashboard.php on line 156.
+ 1 SYSTEMPATH\View\View.php(231): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 2 SYSTEMPATH\Common.php(1178): CodeIgniter\View\View->render('staff/dashboard', [], true)
+ 3 APPPATH\Controllers\Staff.php(121): view('staff/dashboard', [...])
+ 4 SYSTEMPATH\CodeIgniter.php(941): App\Controllers\Staff->index()
+ 5 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Staff))
+ 6 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\timaj\\OneDrive\\Documents\\HiFi\\CAR-RENTAL\\car-rental-ci\\public\\index.php')
+CRITICAL - 2025-10-23 19:16:01 --> ParseError: syntax error, unexpected identifier "car_name", expecting "," or ";"
+in APPPATH\Views\staff\dashboard.php on line 156.
+ 1 SYSTEMPATH\View\View.php(231): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 2 SYSTEMPATH\Common.php(1178): CodeIgniter\View\View->render('staff/dashboard', [], true)
+ 3 APPPATH\Controllers\Staff.php(121): view('staff/dashboard', [...])
+ 4 SYSTEMPATH\CodeIgniter.php(941): App\Controllers\Staff->index()
+ 5 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Staff))
+ 6 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\timaj\\OneDrive\\Documents\\HiFi\\CAR-RENTAL\\car-rental-ci\\public\\index.php')

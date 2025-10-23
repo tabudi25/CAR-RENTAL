@@ -152,7 +152,7 @@
                             <?php foreach ($recentBookings as $booking): ?>
                             <tr>
                                 <td>#<?= $booking['id'] ?></td>
-                                <td><?= $booking['customer_name'] ?? 'N/A</td>
+                                <td><?= $booking['customer_name'] ?? 'N/A' ?></td>
                                 <td><?= $booking['car_name'] ?? 'N/A' ?></td>
                                 <td>
                                     <span class="badge bg-<?= $booking['status'] == 'pending' ? 'warning' : ($booking['status'] == 'confirmed' ? 'success' : 'secondary') ?>">

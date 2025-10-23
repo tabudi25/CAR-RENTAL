@@ -316,11 +316,7 @@ class Admin extends Controller
             'title' => 'Manage Bookings',
             'pageTitle' => 'Manage Bookings',
             'pageSubtitle' => 'View and manage all reservations',
-            'bookings' => $bookingModel->select('bookings.*, users.name as customer_name, users.email as customer_email, cars.name as car_name, cars.plate as car_plate')
-                ->join('users', 'users.id = bookings.user_id')
-                ->join('cars', 'cars.id = bookings.car_id')
-                ->orderBy('bookings.created_at', 'DESC')
-                ->findAll(),
+            'bookings' => $bookingModel->getBookingsWithDetails(),
             'totalBookings' => $bookingModel->countAllResults(),
             'user' => [
                 'name' => $this->session->get('name'),
@@ -381,5 +377,70 @@ class Admin extends Controller
         ];
 
         return view('admin/users', $data);
+    }
+
+    public function deleteBooking($id)
+    {
+        // Check if user is logged in and is admin
+        if (!$this->session->has('logged_in') || $this->session->get('user_type') !== 'admin') {
+            return redirect()->to('/auth/login')->with('error', 'Please login as admin to continue');
+        }
+
+        try {
+            $bookingModel = new BookingModel();
+            $carModel = new CarModel();
+            
+            $booking = $bookingModel->find($id);
+            
+            // Check if booking exists
+            if (!$booking) {
+                return redirect()->to('/admin/bookings')->with('error', 'Booking not found');
+            }
+            
+            // Start database transaction
+            $this->db = \Config\Database::connect();
+            $this->db->transStart();
+            
+            // Delete the booking
+            $deleteResult = $bookingModel->delete($id);
+            
+            if (!$deleteResult) {
+                $this->db->transRollback();
+                return redirect()->to('/admin/bookings')->with('error', 'Failed to delete booking');
+            }
+            
+            // Update car status back to available if it was reserved/rented
+            // First get the car to check its current status
+            $car = $carModel->find($booking['car_id']);
+            if ($car && in_array($car['status'], ['reserved', 'rented'])) {
+                $carUpdateData = ['status' => 'available'];
+                
+                // Only add updated_at if the column exists
+                if ($this->db->fieldExists('updated_at', 'cars')) {
+                    $carUpdateData['updated_at'] = date('Y-m-d H:i:s');
+                }
+                
+                $carUpdateResult = $carModel->update($booking['car_id'], $carUpdateData);
+                
+                if (!$carUpdateResult) {
+                    $this->db->transRollback();
+                    return redirect()->to('/admin/bookings')->with('error', 'Failed to update car status');
+                }
+            }
+            
+            // Commit transaction
+            $this->db->transComplete();
+            
+            if ($this->db->transStatus() === false) {
+                return redirect()->to('/admin/bookings')->with('error', 'Transaction failed. Please try again.');
+            }
+            
+            return redirect()->to('/admin/bookings')->with('success', 'Booking deleted successfully');
+            
+        } catch (\Exception $e) {
+            // Log the error
+            log_message('error', 'Delete booking error: ' . $e->getMessage());
+            return redirect()->to('/admin/bookings')->with('error', 'An error occurred while deleting the booking. Please try again.');
+        }
     }
 }

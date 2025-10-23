@@ -356,6 +356,7 @@
                             <th>Car</th>
                             <th>Start Date</th>
                             <th>End Date</th>
+                            <th>Car Price/Day</th>
                             <th>Total Price</th>
                             <th>Status</th>
                             <th>Actions</th>
@@ -368,7 +369,13 @@
                                 <td><?= $booking['car_model'] ?? 'N/A' ?></td>
                                 <td><?= date('M d, Y', strtotime($booking['start_date'])) ?></td>
                                 <td><?= date('M d, Y', strtotime($booking['end_date'])) ?></td>
-                                <td>₱<?= number_format($booking['total_price'], 2) ?></td>
+                                <td>
+                                    <span class="fw-bold text-primary">₱<?= number_format($booking['price_per_day'], 2) ?></span>
+                                    <div class="small text-muted">per day</div>
+                                </td>
+                                <td>
+                                    <span class="fw-bold">₱<?= number_format($booking['total_price'], 2) ?></span>
+                                </td>
                                 <td>
                                     <span class="badge bg-<?= getStatusBadgeClass($booking['status']) ?>">
                                         <?= ucfirst($booking['status']) ?>

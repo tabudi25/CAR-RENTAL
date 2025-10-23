@@ -26,26 +26,52 @@ class Staff extends Controller
         $bookingModel = new BookingModel();
         $userModel = new \App\Models\UserModel();
         
-        // Get statistics
-        $pendingBookings = $bookingModel->where('status', 'pending')->countAllResults();
-        $availableCars = $carModel->where('status', 'available')->countAllResults();
-        $rentedCars = $carModel->where('status', 'rented')->countAllResults();
-        $maintenanceCars = $carModel->where('status', 'maintenance')->countAllResults();
-        $reservedCars = $carModel->where('status', 'reserved')->countAllResults();
-        $activeCustomers = $userModel->where('user_type', 'customer')->countAllResults();
+        // Get statistics with error handling
+        try {
+            $pendingBookings = $bookingModel->where('status', 'pending')->countAllResults();
+            $availableCars = $carModel->where('status', 'available')->countAllResults();
+            $rentedCars = $carModel->where('status', 'rented')->countAllResults();
+            $maintenanceCars = $carModel->where('status', 'maintenance')->countAllResults();
+            $reservedCars = $carModel->where('status', 'reserved')->countAllResults();
+            $activeCustomers = $userModel->where('user_type', 'customer')->countAllResults();
+        } catch (\Exception $e) {
+            // Set default values if there's an error
+            $pendingBookings = 0;
+            $availableCars = 0;
+            $rentedCars = 0;
+            $maintenanceCars = 0;
+            $reservedCars = 0;
+            $activeCustomers = 0;
+        }
         
-        // Today's operations
-        $today = date('Y-m-d');
-        $todayCheckins = $bookingModel->where('DATE(created_at)', $today)->countAllResults();
-        $todayCheckouts = $bookingModel->where('DATE(updated_at)', $today)->where('status', 'completed')->countAllResults();
+        // Today's operations with error handling
+        try {
+            $today = date('Y-m-d');
+            $todayCheckins = $bookingModel->where('DATE(created_at)', $today)->countAllResults();
+            
+            // Check if updated_at column exists before using it
+            $db = \Config\Database::connect();
+            if ($db->fieldExists('updated_at', 'bookings')) {
+                $todayCheckouts = $bookingModel->where('DATE(updated_at)', $today)->where('status', 'completed')->countAllResults();
+            } else {
+                $todayCheckouts = 0;
+            }
+        } catch (\Exception $e) {
+            $todayCheckins = 0;
+            $todayCheckouts = 0;
+        }
         
-        // Recent bookings
-        $recentBookings = $bookingModel->select('bookings.*, users.name as customer_name, cars.name as car_name')
-            ->join('users', 'users.id = bookings.user_id')
-            ->join('cars', 'cars.id = bookings.car_id')
-            ->orderBy('bookings.created_at', 'DESC')
-            ->limit(5)
-            ->findAll();
+        // Recent bookings with error handling
+        try {
+            $recentBookings = $bookingModel->select('bookings.*, users.name as customer_name, cars.name as car_name')
+                ->join('users', 'users.id = bookings.user_id')
+                ->join('cars', 'cars.id = bookings.car_id')
+                ->orderBy('bookings.created_at', 'DESC')
+                ->limit(5)
+                ->findAll();
+        } catch (\Exception $e) {
+            $recentBookings = [];
+        }
         
         // Generate alerts
         $alerts = [];
@@ -188,5 +214,93 @@ class Staff extends Controller
         } else {
             return redirect()->to('/staff/cars')->with('error', 'Failed to update car status');
         }
+    }
+
+    public function manageCustomers()
+    {
+        // Check if user is logged in and is staff
+        if (!$this->session->has('logged_in') || $this->session->get('user_type') !== 'staff') {
+            return redirect()->to('/auth/login');
+        }
+
+        $userModel = new \App\Models\UserModel();
+        
+        $data = [
+            'customers' => $userModel->where('user_type', 'customer')->findAll(),
+            'user' => [
+                'name' => $this->session->get('name'),
+                'email' => $this->session->get('email'),
+                'user_type' => $this->session->get('user_type')
+            ]
+        ];
+        
+        return view('staff/customers', $data);
+    }
+
+    public function bookingDetails()
+    {
+        // Check if user is logged in and is staff
+        if (!$this->session->has('logged_in') || $this->session->get('user_type') !== 'staff') {
+            return redirect()->to('/auth/login');
+        }
+
+        $bookingModel = new BookingModel();
+        $carModel = new CarModel();
+        $userModel = new \App\Models\UserModel();
+        
+        // Get all bookings with detailed information
+        $bookings = $bookingModel->select('bookings.*, users.name as customer_name, users.email as customer_email, users.phone as customer_phone, cars.name as car_name, cars.brand, cars.model, cars.year, cars.plate, cars.price_per_day')
+            ->join('users', 'users.id = bookings.user_id')
+            ->join('cars', 'cars.id = bookings.car_id')
+            ->orderBy('bookings.created_at', 'DESC')
+            ->findAll();
+        
+        // Get statistics
+        $totalBookings = count($bookings);
+        $pendingBookings = array_filter($bookings, function($booking) {
+            return $booking['status'] === 'pending';
+        });
+        $confirmedBookings = array_filter($bookings, function($booking) {
+            return $booking['status'] === 'confirmed';
+        });
+        $completedBookings = array_filter($bookings, function($booking) {
+            return $booking['status'] === 'completed';
+        });
+        
+        $data = [
+            'title' => 'Booking Details',
+            'pageTitle' => 'Booking Details',
+            'pageSubtitle' => 'View detailed information about all bookings',
+            'bookings' => $bookings,
+            'totalBookings' => $totalBookings,
+            'pendingBookings' => count($pendingBookings),
+            'confirmedBookings' => count($confirmedBookings),
+            'completedBookings' => count($completedBookings),
+            'user' => [
+                'name' => $this->session->get('name'),
+                'email' => $this->session->get('email'),
+                'user_type' => $this->session->get('user_type')
+            ]
+        ];
+        
+        return view('staff/booking', $data);
+    }
+
+    public function maintenance()
+    {
+        // Check if user is logged in and is staff
+        if (!$this->session->has('logged_in') || $this->session->get('user_type') !== 'staff') {
+            return redirect()->to('/auth/login');
+        }
+
+        $data = [
+            'user' => [
+                'name' => $this->session->get('name'),
+                'email' => $this->session->get('email'),
+                'user_type' => $this->session->get('user_type')
+            ]
+        ];
+        
+        return view('staff/maintenance', $data);
     }
 }

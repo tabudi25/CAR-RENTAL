@@ -1,4 +1,4 @@
-<?= $this->extend('admin/layout') ?>
+<?= $this->extend('staff/layout') ?>
 
 <?= $this->section('content') ?>
 <div class="d-flex justify-content-between align-items-center mb-4">
@@ -87,20 +87,34 @@
                         </td>
                         <td>
                             <div class="dropdown">
-                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                                    <i class="fas fa-ellipsis-v"></i>
+                                <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                    <i class="fas fa-cog"></i>
                                 </button>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="/admin/view-booking/<?= $booking['id'] ?>">
-                                        <i class="fas fa-eye me-2"></i>View Details
-                                    </a></li>
-                                    <li><a class="dropdown-item" href="/admin/edit-booking/<?= $booking['id'] ?>">
-                                        <i class="fas fa-edit me-2"></i>Edit
-                                    </a></li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item text-danger" href="/admin/delete-booking/<?= $booking['id'] ?>" onclick="return confirm('Are you sure?')">
-                                        <i class="fas fa-trash me-2"></i>Delete
-                                    </a></li>
+                                    <li>
+                                        <form action="/staff/update-booking/<?= $booking['id'] ?>" method="post" class="d-inline">
+                                            <input type="hidden" name="status" value="confirmed">
+                                            <button type="submit" class="dropdown-item" onclick="return confirm('Confirm this booking?')">
+                                                <i class="fas fa-check text-success me-2"></i>Confirm
+                                            </button>
+                                        </form>
+                                    </li>
+                                    <li>
+                                        <form action="/staff/update-booking/<?= $booking['id'] ?>" method="post" class="d-inline">
+                                            <input type="hidden" name="status" value="completed">
+                                            <button type="submit" class="dropdown-item" onclick="return confirm('Mark as completed?')">
+                                                <i class="fas fa-flag-checkered text-info me-2"></i>Complete
+                                            </button>
+                                        </form>
+                                    </li>
+                                    <li>
+                                        <form action="/staff/update-booking/<?= $booking['id'] ?>" method="post" class="d-inline">
+                                            <input type="hidden" name="status" value="cancelled">
+                                            <button type="submit" class="dropdown-item" onclick="return confirm('Cancel this booking?')">
+                                                <i class="fas fa-times text-danger me-2"></i>Cancel
+                                            </button>
+                                        </form>
+                                    </li>
                                 </ul>
                             </div>
                         </td>
@@ -122,7 +136,7 @@
 
 <script>
 function exportBookings() {
-    // Implement export functionality
+    // Export functionality
     alert('Export functionality will be implemented');
 }
 
@@ -131,3 +145,4 @@ function refreshBookings() {
 }
 </script>
 <?= $this->endSection() ?>
+

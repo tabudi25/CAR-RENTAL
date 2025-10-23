@@ -25,7 +25,6 @@ class BookingModel extends Model
         'car_id' => 'required|numeric',
         'start_date' => 'required|valid_date',
         'end_date' => 'required|valid_date',
-        'total_price' => 'required|numeric',
     ];
     
     protected $validationMessages = [];
@@ -36,7 +35,7 @@ class BookingModel extends Model
      */
     public function getBookingsWithDetails()
     {
-        return $this->select('bookings.*, cars.name as car_name, cars.plate, users.name as user_name, users.email')
+        return $this->select('bookings.*, cars.name as car_name, cars.plate, cars.price_per_day, users.name as customer_name, users.email as customer_email')
                     ->join('cars', 'cars.id = bookings.car_id')
                     ->join('users', 'users.id = bookings.user_id')
                     ->orderBy('bookings.created_at', 'DESC')
@@ -48,7 +47,7 @@ class BookingModel extends Model
      */
     public function getUserBookings($userId)
     {
-        return $this->select('bookings.*, cars.name as car_name, cars.plate, cars.image_url, cars.model as car_model')
+        return $this->select('bookings.*, cars.name as car_name, cars.plate, cars.image_url, cars.model as car_model, cars.price_per_day')
                     ->join('cars', 'cars.id = bookings.car_id')
                     ->where('bookings.user_id', $userId)
                     ->orderBy('bookings.created_at', 'DESC')
