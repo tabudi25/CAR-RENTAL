@@ -73,12 +73,12 @@
             position: absolute;
             top: 12px;
             right: 12px;
-            background: var(--success-color);
             color: white;
             padding: 4px 12px;
             border-radius: 20px;
             font-size: 0.75rem;
             font-weight: 600;
+            z-index: 10;
         }
 
         .car-price {
@@ -216,7 +216,7 @@
                     <div class="row text-center">
                         <div class="col-4">
                             <div class="stats-card">
-                                <div class="stats-number"><?= count($cars) ?></div>
+                                <div class="stats-number"><?= count(array_filter($cars, function($car) { return isset($car['is_available']) && $car['is_available']; })) ?></div>
                                 <div class="text-muted">Available Cars</div>
                             </div>
                         </div>
@@ -300,8 +300,9 @@
                                 <?php else : ?>
                                     <img src="https://images.unsplash.com/photo-1549317336-206569e8475c?w=800&h=600&fit=crop" class="car-image w-100" alt="Default Car Image">
                                 <?php endif; ?>
-                                <div class="car-badge">
-                                    <i class="fas fa-check-circle me-1"></i>Available
+                                <div class="car-badge <?= (isset($car['is_available']) && $car['is_available']) ? 'bg-success' : 'bg-secondary' ?>">
+                                    <i class="fas <?= (isset($car['is_available']) && $car['is_available']) ? 'fa-check-circle' : 'fa-times-circle' ?> me-1"></i>
+                                    <?= (isset($car['is_available']) && $car['is_available']) ? 'Available' : 'Not Available' ?>
                                 </div>
                             </div>
                             <div class="p-4">
@@ -332,9 +333,15 @@
                                 </div>
                                 
                                 <div class="d-grid">
-                                    <a href="/customer/book-car/<?= $car['id'] ?>" class="btn btn-book">
-                                        <i class="fas fa-calendar-plus me-2"></i>Book Now
-                                    </a>
+                                    <?php if (isset($car['is_available']) && $car['is_available']): ?>
+                                        <a href="/customer/book-car/<?= $car['id'] ?>" class="btn btn-book">
+                                            <i class="fas fa-calendar-plus me-2"></i>Book Now
+                                        </a>
+                                    <?php else: ?>
+                                        <button class="btn btn-secondary" disabled>
+                                            <i class="fas fa-lock me-2"></i>Not Available
+                                        </button>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
@@ -355,6 +362,7 @@
                             <th>ID</th>
                             <th>Car</th>
                             <th>Start Date</th>
+                            <th>Pick-up Time</th>
                             <th>End Date</th>
                             <th>Car Price/Day</th>
                             <th>Total Price</th>
@@ -368,25 +376,121 @@
                                 <td><?= $booking['id'] ?></td>
                                 <td><?= $booking['car_model'] ?? 'N/A' ?></td>
                                 <td><?= date('M d, Y', strtotime($booking['start_date'])) ?></td>
+                                <td>
+                                    <?php if (!empty($booking['pick_up_time'])): ?>
+                                        <?= date('g:i A', strtotime($booking['pick_up_time'])) ?>
+                                    <?php else: ?>
+                                        <span class="text-muted">Not set</span>
+                                    <?php endif; ?>
+                                </td>
                                 <td><?= date('M d, Y', strtotime($booking['end_date'])) ?></td>
                                 <td>
                                     <span class="fw-bold text-primary">₱<?= number_format($booking['price_per_day'], 2) ?></span>
                                     <div class="small text-muted">per day</div>
                                 </td>
                                 <td>
-                                    <span class="fw-bold">₱<?= number_format($booking['total_price'], 2) ?></span>
+                                    <span class="fw-bold">₱<?= number_format($booking['total_price'] ?? 0, 2) ?></span>
+                                    <?php if (!empty($booking['down_payment_amount'])): ?>
+                                        <div class="small text-muted">Down: ₱<?= number_format($booking['down_payment_amount'], 2) ?></div>
+                                    <?php endif; ?>
                                 </td>
                                 <td>
                                     <span class="badge bg-<?= getStatusBadgeClass($booking['status']) ?>">
                                         <?= ucfirst($booking['status']) ?>
                                     </span>
+                                    <div class="mt-1">
+                                        <?php
+                                        $paymentStatus = $booking['payment_status'] ?? 'pending';
+                                        $totalAmount = $booking['total_price'] ?? 0;
+                                        $downPaymentAmount = $booking['down_payment_amount'] ?? 0;
+                                        
+                                        // Determine payment display status
+                                        if ($paymentStatus === 'paid') {
+                                            $paymentDisplay = 'Paid';
+                                            $paymentBadgeClass = 'success';
+                                        } elseif ($downPaymentAmount > 0 && $downPaymentAmount < $totalAmount) {
+                                            $paymentDisplay = 'Pending (50% Paid)';
+                                            $paymentBadgeClass = 'warning';
+                                        } else {
+                                            $paymentDisplay = 'Pending';
+                                            $paymentBadgeClass = 'secondary';
+                                        }
+                                        ?>
+                                        <span class="badge bg-<?= $paymentBadgeClass ?>">
+                                            Payment: <?= $paymentDisplay ?>
+                                        </span>
+                                    </div>
+                                    <?php if (!empty($booking['payment_method'])): ?>
+                                        <div class="small text-muted mt-1">
+                                            <i class="fas fa-credit-card"></i> <?= ucfirst(str_replace('_', ' ', $booking['payment_method'])) ?>
+                                        </div>
+                                    <?php endif; ?>
                                 </td>
                                 <td>
-                                    <?php if ($booking['status'] === 'pending') : ?>
-                                        <form action="/customer/cancel-booking/<?= $booking['id'] ?>" method="post" class="d-inline">
-                                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to cancel this booking?')">Cancel</button>
-                                        </form>
-                                    <?php endif; ?>
+                                    <div class="d-flex flex-column gap-1">
+                                        <?php
+                                        $paymentStatus = $booking['payment_status'] ?? 'pending';
+                                        $totalAmount = $booking['total_price'] ?? 0;
+                                        $downPaymentAmount = $booking['down_payment_amount'] ?? 0;
+                                        ?>
+                                        
+                                        <?php if ($paymentStatus === 'paid'): ?>
+                                            <span class="badge bg-success">
+                                                <i class="fas fa-check me-1"></i>Paid
+                                            </span>
+                                        <?php elseif ($downPaymentAmount > 0 && $downPaymentAmount < $totalAmount): ?>
+                                            <span class="badge bg-warning">
+                                                <i class="fas fa-clock me-1"></i>Pending (50% Paid)
+                                            </span>
+                                        <?php endif; ?>
+                                        
+                                        <?php if ($booking['status'] === 'pending') : ?>
+                                            <form action="/customer/cancel-booking/<?= $booking['id'] ?>" method="post" class="d-inline">
+                                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to cancel this booking?')">
+                                                    <i class="fas fa-times me-1"></i>Cancel
+                                                </button>
+                                            </form>
+                                        <?php endif; ?>
+                                        
+                                        <?php 
+                                        // Show return button only when payment is fully paid, booking is confirmed, and due date has passed
+                                        $paymentStatus = $booking['payment_status'] ?? 'pending';
+                                        $totalAmount = $booking['total_price'] ?? 0;
+                                        $downPaymentAmount = $booking['down_payment_amount'] ?? 0;
+                                        
+                                        $isFullyPaid = ($paymentStatus === 'paid');
+                                        // Fallback: also check if down payment amount equals or exceeds total amount
+                                        $isFullyPaidFallback = ($downPaymentAmount > 0 && $totalAmount > 0 && $downPaymentAmount >= $totalAmount);
+                                        $isFullyPaid = $isFullyPaid || $isFullyPaidFallback;
+                                        
+                                        // Check if booking status allows return (must be confirmed and not already returned)
+                                        $statusAllowsReturn = ($booking['status'] === 'confirmed');
+                                        
+                                        // Check if due date has passed (end_date is today or in the past)
+                                        $endDate = !empty($booking['end_date']) ? strtotime($booking['end_date']) : 0;
+                                        $today = strtotime(date('Y-m-d'));
+                                        $dueDatePassed = ($endDate > 0 && $today >= $endDate);
+                                        
+                                        $canReturn = ($isFullyPaid && $statusAllowsReturn && $dueDatePassed);
+                                        ?>
+                                        
+                                        <?php if ($canReturn): ?>
+                                            <a href="/customer/request-return/<?= $booking['id'] ?>" class="btn btn-sm btn-primary" onclick="return confirm('Are you sure you want to return this car? This will notify staff and admin.')">
+                                                <i class="fas fa-undo me-1"></i>Return
+                                            </a>
+                                        <?php elseif ($booking['status'] === 'return_requested'): ?>
+                                            <span class="badge bg-info">
+                                                <i class="fas fa-clock me-1"></i>Return Requested
+                                            </span>
+                                            <small class="text-muted d-block mt-1">
+                                                Waiting for car arrival at office
+                                            </small>
+                                        <?php elseif ($booking['status'] === 'returned'): ?>
+                                            <span class="badge bg-success">
+                                                <i class="fas fa-check-circle me-1"></i>Returned
+                                            </span>
+                                        <?php endif; ?>
+                                    </div>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

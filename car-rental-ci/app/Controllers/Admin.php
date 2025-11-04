@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\CarModel;
 use App\Models\BookingModel;
 use App\Models\UserModel;
+use App\Models\ActivityLogModel;
 use CodeIgniter\Controller;
 
 class Admin extends Controller
@@ -442,5 +443,253 @@ class Admin extends Controller
             log_message('error', 'Delete booking error: ' . $e->getMessage());
             return redirect()->to('/admin/bookings')->with('error', 'An error occurred while deleting the booking. Please try again.');
         }
+    }
+
+    public function activityLogs()
+    {
+        // Check if user is logged in and is admin
+        if (!$this->session->has('logged_in') || $this->session->get('user_type') !== 'admin') {
+            return redirect()->to('/auth/login');
+        }
+
+        $activityLogModel = new ActivityLogModel();
+        
+        // Get filter parameters
+        $action = $this->request->getGet('action');
+        $userId = $this->request->getGet('user_id');
+        $startDate = $this->request->getGet('start_date');
+        $endDate = $this->request->getGet('end_date');
+        $limit = 200; // Admin can see more logs
+
+        // Build query
+        $logs = $activityLogModel->select('activity_logs.*, users.name as user_name, users.email as user_email')
+                                 ->join('users', 'users.id = activity_logs.user_id', 'left')
+                                 ->orderBy('activity_logs.created_at', 'DESC');
+
+        if ($action) {
+            $logs->where('activity_logs.action', $action);
+        }
+
+        if ($userId) {
+            $logs->where('activity_logs.user_id', $userId);
+        }
+
+        if ($startDate) {
+            $logs->where('activity_logs.created_at >=', $startDate . ' 00:00:00');
+        }
+
+        if ($endDate) {
+            $logs->where('activity_logs.created_at <=', $endDate . ' 23:59:59');
+        }
+
+        $logs = $logs->limit($limit)->findAll();
+
+        // Get unique actions for filter dropdown
+        $uniqueActions = $activityLogModel->select('DISTINCT action')
+                                          ->orderBy('action', 'ASC')
+                                          ->findAll();
+
+        $data = [
+            'title' => 'Activity Logs',
+            'logs' => $logs,
+            'actions' => array_column($uniqueActions, 'action'),
+            'filters' => [
+                'action' => $action,
+                'user_id' => $userId,
+                'start_date' => $startDate,
+                'end_date' => $endDate,
+            ],
+            'user' => [
+                'name' => $this->session->get('name'),
+                'email' => $this->session->get('email'),
+                'user_type' => $this->session->get('user_type')
+            ]
+        ];
+
+        return view('admin/activity_logs', $data);
+    }
+
+    public function processReturn($bookingId)
+    {
+        // This method is kept for backward compatibility but redirects to markReturned
+        return $this->markReturned($bookingId);
+    }
+
+    public function markReturned($bookingId)
+    {
+        // Check if user is logged in and is admin
+        if (!$this->session->has('logged_in') || $this->session->get('user_type') !== 'admin') {
+            return redirect()->to('/auth/login');
+        }
+
+        $bookingModel = new BookingModel();
+        $carModel = new CarModel();
+
+        $booking = $bookingModel->find($bookingId);
+
+        if (!$booking) {
+            return redirect()->to('/admin/bookings')->with('error', 'Booking not found.');
+        }
+
+        // Check if status is return_requested
+        if ($booking['status'] !== 'return_requested') {
+            return redirect()->to('/admin/bookings')->with('error', 'This booking is not in return_requested status.');
+        }
+
+        // Ensure 'returned' status exists in ENUM
+        $db = \Config\Database::connect();
+        try {
+            $enumResult = $db->query("SHOW COLUMNS FROM bookings WHERE Field = 'status'")->getRow();
+            if ($enumResult) {
+                preg_match("/^enum\((.*)\)$/", $enumResult->Type, $matches);
+                if (!empty($matches[1])) {
+                    $enumValues = str_replace("'", "", explode(",", $matches[1]));
+                    if (!in_array('returned', $enumValues)) {
+                        $enumValues[] = 'returned';
+                        $enumString = "'" . implode("','", $enumValues) . "'";
+                        $db->query("ALTER TABLE bookings MODIFY COLUMN status ENUM({$enumString}) DEFAULT 'pending'");
+                    }
+                }
+            }
+        } catch (\Exception $e) {
+            log_message('error', 'Failed to update status ENUM: ' . $e->getMessage());
+        }
+
+        // Prepare update data
+        $fields = $db->getFieldNames('bookings');
+        $updateData = [
+            'status' => 'returned'
+        ];
+
+        if (in_array('updated_at', $fields)) {
+            $updateData['updated_at'] = date('Y-m-d H:i:s');
+        }
+
+        // Update booking status to returned
+        if ($bookingModel->update($bookingId, $updateData)) {
+            // Update car status back to available
+            $carModel->update($booking['car_id'], ['status' => 'available']);
+            
+            return redirect()->to('/admin/bookings')->with('success', 'Car marked as returned successfully. Car is now available.');
+        } else {
+            return redirect()->to('/admin/bookings')->with('error', 'Failed to mark as returned. Please try again.');
+        }
+    }
+
+    public function reports()
+    {
+        // Check if user is logged in and is admin
+        if (!$this->session->has('logged_in') || $this->session->get('user_type') !== 'admin') {
+            return redirect()->to('/auth/login');
+        }
+
+        $bookingModel = new BookingModel();
+        $carModel = new CarModel();
+        $userModel = new UserModel();
+
+        // Get filter parameters
+        $startDate = $this->request->getGet('start_date') ?? date('Y-m-01'); // First day of current month
+        $endDate = $this->request->getGet('end_date') ?? date('Y-m-d'); // Today
+        $status = $this->request->getGet('status');
+        $carId = $this->request->getGet('car_id');
+
+        // Total bookings
+        $totalBookings = $bookingModel->countAllResults();
+        
+        // Bookings in date range
+        $bookingsQuery = $bookingModel->select('bookings.*, users.name as customer_name, users.email as customer_email, cars.name as car_name, cars.plate as car_plate, cars.price_per_day')
+                                      ->join('users', 'users.id = bookings.user_id')
+                                      ->join('cars', 'cars.id = bookings.car_id')
+                                      ->where('DATE(bookings.created_at) >=', $startDate)
+                                      ->where('DATE(bookings.created_at) <=', $endDate);
+
+        if ($status) {
+            $bookingsQuery->where('bookings.status', $status);
+        }
+
+        if ($carId) {
+            $bookingsQuery->where('bookings.car_id', $carId);
+        }
+
+        $bookings = $bookingsQuery->orderBy('bookings.created_at', 'DESC')->findAll();
+
+        // Calculate revenue
+        $totalRevenue = 0;
+        $paidRevenue = 0;
+        $pendingRevenue = 0;
+        foreach ($bookings as $booking) {
+            $amount = $booking['total_price'] ?? 0;
+            $totalRevenue += $amount;
+            if (($booking['payment_status'] ?? 'pending') === 'paid') {
+                $paidRevenue += $amount;
+            } else {
+                $pendingRevenue += $amount;
+            }
+        }
+
+        // Booking statistics by status
+        $statusStats = [];
+        $statuses = ['pending', 'confirmed', 'completed', 'cancelled', 'return_requested', 'returned'];
+        foreach ($statuses as $stat) {
+            $statusStats[$stat] = $bookingModel->where('status', $stat)
+                                               ->where('DATE(created_at) >=', $startDate)
+                                               ->where('DATE(created_at) <=', $endDate)
+                                               ->countAllResults();
+        }
+
+        // Revenue by month (last 6 months)
+        $monthlyRevenue = [];
+        $monthlyLabels = [];
+        for ($i = 5; $i >= 0; $i--) {
+            $month = date('Y-m', strtotime("-$i months"));
+            $monthLabel = date('M Y', strtotime("-$i months"));
+            $monthlyLabels[] = $monthLabel;
+            
+            $monthBookings = $bookingModel->select('SUM(total_price) as revenue')
+                                          ->where('DATE_FORMAT(created_at, "%Y-%m")', $month)
+                                          ->where('payment_status', 'paid')
+                                          ->first();
+            $monthlyRevenue[] = (float)($monthBookings['revenue'] ?? 0);
+        }
+
+        // Top cars by bookings
+        $topCars = $bookingModel->select('cars.name, cars.plate, COUNT(bookings.id) as booking_count, SUM(bookings.total_price) as total_revenue')
+                               ->join('cars', 'cars.id = bookings.car_id')
+                               ->where('DATE(bookings.created_at) >=', $startDate)
+                               ->where('DATE(bookings.created_at) <=', $endDate)
+                               ->groupBy('bookings.car_id')
+                               ->orderBy('booking_count', 'DESC')
+                               ->limit(10)
+                               ->findAll();
+
+        // Get all cars for filter
+        $allCars = $carModel->select('id, name, plate')->findAll();
+
+        $data = [
+            'title' => 'Reports',
+            'bookings' => $bookings,
+            'totalBookings' => $totalBookings,
+            'totalRevenue' => $totalRevenue,
+            'paidRevenue' => $paidRevenue,
+            'pendingRevenue' => $pendingRevenue,
+            'statusStats' => $statusStats,
+            'monthlyRevenue' => $monthlyRevenue,
+            'monthlyLabels' => $monthlyLabels,
+            'topCars' => $topCars,
+            'allCars' => $allCars,
+            'filters' => [
+                'start_date' => $startDate,
+                'end_date' => $endDate,
+                'status' => $status,
+                'car_id' => $carId
+            ],
+            'user' => [
+                'name' => $this->session->get('name'),
+                'email' => $this->session->get('email'),
+                'user_type' => $this->session->get('user_type')
+            ]
+        ];
+
+        return view('admin/reports', $data);
     }
 }
